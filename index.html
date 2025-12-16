@@ -1348,6 +1348,20 @@ function renderVasChart(){
       v.vasNow = Number(pn.value);
       saveVisit(v);
       renderSummary();
+      // 🔹 即時同步到個案庫（如果已有個案）
+      const caseId = getCurrentCaseId();
+      if (caseId) {
+        const lib = loadLib();
+        const item = ensureCaseShape(lib[caseId]);
+        const idx = getCurrentRecordIndex();
+        if (item && item.records[idx]) {
+          item.records[idx].visit = loadVisit();
+          item.records[idx].updatedAt = Date.now();
+          lib[caseId] = item;
+          saveLib(lib);
+        }
+      }
+
     });
     pm && pm.addEventListener("input", ()=>{
       $("#pain-max-value") && ($("#pain-max-value").textContent = pm.value);
