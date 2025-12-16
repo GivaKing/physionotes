@@ -1010,7 +1010,7 @@
   const upsertCurrentCaseAndRecord = ({markDone=false}={})=>{
     const visit = loadVisit();
     if(visit.vasNow == null){
-      alert("請個案填寫完整"";
+      alert("請個案先填寫「目前疼痛程度（VAS）」");
       switchTab("client");
       return null;
     }
