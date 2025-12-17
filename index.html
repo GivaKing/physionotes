@@ -769,61 +769,60 @@
   
   const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-  async function saveCurrentCaseToSupabase() {
-    const client = loadClient();
-    const visit = loadVisit();
-    const therapist = loadTherapist();
-  
-    if (!client.name) {
-      alert("沒有姓名，不能存");
-      return;
-    }
-  
-    // 1. 建立 patient
-    const { data: patient, error: pErr } = await sb
-      .from("patients")
-      .insert({
-        name: client.name,
-        age: client.age,
-        gender: client.gender,
-        job: client.job,
-        main_complaint: client.mainComplaint,
-        raw_client: client
-      })
-      .select()
-      .single();
-  
-    if (pErr) {
-      console.error("❌ 存 patient 失敗", pErr);
-      alert("存 patient 失敗");
-      return;
-    }
-  
-    // 2. 建立 visit
-    const { error: vErr } = await sb
-      .from("visits")
-      .insert({
-        patient_id: patient.id,
-        visit_index: 1,
-        vas_now: visit.vasNow,
-        vas_max: visit.vasMax,
-        raw_visit: visit,
-        raw_therapist: therapist
-      });
-  
-    if (vErr) {
-      console.error("❌ 存 visit 失敗", vErr);
-      alert("存 visit 失敗");
-      return;
-    }
-  
-    console.log("✅ 成功寫入 Supabase", patient);
-    alert("已寫入 Supabase（測試成功）");
-  }
-
 
     
 (() => {
+
+  const saveCurrentCaseToSupabase = async () => {
+  const client = loadClient();
+  const visit = loadVisit();
+  const therapist = loadTherapist();
+
+  if (!client.name) {
+    alert("沒有姓名，不能存");
+    return;
+  }
+
+  const { data: patient, error: pErr } = await sb
+    .from("patients")
+    .insert({
+      name: client.name,
+      age: client.age,
+      gender: client.gender,
+      job: client.job,
+      main_complaint: client.mainComplaint,
+      raw_client: client
+    })
+    .select()
+    .single();
+
+  if (pErr) {
+    console.error("❌ patient 失敗", pErr);
+    alert("patient 失敗");
+    return;
+  }
+
+  const { error: vErr } = await sb
+    .from("visits")
+    .insert({
+      patient_id: patient.id,
+      visit_index: 1,
+      vas_now: visit.vasNow,
+      vas_max: visit.vasMax,
+      raw_visit: visit,
+      raw_therapist: therapist
+    });
+
+  if (vErr) {
+    console.error("❌ visit 失敗", vErr);
+    alert("visit 失敗");
+    return;
+  }
+
+  console.log("✅ 成功寫入 Supabase", patient);
+  alert("已寫入 Supabase（成功）");
+};
+
   const STORAGE = {
     client: "pt_eval_client_v1",
     therapist: "pt_eval_therapist_v1",
