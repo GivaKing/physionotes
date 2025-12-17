@@ -820,6 +820,8 @@
     console.log("✅ 成功寫入 Supabase", patient);
     alert("已寫入 Supabase（測試成功）");
   }
+        // ===== Supabase 測試用 =====
+window.saveCurrentCaseToSupabase = saveCurrentCaseToSupabase;
 
     
 (() => {
@@ -1531,9 +1533,6 @@ function renderVasChart(){
     switchTab("client");
   });
 })();
-
-    // ===== Supabase 測試用 =====
-window.saveCurrentCaseToSupabase = saveCurrentCaseToSupabase;
 
 </script>
 </body>
