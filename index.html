@@ -379,6 +379,7 @@
     }
 
 </style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
   <div class="app">
@@ -762,6 +763,11 @@
   </div>
 
   <script>
+    
+  const SUPABASE_URL = "https://yvacvzulhaaehffbhttt.supabase.co";
+  const SUPABASE_ANON_KEY = sb_publishable_ijanE0hGO0oxGX30q1TlEw_-RCVeemj";
+  const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    
 (() => {
   const STORAGE = {
     client: "pt_eval_client_v1",
