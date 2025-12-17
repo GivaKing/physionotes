@@ -1519,8 +1519,8 @@ function renderVasChart(){
   document.addEventListener("DOMContentLoaded", ()=>{
     bind();
 
-    testSupabaseConnection();
-    testInsertPatient();
+    //testSupabaseConnection();
+    //testInsertPatient();
 
     // 初始化：如果 visit 不存在，先設為 null（逼每次都要填 VAS）
     if(!localStorage.getItem(STORAGE.visit)) resetVisit();
@@ -1532,7 +1532,7 @@ function renderVasChart(){
     switchTab("client");
   });
           // ===== Supabase 測試用 =====
-window.saveCurrentCaseToSupabase = saveCurrentCaseToSupabase;
+window.testInsertPatient = testInsertPatient;
 })();
 
 </script>
