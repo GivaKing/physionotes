@@ -765,8 +765,23 @@
   <script>
     
   const SUPABASE_URL = "https://yvacvzulhaaehffbhttt.supabase.co";
-  const SUPABASE_ANON_KEY = sb_publishable_ijanE0hGO0oxGX30q1TlEw_-RCVeemj";
+  const SUPABASE_ANON_KEY = "sb_publishable_ijanE0hGO0oxGX30q1TlEw_-RCVeemj";
+  
   const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  async function testSupabaseConnection() {
+  const { data, error } = await sb
+    .from("patients")
+    .select("*")
+    .limit(1);
+
+  if (error) {
+    console.error("❌ Supabase 連線失敗", error);
+    alert("Supabase 連線失敗，請看 console");
+  } else {
+    console.log("✅ Supabase 連線成功", data);
+  }
+}
     
 (() => {
   const STORAGE = {
@@ -1463,6 +1478,8 @@ function renderVasChart(){
 
   document.addEventListener("DOMContentLoaded", ()=>{
     bind();
+
+    testSupabaseConnection();
 
     // 初始化：如果 visit 不存在，先設為 null（逼每次都要填 VAS）
     if(!localStorage.getItem(STORAGE.visit)) resetVisit();
