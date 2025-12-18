@@ -1132,8 +1132,12 @@ function renderVasChart(){
   const N = item.records.length;
   // points: X=visit index, Y=VAS
   const points = item.records
-    .map((r,i)=>({ idx:i+1, vas: (r.visit && r.visit.vasNow!=null) ? Number(r.visit.vasNow) : null }))
-    .filter(p=>p.vas!=null);
+    .map((r,i)=>({
+      idx:i+1,
+      vasNow: (r.visit && r.visit.vasNow!=null) ? Number(r.visit.vasNow) : null,
+      vasMax: (r.visit && r.visit.vasMax!=null) ? Number(r.visit.vasMax) : null,
+    }))
+    .filter(p=>p.vasNow!=null || p.vasMax!=null);
 
   if(points.length < 2) return;
 
@@ -1176,25 +1180,58 @@ function renderVasChart(){
     ctx.beginPath(); ctx.moveTo(x,H-padB); ctx.lineTo(x,H-padB+4); ctx.stroke();
     ctx.fillText(String(N), x-3, H-padB+16);
   }
+  
+  // ---- 圖例 ----
+  ctx.fillStyle="#000";
+  ctx.font="13px sans-serif";
+  ctx.fillText("目前疼痛（藍）", padL, padT - 5);
+  
+  ctx.fillStyle="#dc2626";
+  ctx.fillText("最大疼痛（紅）", padL + 120, padT - 5);
 
-  // line
+  // ---- 畫目前疼痛線 (藍) ----
   ctx.strokeStyle="#2563eb";
   ctx.lineWidth=2;
   ctx.beginPath();
   points.forEach((p,i)=>{
+    if(p.vasNow==null) return;
     const x = padL + plotW*((p.idx-1)/(Math.max(1,N-1)));
-    const y = (H-padB) - plotH*(p.vas/10);
+    const y = (H-padB) - plotH*(p.vasNow/10);
+    i ? ctx.lineTo(x,y) : ctx.moveTo(x,y);
+  });
+  ctx.stroke();
+  
+  // ---- 畫最大疼痛 (紅) ----
+  ctx.strokeStyle="#dc2626";
+  ctx.lineWidth=2;
+  ctx.beginPath();
+  points.forEach((p,i)=>{
+    if(p.vasMax==null) return;
+    const x = padL + plotW*((p.idx-1)/(Math.max(1,N-1)));
+    const y = (H-padB) - plotH*(p.vasMax/10);
     i ? ctx.lineTo(x,y) : ctx.moveTo(x,y);
   });
   ctx.stroke();
 
-  // dots
+
+  // ---- dots: VAS 目前疼痛 (藍點) ----
   ctx.fillStyle="#2563eb";
   points.forEach(p=>{
+    if(p.vasNow==null) return;
     const x = padL + plotW*((p.idx-1)/(Math.max(1,N-1)));
-    const y = (H-padB) - plotH*(p.vas/10);
+    const y = (H-padB) - plotH*(p.vasNow/10);
     ctx.beginPath(); ctx.arc(x,y,4,0,Math.PI*2); ctx.fill();
   });
+  
+  // ---- dots: VAS 最大疼痛 (紅點) ----
+  ctx.fillStyle="#dc2626";
+  points.forEach(p=>{
+    if(p.vasMax==null) return;
+    const x = padL + plotW*((p.idx-1)/(Math.max(1,N-1)));
+    const y = (H-padB) - plotH*(p.vasMax/10);
+    ctx.beginPath(); ctx.arc(x,y,4,0,Math.PI*2); ctx.fill();
+  });
+
 }
 
     
