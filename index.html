@@ -1412,7 +1412,6 @@ function renderVasChart() {
       v.vasNow = Number(pn.value);
       saveVisit(v);
       renderSummary();
-      renderVasChart();
     });
     pm && pm.addEventListener("input", ()=>{
       $("#pain-max-value") && ($("#pain-max-value").textContent = pm.value);
@@ -1420,7 +1419,6 @@ function renderVasChart() {
       v.vasMax = Number(pm.value);
       saveVisit(v);
       renderSummary();
-      renderVasChart();
     });
 
     // clear cache
