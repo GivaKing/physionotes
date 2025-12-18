@@ -1486,7 +1486,7 @@ document.getElementById("btn-export-all")?.addEventListener("click", ()=>{
   const a = document.createElement("a");
   const dt = new Date().toISOString().slice(0,10);
   a.href = URL.createObjectURL(blob);
-  a.download = `all_cases_${dt}.json`;
+  a.download = `cases_list_${dt}.json`;
   a.click();
   setTimeout(()=>URL.revokeObjectURL(a.href),2000);
 
