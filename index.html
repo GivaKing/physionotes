@@ -379,7 +379,6 @@
     }
 
 </style>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
   <div class="app">
@@ -428,8 +427,8 @@
           <div class="row">
             <label>性別</label>
             <div class="pill-toggle-group" data-field="gender" data-type="single">
-              <button type="button" class="pill-toggle" data-value="男">男</button>
               <button type="button" class="pill-toggle" data-value="女">女</button>
+              <button type="button" class="pill-toggle" data-value="男">男</button>
               <button type="button" class="pill-toggle" data-value="其他">其他</button>
             </div>
           </div>
@@ -763,68 +762,7 @@
   </div>
 
   <script>
-    
-  const SUPABASE_URL = "https://yvacvzulhaaehffbhttt.supabase.co";
-  const SUPABASE_ANON_KEY = "sb_publishable_ijanE0hGO0oxGX30q1TlEw_-RCVeemj";
-  
-  const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-
-    
 (() => {
-
-  const saveCurrentCaseToSupabase = async () => {
-  const client = loadClient();
-  const visit = loadVisit();
-  const therapist = loadTherapist();
-
-  if (!client.name) {
-    alert("沒有姓名，不能存");
-    return;
-  }
-
-  const { data: patient, error: pErr } = await sb
-    .from("patients")
-    .insert({
-      name: client.name,
-      age: client.age,
-      gender: client.gender,
-      job: client.job,
-      main_complaint: client.mainComplaint,
-      raw_client: client
-    })
-    .select()
-    .single();
-
-  if (pErr) {
-    console.error("❌ patient 失敗", pErr);
-    alert("patient 失敗");
-    return;
-  }
-
-  const { error: vErr } = await sb
-    .from("visits")
-    .insert({
-      patient_id: patient.id,
-      visit_index: 1,
-      vas_now: visit.vasNow,
-      vas_max: visit.vasMax,
-      raw_visit: visit,
-      raw_therapist: therapist
-    });
-
-  if (vErr) {
-    console.error("❌ visit 失敗", vErr);
-    alert("visit 失敗");
-    return;
-  }
-
-  console.log("✅ 成功寫入 Supabase", patient);
-  alert("已寫入 Supabase（成功）");
-};
-
-  window.saveCurrentCaseToSupabase = saveCurrentCaseToSupabase;
-
   const STORAGE = {
     client: "pt_eval_client_v1",
     therapist: "pt_eval_therapist_v1",
@@ -1410,20 +1348,6 @@ function renderVasChart(){
       v.vasNow = Number(pn.value);
       saveVisit(v);
       renderSummary();
-      // 🔹 即時同步到個案庫（如果已有個案）
-      const caseId = getCurrentCaseId();
-      if (caseId) {
-        const lib = loadLib();
-        const item = ensureCaseShape(lib[caseId]);
-        const idx = getCurrentRecordIndex();
-        if (item && item.records[idx]) {
-          item.records[idx].visit = loadVisit();
-          item.records[idx].updatedAt = Date.now();
-          lib[caseId] = item;
-          saveLib(lib);
-        }
-      }
-
     });
     pm && pm.addEventListener("input", ()=>{
       $("#pain-max-value") && ($("#pain-max-value").textContent = pm.value);
@@ -1520,9 +1444,6 @@ function renderVasChart(){
   document.addEventListener("DOMContentLoaded", ()=>{
     bind();
 
-    //testSupabaseConnection();
-    //testInsertPatient();
-
     // 初始化：如果 visit 不存在，先設為 null（逼每次都要填 VAS）
     if(!localStorage.getItem(STORAGE.visit)) resetVisit();
 
@@ -1532,10 +1453,8 @@ function renderVasChart(){
     renderCaseList();
     switchTab("client");
   });
-          // ===== Supabase 測試用 =====
-window.testInsertPatient = testInsertPatient;
 })();
-
 </script>
 </body>
 </html>
+
