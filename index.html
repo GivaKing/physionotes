@@ -730,9 +730,7 @@
         
         <div class="divider"></div>
         <div class="section-title">疼痛趨勢</div>
-        <div id="vas-chart-wrap" style="display:none;">
-          <canvas id="vas-chart" width="350" height="220" style="width:100%;"></canvas>
-        </div>
+        <canvas id="vas-chart"></canvas>
 
         <div class="divider"></div>
     
@@ -1117,13 +1115,13 @@ function clearVasChart(){
 }
 
 function renderVasChart(){
-  const wrap = document.getElementById("vas-chart-wrap"); // ⬅ 新增
   const cvs=document.getElementById("vas-chart");
-  if(!cvs || !wrap) return;
-
+  if(!cvs) return;
   const ctx=cvs.getContext("2d");
-
-  wrap.style.display="none";        // ⬅ 預設先收起
+  // width after page is visible
+  const W = cvs.width = (cvs.clientWidth || (cvs.parentElement ? cvs.parentElement.clientWidth : 0) || 320);
+  const H = cvs.height || 180;
+  ctx.clearRect(0,0,W,H);
 
   const caseId=getCurrentCaseId();
   if(!caseId) return;
@@ -1131,20 +1129,19 @@ function renderVasChart(){
   const item=ensureCaseShape(lib[caseId]);
   if(!item || !item.records) return;
 
+  const N = item.records.length;
+  // points: X=visit index, Y=VAS
   const points = item.records
     .map((r,i)=>({
       idx:i+1,
-      vasNow: (r.visit && r.visit.vasNow!=null) ? Number(r.visit.vasNow) : null,
+      vasNow: (r.visit && r.visit.vasNow!=null) ? Number(r.visit.vasNow) : null, 
       vasMax: (r.visit && r.visit.vasMax!=null) ? Number(r.visit.vasMax) : null,
-    }))
-    .filter(p=>p.vasNow!=null || p.vasMax!=null);
-
-  if(points.length < 2) return;     // ⬅ 沒資料就離開
-
-  wrap.style.display="block";       // ⬅ 有資料才顯示
+      
+      .filter(p=>p.vasNow!=null || p.vasMax!=null);
+  
+  if(points.length < 2) return;
 
   // --- 下面這段開始才進入你的繪製 ---
-
 
   const padL=36, padR=14, padT=14, padB=60;
   const plotW = W - padL - padR;
