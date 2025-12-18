@@ -1114,32 +1114,39 @@ function clearVasChart(){
   ctx.clearRect(0,0,cvs.width,cvs.height);
 }
 
-function renderVasChart(){
-  const cvs=document.getElementById("vas-chart");
-  if(!cvs) return;
-  const ctx=cvs.getContext("2d");
-  // width after page is visible
-  const W = cvs.width = (cvs.clientWidth || (cvs.parentElement ? cvs.parentElement.clientWidth : 0) || 320);
-  const H = cvs.height || 180;
-  ctx.clearRect(0,0,W,H);
+function renderVasChart() {
 
-  const caseId=getCurrentCaseId();
-  if(!caseId) return;
-  const lib=loadLib();
-  const item=ensureCaseShape(lib[caseId]);
-  if(!item || !item.records) return;
+  const cvs = document.getElementById("vas-chart");
+  if (!cvs) return;
+
+  const ctx = cvs.getContext("2d");
+
+  // ===== width & height real size =====
+  cvs.width = cvs.parentElement.clientWidth || 320; // real pixel width
+  const W = cvs.width;
+
+  const H = cvs.height || 180;  // canvas 真正繪製高度
+  ctx.clearRect(0, 0, W, H);
+
+  const caseId = getCurrentCaseId();
+  if (!caseId) return;
+
+  const lib = loadLib();
+  const item = ensureCaseShape(lib[caseId]);
+  if (!item || !item.records) return;
 
   const N = item.records.length;
-  // points: X=visit index, Y=VAS
+
+  // === extract: visit index + vas now + vas max ===
   const points = item.records
-    .map((r,i)=>({
-      idx:i+1,
-      vasNow: (r.visit && r.visit.vasNow!=null) ? Number(r.visit.vasNow) : null, 
-      vasMax: (r.visit && r.visit.vasMax!=null) ? Number(r.visit.vasMax) : null,
-      
-      .filter(p=>p.vasNow!=null || p.vasMax!=null);
-  
-  if(points.length < 2) return;
+    .map((r, i) => ({
+      idx: i + 1,
+      vasNow: (r.visit && r.visit.vasNow != null) ? Number(r.visit.vasNow) : null,
+      vasMax: (r.visit && r.visit.vasMax != null) ? Number(r.visit.vasMax) : null,
+    }))
+    .filter(p => p.vasNow != null || p.vasMax != null);
+
+  if (points.length < 2) return;
 
   // --- 下面這段開始才進入你的繪製 ---
 
