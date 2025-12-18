@@ -1361,6 +1361,7 @@ function renderVasChart(){
       v.vasNow = Number(pn.value);
       saveVisit(v);
       renderSummary();
+      renderVasChart();
     });
     pm && pm.addEventListener("input", ()=>{
       $("#pain-max-value") && ($("#pain-max-value").textContent = pm.value);
@@ -1382,6 +1383,8 @@ function renderVasChart(){
       renderClientUI({});
       renderTherapistUI({});
       renderSummary();
+      renderTimeline({ records: [] });
+      clearVasChart();
       alert("已清除暫存。");
     });
 
