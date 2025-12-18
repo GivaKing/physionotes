@@ -1529,8 +1529,10 @@ document.getElementById("import-file")?.addEventListener("change",(e)=>{
       renderSummary();
 
     }catch(err){
+      console.error(err);
       alert("匯入失敗：非合法JSON");
     }
+    document.getElementById("importFile").value = null;
   };
   reader.readAsText(f);
 });
