@@ -662,7 +662,7 @@
           </div>
           <div class="row">
             <label for="tests-joint">關節活動 / 其他測試</label>
-            <input id="tests-joint" type="text" placeholder="例：腰椎前彎受限，FABER(R) 牽扯…" data-field-pt="testsJoint" />
+            <input id="tests-joint" type="text" placeholder="例：腰椎前彎受限，關節囊牽扯…" data-field-pt="testsJoint" />
           </div>
         </div>
 
@@ -681,11 +681,15 @@
         <div class="row">
           <label>可能的主要問題（可點選＋自行補充）</label>
           <div class="chips" data-field-pt="reasonTags" data-type="multi">
-            <button type="button" class="chip" data-value="薦髂關節機能失衡">薦髂關節機能失衡</button>
-            <button type="button" class="chip" data-value="坐骨神經張力偏高">坐骨神經張力偏高</button>
-            <button type="button" class="chip" data-value="骨盆穩定度不足">骨盆穩定度不足</button>
-            <button type="button" class="chip" data-value="腿後肌過度緊繃/保護">腿後肌過度緊繃 / 保護</button>
-            <button type="button" class="chip" data-value="姿勢與久坐負荷過高">姿勢與久坐負荷過高</button>
+            <button type="button" class="chip" data-value="關節活動受限">關節活動受限</button>
+            <button type="button" class="chip" data-value="關節穩定度不足">關節穩定度不足</button>
+            <button type="button" class="chip" data-value="關節軌道異常">關節軌道異常</button>
+            <button type="button" class="chip" data-value="肌肉縮短">肌肉縮短</button>
+            <button type="button" class="chip" data-value="肌肉過長">肌肉過長</button>
+            <button type="button" class="chip" data-value="肌肉高張">肌肉高張</button>
+            <button type="button" class="chip" data-value="肌肉低張">肌肉高張</button>
+            <button type="button" class="chip" data-value="神經高張">神經高張</button>
+            <button type="button" class="chip" data-value="姿勢與動作負荷過高">姿勢與動作負荷過高</button>
           </div>
         </div>
 
@@ -714,7 +718,7 @@
 
         <div class="row">
           <label for="treatment-plan">今日治療內容</label>
-          <textarea id="treatment-plan" placeholder="例：1. 骨盆與腰椎關節鬆動 2. 坐骨神經鬆動滑動 3. 腿後肌伸展教育…" data-field-pt="treatmentPlan"></textarea>
+          <textarea id="treatment-plan" placeholder="例：1. 骨盆與腰椎關節鬆動 2. 坐骨神經鬆動術 3. 腿後肌伸展教育…" data-field-pt="treatmentPlan"></textarea>
         </div>
 
         <div class="row">
@@ -727,7 +731,7 @@
           <textarea id="follow-up" placeholder="例：觀察麻木頻率變化、久坐耐受度、Slump 測試變化…" data-field-pt="followUp"></textarea>
         
         <div class="divider"></div>
-        <div class="section-title">VAS 趨勢</div>
+        <div class="section-title">疼痛趨勢</div>
         <canvas id="vas-chart" height="180"></canvas>
     
         <div class="bottom-space"></div>
@@ -1509,9 +1513,21 @@ document.getElementById("import-file")?.addEventListener("change",(e)=>{
         return;
       }
 
-      saveLib(obj);        // 整包覆蓋回 localStorage
+      saveLib(obj);        
+      
+      setCurrentCaseId(null);              // ✨ reset 選取的個案
+      setCurrentRecordIndex(0);            // ✨ reset 評估次數
+      resetVisit();                        // ✨ reset VAS 暫存
+      saveClient({});                      // ✨ 清空 client
+      saveTherapist({});                   // ✨ 清空 therapist
+      
       alert("匯入完成✔ 已更新個案列表");
-      renderCaseList();   // refresh 列表 UI
+      
+      renderCaseList();                    // ✨更新 UI
+      renderClientUI({});                  // ✨強制刷新第一頁
+      renderTherapistUI({});               
+      renderSummary();
+
     }catch(err){
       alert("匯入失敗：非合法JSON");
     }
