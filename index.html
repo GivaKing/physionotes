@@ -1122,8 +1122,7 @@ function renderVasChart() {
   const ctx = cvs.getContext("2d");
 
   // ===== width & height real size =====
-  cvs.width = cvs.parentElement.clientWidth || 320; // real pixel width
-  const W = cvs.width;
+  const W = cvs.width || default
 
   const H = cvs.height || 180;  // canvas 真正繪製高度
   ctx.clearRect(0, 0, W, H);
