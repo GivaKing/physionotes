@@ -1181,19 +1181,18 @@ function renderVasChart(){
     ctx.fillText(String(N), x-3, H-padB+16);
   }
   
-// ---- 圖例 ----
-const legendY = H - padB + 24; // 在 X軸下方一點高度
-
-ctx.font="13px sans-serif";
-
-// 第一列：藍
-ctx.fillStyle="#2563eb";
-ctx.fillText("目前疼痛（藍）", padL, legendY);
-
-// 第二列：紅，多下一行
-ctx.fillStyle="#dc2626";
-ctx.fillText("最大疼痛（紅）", padL, legendY + 20);
-
+  // ---- 圖例 ----
+  const legendY = H - padB + 24; // 在 X軸下方一點高度
+  
+  ctx.font="13px sans-serif";
+  
+  // 第一列：藍
+  ctx.fillStyle="#2563eb";
+  ctx.fillText("目前疼痛（藍）", padL, legendY);
+  
+  // 第二列：紅
+  ctx.fillStyle="#dc2626";
+  ctx.fillText("最大疼痛（紅）", padL, legendY + 20);
 
   // ---- 畫目前疼痛線 (藍) ----
   ctx.strokeStyle="#2563eb";
