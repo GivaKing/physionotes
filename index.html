@@ -1181,13 +1181,7 @@ function renderVasChart(){
     ctx.fillText(String(N), x-3, H-padB+16);
   }
   
-  // ---- 圖例 ----
-  ctx.fillStyle="#000";
-  ctx.font="13px sans-serif";
-  ctx.fillText("目前疼痛（藍）", padL, padT - 5);
-  
-  ctx.fillStyle="#dc2626";
-  ctx.fillText("最大疼痛（紅）", padL + 120, padT - 5);
+
 
   // ---- 畫目前疼痛線 (藍) ----
   ctx.strokeStyle="#2563eb";
@@ -1231,6 +1225,14 @@ function renderVasChart(){
     const y = (H-padB) - plotH*(p.vasMax/10);
     ctx.beginPath(); ctx.arc(x,y,4,0,Math.PI*2); ctx.fill();
   });
+
+    // ---- 圖例 ----
+  ctx.fillStyle="#2563eb";
+  ctx.font="13px sans-serif";
+  ctx.fillText("目前疼痛（藍）", padL, padT - 5);
+  
+  ctx.fillStyle="#dc2626";
+  ctx.fillText("最大疼痛（紅）", padL + 120, padT - 5);
 
 }
 
