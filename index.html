@@ -1000,7 +1000,7 @@
 
   const createNewCaseFromCurrent = ()=>{
     const c = collectClient();
-    if(!c.name){ alert("請至少填寫姓名"); return null; }
+    if(!c.name){ alert("請填寫姓名"); return null; }
 
     const id = `case_${now()}_${(c.name||"case").replace(/\s+/g,"_")}`;
     const item = {
