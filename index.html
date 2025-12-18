@@ -1413,7 +1413,6 @@ function renderVasChart() {
       saveVisit(v);
       renderSummary();
       renderVasChart();
-      renderVasChart();
     });
     pm && pm.addEventListener("input", ()=>{
       $("#pain-max-value") && ($("#pain-max-value").textContent = pm.value);
@@ -1421,7 +1420,6 @@ function renderVasChart() {
       v.vasMax = Number(pm.value);
       saveVisit(v);
       renderSummary();
-      renderVasChart();
       renderVasChart();
     });
 
@@ -1442,32 +1440,31 @@ function renderVasChart() {
       alert("已清除暫存。");
     });
 
-    // client -> therapist (require VAS)
+    // client -> therapist
     $("#btn-goto-therapist") && $("#btn-goto-therapist").addEventListener("click", ()=>{
-      const c = collectClient();
-      saveClient(c);
+      // 先把畫面上的內容存進暫存
+      saveClient(collectClient());
+      saveVisit(collectVisitFromSliders());
+      saveTherapist(collectTherapist());
 
-      const v = loadVisit();
-      if(v.vasNow == null){
-        alert("請先填寫「目前疼痛程度（VAS）」");
+      // 關鍵：這一步會把「目前這次評估」寫回 records[] 裡
+      const res = upsertCurrentCaseAndRecord({ markDone:false });
+      if(!res) {
+        // upsert 內部已經會幫你跳回 client 並 alert 缺少 VAS 的情況
         return;
       }
-      if(v.vasMax == null){
-        alert("請先填寫「最痛時疼痛程度（VAS）」");
-        return;
-      }
+
+      // 用最新寫回去的 item 來更新 timeline / 圖表
+      const item = res.item;
 
       renderSummary();
       renderVasChart();
-      switchTab("therapist");
+      renderTimeline(item);
 
-      const caseId = getCurrentCaseId();
-      if(caseId){
-        const lib = loadLib();
-        const item = ensureCaseShape(lib[caseId]);
-        item && renderTimeline(item);
-      }
+      // 最後再切換到治療師評估頁
+      switchTab("therapist");
     });
+
 
     // therapist -> client
     $("#btn-back-client") && $("#btn-back-client").addEventListener("click", ()=>{
