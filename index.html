@@ -1141,7 +1141,7 @@ function renderVasChart(){
 
   if(points.length < 2) return;
 
-  const padL=36, padR=14, padT=14, padB=28;
+  const padL=36, padR=14, padT=14, padB=38;
   const plotW = W - padL - padR;
   const plotH = H - padT - padB;
   if(plotW<=0 || plotH<=0) return;
@@ -1182,7 +1182,7 @@ function renderVasChart(){
   }
   
   // ---- 圖例 ----
-  const legendY = H - padB + 24; // 在 X軸下方一點高度
+  const legendY = H - padB + 30; // 在 X軸下方一點高度
   
   ctx.font="13px sans-serif";
   
