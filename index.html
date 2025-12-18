@@ -1522,6 +1522,8 @@ document.getElementById("import-file")?.addEventListener("change",(e)=>{
       saveTherapist({});                   // ✨ 清空 therapist
       
       alert("匯入完成✔ 已更新個案列表");
+
+      document.getElementById("importFile").value = null;
       
       renderCaseList();                    // ✨更新 UI
       renderClientUI({});                  // ✨強制刷新第一頁
