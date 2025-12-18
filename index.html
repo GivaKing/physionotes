@@ -758,14 +758,14 @@
     </div>
 
     <div style="margin-top:14px; display:flex; gap:8px;">
-      <button id="btn-export-all" class="btn btn-primary" style="flex:1;">
-        匯出全部個案JSON
-      </button>
-    
       <button id="btn-import-all" class="btn btn-outline" style="flex:1;">
-        匯入JSON
+        匯入個案資料庫
       </button>
       
+      <button id="btn-export-all" class="btn btn-primary" style="flex:1;">
+        匯出個案資料庫
+      </button>
+
       <input type="file" id="import-file" accept="application/json" style="display:none;" />
     </div>
 
@@ -1486,7 +1486,7 @@ document.getElementById("btn-export-all")?.addEventListener("click", ()=>{
   a.click();
   setTimeout(()=>URL.revokeObjectURL(a.href),2000);
 
-  alert("已匯出全部個案 JSON");
+  alert("已匯出個案資料庫");
 });
 
 
@@ -1505,7 +1505,7 @@ document.getElementById("import-file")?.addEventListener("change",(e)=>{
       const obj = JSON.parse(reader.result);
 
       if(typeof obj !== "object"){
-        alert("格式錯誤，需為 JSON 物件");
+        alert("格式錯誤，需為 JSON 格式");
         return;
       }
 
