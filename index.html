@@ -415,7 +415,7 @@
     <button id="btn-login" 
             style="margin-top:16px;width:100%;padding:10px;
                    background:#2563eb;color:#fff;border:none;border-radius:8px;font-size:16px;font-weight:600;">
-      登入
+      Sign in
     </button>
   </div>
 </div>
@@ -1575,7 +1575,7 @@ function renderVasChart() {
 // ========== Supabase Login ==========
 
 async function requireLogin() {
-  const { data, error } = await supabase.auth.getSession();
+  const { data, error } = await supabase.auth.getUser();
   if (!data.session) {
     document.getElementById("login-overlay").style.display = "flex";
   } else {
