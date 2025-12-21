@@ -2,9 +2,7 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <meta charset="UTF-8" />
-  <link rel="icon" href="/logo.ico" type="image/x-icon">
   <title>PhysioNotes</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
   <style>
@@ -36,46 +34,6 @@
       margin: 0 auto;
       padding: 12px 12px 24px;
     }
-        /* 登入畫面 */
-    #login-screen {
-      max-width: 960px;
-      margin: 0 auto;
-      padding: 40px 16px;
-    }
-    .login-card {
-      background: var(--card);
-      border-radius: var(--radius-lg);
-      padding: 24px 20px 20px;
-      box-shadow: 0 1px 3px rgba(15,23,42,0.06);
-      border: 1px solid var(--border);
-    }
-    .login-title {
-      font-size: 1.1rem;
-      font-weight: 600;
-      margin-bottom: 8px;
-    }
-    .login-subtitle {
-      font-size: 0.8rem;
-      color: var(--muted);
-      margin-bottom: 16px;
-    }
-    .login-row {
-      margin-bottom: 10px;
-    }
-    .login-btn {
-      width: 100%;
-      border-radius: 999px;
-      padding: 10px 12px;
-      font-size: 0.9rem;
-      border: none;
-      background: var(--primary);
-      color: #fff;
-      box-shadow: 0 2px 4px rgba(37,99,235,0.35);
-    }
-    .hidden {
-      display: none !important;
-    }
-    /* 登入畫面 */
     header {
       margin-bottom: 12px;
     }
@@ -423,25 +381,7 @@
 </style>
 </head>
 <body>
-    <div id="login-screen" class="hidden">
-      <div class="login-card">
-        <div class="login-title">PhysioNotes 登入</div>
-        <div class="login-subtitle">
-          請輸入密碼後進入系統。
-        </div>
-  
-        <div class="login-row">
-          <label for="login-password">密碼</label>
-          <input id="login-password" type="password" placeholder="輸入密碼" />
-        </div>
-  
-        <button type="button" id="btn-login" class="login-btn">
-          登入
-        </button>
-      </div>
-    </div>
-
-  <div class="app" id="app-root">
+  <div class="app">
     <header>
       <div class="title">
         PhysioNotes
@@ -452,12 +392,6 @@
         <div class="status-text">
           <span class="status-dot"></span> 自動暫存中
         </div>
-      </div>
-      <div class="tagline-row">
-        <div></div>
-        <button type="button" id="btn-logout" class="btn-outline" style="padding:4px 10px;font-size:0.75rem;border-radius:999px;">
-          登出
-        </button>
       </div>
       <div class="tabs">
         <button class="tab-btn active" data-target="page-client">
@@ -844,11 +778,6 @@
 
   <script>
 (() => {
-  
-  const SUPA_URL = "https://yvacvzulhaaehffbhttt.supabase.co";
-  const SUPA_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inl2YWN2enVsaGFhZWhmZmJodHR0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU4OTg1ODUsImV4cCI6MjA4MTQ3NDU4NX0.6tgcZoxClNCn9y5lft_H1XF2pfQGPb6beehSuQLEMD0";
-  const supa = supabase.createClient(SUPA_URL, SUPA_KEY);
-  
   const STORAGE = {
     client: "pt_eval_client_v1",
     therapist: "pt_eval_therapist_v1",
@@ -857,28 +786,6 @@
     currentCaseId: "pt_eval_current_case_id_v1",
     currentRecordIndex: "pt_eval_current_record_idx_v1"
   };
-
-  async function isLoggedIn(){
-    const { data } = await supa.auth.getSession();
-    return !!data.session;
-  }
-  
-  async function applyAuthUI(){
-    const { data } = await supabase.auth.getSession();
-  
-    const loggedIn = !!data.session;
-  
-    const loginScreen = $("#login-screen");
-    const appRoot = $("#app-root");
-  
-    if (loggedIn){
-      loginScreen.classList.add("hidden");
-      appRoot.classList.remove("hidden");
-    } else {
-      loginScreen.classList.remove("hidden");
-      appRoot.classList.add("hidden");
-    }
-  }
 
   const $  = (s, r=document)=>r.querySelector(s);
   const $$ = (s, r=document)=>Array.from(r.querySelectorAll(s));
@@ -1467,56 +1374,6 @@ function renderVasChart() {
   };
 
   const bind = ()=>{
-        // === 登入按鈕 ===
-    // === 登入按鈕 ===
-const loginBtn = $("#btn-login");
-
-if (loginBtn) {
-  loginBtn.addEventListener("click", async () => {
-
-    const email = $("#login-email")?.value.trim();
-    const password = $("#login-password")?.value.trim();
-
-    if (!email || !password) {
-      alert("請輸入帳號與密碼");
-      return;
-    }
-
-    // ★ 改成 Supabase login
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-
-    if (error) {
-      alert("登入失敗：" + error.message);
-      return;
-    }
-
-    console.log("登入成功：", data);
-
-    applyAuthUI();  // 顯示主要頁面，隱藏登入頁
-  });
-      // 按 Enter 也可以登入
-    $("#login-password")?.addEventListener("keydown", (e) => {
-      if (e.key === "Enter") loginBtn.click();
-    });
-}
-  
-  // === 登出 ===
-  const logoutBtn = $("#btn-logout");
-  
-  if (logoutBtn) {
-    logoutBtn.addEventListener("click", async () => {
-  
-      if (!confirm("確認要登出嗎？")) return;
-  
-      await supabase.auth.signOut();
-  
-      applyAuthUI();
-    });
-  }
-
     // tabs
     $$(".tab-btn").forEach(b=>{
       b.addEventListener("click", ()=> switchTab((b.getAttribute("data-target")||"page-client").replace("page-","")));
@@ -1651,7 +1508,6 @@ if (loginBtn) {
   };
 
   document.addEventListener("DOMContentLoaded", ()=>{
-    applyAuthUI();   // 先決定顯示登入畫面還是主畫面
     bind();
 
     // 初始化：如果 visit 不存在，先設為 null（逼每次都要填 VAS）
@@ -1729,4 +1585,3 @@ document.getElementById("import-file")?.addEventListener("change",(e)=>{
 </script>
 </body>
 </html>
-
