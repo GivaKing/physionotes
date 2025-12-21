@@ -35,6 +35,46 @@
       margin: 0 auto;
       padding: 12px 12px 24px;
     }
+        /* 登入畫面 */
+    #login-screen {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 40px 16px;
+    }
+    .login-card {
+      background: var(--card);
+      border-radius: var(--radius-lg);
+      padding: 24px 20px 20px;
+      box-shadow: 0 1px 3px rgba(15,23,42,0.06);
+      border: 1px solid var(--border);
+    }
+    .login-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+    .login-subtitle {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-bottom: 16px;
+    }
+    .login-row {
+      margin-bottom: 10px;
+    }
+    .login-btn {
+      width: 100%;
+      border-radius: 999px;
+      padding: 10px 12px;
+      font-size: 0.9rem;
+      border: none;
+      background: var(--primary);
+      color: #fff;
+      box-shadow: 0 2px 4px rgba(37,99,235,0.35);
+    }
+    .hidden {
+      display: none !important;
+    }
+    /* 登入畫面 */
     header {
       margin-bottom: 12px;
     }
@@ -382,7 +422,25 @@
 </style>
 </head>
 <body>
-  <div class="app">
+    <div id="login-screen" class="hidden">
+      <div class="login-card">
+        <div class="login-title">PhysioNotes 登入</div>
+        <div class="login-subtitle">
+          請輸入專用密碼後進入個案系統。
+        </div>
+  
+        <div class="login-row">
+          <label for="login-password">密碼</label>
+          <input id="login-password" type="password" placeholder="輸入密碼" />
+        </div>
+  
+        <button type="button" id="btn-login" class="login-btn">
+          登入
+        </button>
+      </div>
+    </div>
+
+  <div class="app" id="app-root">
     <header>
       <div class="title">
         PhysioNotes
@@ -393,6 +451,12 @@
         <div class="status-text">
           <span class="status-dot"></span> 自動暫存中
         </div>
+      </div>
+      <div class="tagline-row">
+        <div></div>
+        <button type="button" id="btn-logout" class="btn-outline" style="padding:4px 10px;font-size:0.75rem;border-radius:999px;">
+          登出
+        </button>
       </div>
       <div class="tabs">
         <button class="tab-btn active" data-target="page-client">
@@ -787,6 +851,33 @@
     currentCaseId: "pt_eval_current_case_id_v1",
     currentRecordIndex: "pt_eval_current_record_idx_v1"
   };
+
+    // === 簡單登入設定（共用密碼） ===
+  const AUTH_KEY = "physionotes_auth_v1";
+  const LOGIN_PASSWORD = "physio2025"; // ← 這裡改成你自己的密碼
+
+  function isLoggedIn() {
+    return localStorage.getItem(AUTH_KEY) === "yes";
+  }
+
+  function setLoggedIn(flag) {
+    if (flag) localStorage.setItem(AUTH_KEY, "yes");
+    else localStorage.removeItem(AUTH_KEY);
+  }
+
+  function applyAuthUI() {
+    const app = document.getElementById("app-root");
+    const login = document.getElementById("login-screen");
+    if (!app || !login) return;
+
+    if (isLoggedIn()) {
+      app.classList.remove("hidden");
+      login.classList.add("hidden");
+    } else {
+      app.classList.add("hidden");
+      login.classList.remove("hidden");
+    }
+  }
 
   const $  = (s, r=document)=>r.querySelector(s);
   const $$ = (s, r=document)=>Array.from(r.querySelectorAll(s));
@@ -1375,6 +1466,39 @@ function renderVasChart() {
   };
 
   const bind = ()=>{
+        // === 登入按鈕 ===
+    const loginBtn = $("#btn-login");
+    if (loginBtn) {
+      loginBtn.addEventListener("click", () => {
+        const pw = ($("#login-password")?.value || "").trim();
+        if (!pw) {
+          alert("請輸入密碼");
+          return;
+        }
+        if (pw === LOGIN_PASSWORD) {
+          setLoggedIn(true);
+          applyAuthUI();
+        } else {
+          alert("密碼錯誤");
+        }
+      });
+
+      // 按 Enter 也可以登入
+      $("#login-password")?.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") loginBtn.click();
+      });
+    }
+
+    // === 登出 ===
+    const logoutBtn = $("#btn-logout");
+    if (logoutBtn) {
+      logoutBtn.addEventListener("click", () => {
+        if (!confirm("確認要登出嗎？")) return;
+        setLoggedIn(false);
+        applyAuthUI();
+      });
+    }
+
     // tabs
     $$(".tab-btn").forEach(b=>{
       b.addEventListener("click", ()=> switchTab((b.getAttribute("data-target")||"page-client").replace("page-","")));
@@ -1509,6 +1633,7 @@ function renderVasChart() {
   };
 
   document.addEventListener("DOMContentLoaded", ()=>{
+    applyAuthUI();   // 先決定顯示登入畫面還是主畫面
     bind();
 
     // 初始化：如果 visit 不存在，先設為 null（逼每次都要填 VAS）
