@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
@@ -15,907 +16,422 @@
       --text: #111827;
       --muted: #6b7280;
       --danger: #dc2626;
-      --success: #16a34a;
-      --accent: #0ea5e9;
       --radius-lg: 16px;
+      --radius-md: 12px;
+      --radius-sm: 8px;
     }
-
     * {
       box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
     }
-
     body {
       margin: 0;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", system-ui, sans-serif;
       background: var(--bg);
       color: var(--text);
-      -webkit-font-smoothing: antialiased;
     }
-
-    .hidden {
-      display: none !important;
-    }
-
     .app {
-      max-width: 1200px;
+      max-width: 960px;
       margin: 0 auto;
-      padding: 16px;
+      padding: 12px 12px 24px;
     }
-
     header {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
       margin-bottom: 12px;
-      gap: 12px;
     }
-
-    header .title {
-      font-size: 20px;
+    .title {
+      font-size: 1.3rem;
       font-weight: 700;
       display: flex;
       align-items: center;
       gap: 8px;
     }
-
-    header .badge {
-      font-size: 12px;
-      padding: 2px 8px;
+    .badge {
+      font-size: 0.7rem;
+      padding: 2px 6px;
       border-radius: 999px;
-      background: #e0f2fe;
-      color: #0369a1;
+      background: var(--primary-soft);
+      color: var(--primary);
     }
-
-    header .subtitle {
-      font-size: 13px;
-      color: #6b7280;
+    .subtitle {
+      font-size: 0.8rem;
+      color: var(--muted);
       margin-top: 2px;
     }
-
-    header .status-text {
-      font-size: 12px;
-      color: #4b5563;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    header .status-dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 999px;
-      background: #22c55e;
-      box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.2);
-    }
-
     .tabs {
       display: flex;
-      border-radius: 999px;
+      gap: 6px;
       background: #e5e7eb;
+      border-radius: 999px;
       padding: 4px;
-      width: 100%;
-      max-width: 420px;
+      margin: 12px 0;
     }
-
     .tab-btn {
       flex: 1;
       border: none;
-      background: transparent;
       border-radius: 999px;
-      padding: 6px 10px;
-      font-size: 14px;
-      font-weight: 500;
-      color: #4b5563;
-      cursor: pointer;
+      padding: 8px 4px;
+      font-size: 0.9rem;
+      background: transparent;
+      color: var(--muted);
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 4px;
-      transition: background 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
     }
-
-    .tab-btn .icon {
-      font-size: 16px;
+    .tab-btn span.icon {
+      font-size: 1.1rem;
     }
-
     .tab-btn.active {
-      background: #ffffff;
+      background: #fff;
       color: var(--primary);
-      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+      font-weight: 600;
+      box-shadow: 0 1px 3px rgba(15, 23, 42, 0.15);
     }
-
-    main {
-      display: grid;
-      grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
-      gap: 16px;
-    }
-
-    @media (max-width: 960px) {
-      main {
-        grid-template-columns: minmax(0, 1fr);
-      }
-    }
-
     .card {
       background: var(--card);
       border-radius: var(--radius-lg);
-      padding: 16px;
+      padding: 12px 12px 16px;
       box-shadow: 0 1px 3px rgba(15,23,42,0.06);
       border: 1px solid var(--border);
     }
-
-    .card-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 8px;
-      gap: 8px;
-    }
-
-    .card-title {
-      font-size: 15px;
+    .section-title {
+      font-size: 0.95rem;
       font-weight: 600;
+      margin: 14px 0 8px;
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
     }
-
-    .card-title .emoji {
-      font-size: 18px;
+    .section-title span {
+      font-size: 0.8rem;
+      color: var(--muted);
+      font-weight: 400;
     }
-
-    .card-subtitle {
-      font-size: 12px;
-      color: #6b7280;
-      margin-bottom: 12px;
-    }
-
-    .field-group {
-      margin-bottom: 12px;
-    }
-
-    .field-row {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
+    .pill {
+      display: inline-flex;
       align-items: center;
-      margin-bottom: 8px;
+      gap: 6px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: var(--primary-soft);
+      color: var(--primary);
+      font-size: 0.75rem;
     }
-
-    .field-label {
-      font-size: 13px;
-      color: #4b5563;
-      flex: 0 0 auto;
-      min-width: 56px;
-      font-weight: 500;
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
     }
-
-    .field-hint {
-      font-size: 11px;
-      color: #9ca3af;
-      margin-top: 2px;
+    @media (min-width: 768px) {
+      .grid-3-md {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 8px;
+      }
     }
-
+    label {
+      display: block;
+      font-size: 0.75rem;
+      color: var(--muted);
+      margin-bottom: 2px;
+    }
     input[type="text"],
     input[type="number"],
-    textarea,
-    select {
+    select,
+    textarea {
       width: 100%;
       padding: 8px 10px;
-      border-radius: 10px;
-      border: 1px solid #e5e7eb;
-      font-size: 14px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      font-size: 0.85rem;
       outline: none;
-      transition: border-color 0.15s ease, box-shadow 0.15s ease;
       background: #f9fafb;
     }
-
     textarea {
-      min-height: 60px;
+      min-height: 70px;
       resize: vertical;
     }
-
-    input[type="text"]:focus,
-    input[type="number"]:focus,
-    textarea:focus,
-    select:focus {
+    input:focus,
+    select:focus,
+    textarea:focus {
       border-color: var(--primary);
-      box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.1);
-      background: #ffffff;
+      background: #fff;
+      box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.12);
     }
-
-    .chip-row {
+    .chips {
       display: flex;
       flex-wrap: wrap;
       gap: 6px;
     }
-
     .chip {
-      font-size: 12px;
-      padding: 4px 10px;
       border-radius: 999px;
-      border: 1px solid #e5e7eb;
+      padding: 6px 10px;
+      font-size: 0.8rem;
+      border: 1px solid var(--border);
       background: #f9fafb;
-      color: #4b5563;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
     }
-
-    .chip .dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 999px;
-      background: #e5e7eb;
-    }
-
-    .chip.active {
-      background: #dbeafe;
-      color: #1d4ed8;
-      border-color: #93c5fd;
-      box-shadow: 0 0 0 1px rgba(59, 130, 246, 0.4);
-    }
-
-    .chip.active .dot {
-      background: #3b82f6;
-    }
-
-    .chip.small {
-      padding: 3px 8px;
-      font-size: 11px;
-    }
-
-    .section-title {
-      font-size: 13px;
-      font-weight: 600;
-      margin: 12px 0 4px;
-      color: #374151;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .section-title .pill {
-      font-size: 10px;
-      padding: 2px 6px;
-      border-radius: 999px;
-      background: #eff6ff;
-      color: #1d4ed8;
-    }
-
-    .human-map {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin: 8px 0;
-    }
-
-    .human-canvas {
-      width: 160px;
-      max-width: 100%;
-      height: auto;
-      cursor: pointer;
-    }
-
-    .human-legend {
-      font-size: 11px;
-      color: #6b7280;
-      text-align: center;
-      margin-top: 4px;
-    }
-
-    .summary-list {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-      font-size: 13px;
-    }
-
-    .summary-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      padding: 6px 0;
-      border-bottom: 1px dashed #e5e7eb;
-      gap: 8px;
-    }
-
-    .summary-label {
-      color: #6b7280;
-      min-width: 72px;
-      flex: 0 0 auto;
-    }
-
-    .summary-value {
-      flex: 1;
-      text-align: right;
-      color: #111827;
-    }
-
-    .summary-empty {
-      color: #9ca3af;
-      font-style: italic;
-    }
-
-    .summary-warning {
-      color: #b91c1c;
-      font-style: normal;
+    .chip.selected {
+      background: var(--primary-soft);
+      border-color: var(--primary);
+      color: var(--primary);
       font-weight: 500;
     }
-
-    .summary-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      padding: 2px 8px;
-      border-radius: 999px;
-      background: #ecfdf3;
-      color: #166534;
-      font-size: 11px;
+    .row {
+      margin-bottom: 8px;
     }
-
-    .btn-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      margin-top: 12px;
+    .hint {
+      font-size: 0.7rem;
+      color: var(--muted);
+      margin-top: 2px;
     }
-
-    button {
-      font-family: inherit;
-    }
-
-    .btn-primary {
-      border: none;
-      border-radius: 999px;
-      padding: 8px 14px;
-      font-size: 13px;
-      font-weight: 500;
-      color: #ffffff;
-      background: #22c55e;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      box-shadow: 0 1px 2px rgba(22, 163, 74, 0.3);
-      transition: background 0.15s ease, transform 0.05s ease, box-shadow 0.15s ease;
-    }
-
-    .btn-primary:hover {
-      background: #15803d;
-      box-shadow: 0 2px 5px rgba(22, 163, 74, 0.4);
-    }
-
-    .btn-primary:active {
-      transform: translateY(1px);
-      box-shadow: 0 1px 2px rgba(22, 163, 74, 0.3);
-    }
-
-    .btn-secondary {
-      border-radius: 999px;
-      padding: 8px 14px;
-      font-size: 13px;
-      color: #374151;
-      border: 1px solid #d1d5db;
-      background: #ffffff;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
-    }
-
-    .btn-secondary:hover {
-      background: #f9fafb;
-      border-color: #cbd5e1;
-      box-shadow: 0 1px 2px rgba(15, 23, 42, 0.08);
-    }
-
-    .btn-danger {
-      border-radius: 999px;
-      padding: 4px 10px;
-      font-size: 12px;
-      color: #ffffff;
-      border: 1px solid #fecaca;
-      background: #ef4444;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      transition: background 0.15s ease, box-shadow 0.15s ease;
-    }
-
-    .btn-danger:hover {
-      background: #b91c1c;
-      box-shadow: 0 1px 3px rgba(248, 113, 113, 0.6);
-    }
-
-    .btn-pill-small {
-      border-radius: 999px;
-      padding: 4px 8px;
-      font-size: 11px;
-      border: 1px solid #e5e7eb;
-      background: #f9fafb;
-      color: #4b5563;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
-    }
-
-    .btn-pill-small:hover {
-      background: #eff6ff;
-      border-color: #bfdbfe;
-      color: #1d4ed8;
-    }
-
-    .section-divider {
-      border: none;
-      border-top: 1px dashed #e5e7eb;
-      margin: 12px 0;
-    }
-
-    .pill-label {
-      font-size: 10px;
-      padding: 2px 6px;
-      border-radius: 999px;
-      background: #f3f4f6;
-      color: #6b7280;
-    }
-
-    .small-label {
-      font-size: 11px;
-      color: #6b7280;
-    }
-
-    .tag-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      padding: 2px 8px;
-      border-radius: 999px;
-      font-size: 11px;
-      border: 1px solid #e5e7eb;
-      color: #4b5563;
-      background: #f9fafb;
-      margin-right: 4px;
-      margin-bottom: 4px;
-    }
-
-    .tag-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 999px;
-      background: #c4b5fd;
-    }
-
-    .tag-dot.green {
-      background: #86efac;
-    }
-
-    .tag-dot.red {
-      background: #fca5a5;
-    }
-
-    .tag-dot.blue {
-      background: #93c5fd;
-    }
-
-    .tag-dot.yellow {
-      background: #facc15;
-    }
-
-    .pt-section {
-      background: #f9fafb;
-      padding: 10px 12px;
-      border-radius: 12px;
-      border: 1px dashed #e5e7eb;
-      margin-top: 6px;
-    }
-
-    .pt-section-title {
-      font-size: 12px;
-      font-weight: 600;
-      margin-bottom: 6px;
-      color: #374151;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .pt-section-title .pill {
-      font-size: 10px;
-      padding: 2px 6px;
-      border-radius: 999px;
-      background: #fefce8;
-      color: #854d0e;
-    }
-
-    .pt-section-body {
-      font-size: 12px;
-      color: #4b5563;
-      line-height: 1.5;
-    }
-
-    .readonly-text {
-      white-space: pre-wrap;
-      background: #f9fafb;
-      padding: 8px 10px;
-      border-radius: 10px;
-      border: 1px dashed #e5e7eb;
-      font-size: 12px;
-    }
-
-    .check-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      font-size: 13px;
-      margin-top: 4px;
-    }
-
-    .check-item {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-    }
-
-    .check-item input {
-      width: 14px;
-      height: 14px;
-    }
-
-    .small-input {
-      width: 60px;
-      padding: 4px 6px;
-      font-size: 12px;
-      border-radius: 6px;
-    }
-
     .slider-row {
       display: flex;
       align-items: center;
       gap: 8px;
-      margin-top: 4px;
     }
-
-    .slider-row input[type="range"] {
+    .slider-row input[type=range] {
       flex: 1;
     }
-
     .slider-value {
-      min-width: 18px;
+      font-size: 0.8rem;
+      min-width: 30px;
       text-align: right;
-      font-size: 13px;
+      color: var(--primary);
       font-weight: 600;
-      color: #111827;
     }
-
-    .small-note {
-      font-size: 11px;
-      color: #9ca3af;
-      margin-top: 2px;
-    }
-
-    .case-list-container {
-      max-height: 420px;
-      overflow-y: auto;
-      border-radius: 12px;
-      border: 1px solid #e5e7eb;
-      background: #f9fafb;
-    }
-
-    .case-list-item {
-      padding: 8px 10px;
-      border-bottom: 1px solid #e5e7eb;
-      cursor: pointer;
-      display: grid;
-      grid-template-columns: minmax(0, 4fr) minmax(0, 6fr) minmax(0, 3fr);
-      align-items: center;
-      column-gap: 8px;
-      row-gap: 4px;
-      font-size: 13px;
-      background: #ffffff;
-      transition: background 0.12s ease;
-    }
-
-    .case-list-item:nth-child(even) {
-      background: #f9fafb;
-    }
-
-    .case-list-item:hover {
-      background: #eff6ff;
-    }
-
-    .case-name {
-      font-weight: 600;
-      color: #111827;
-      min-width: 0;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-
-    .case-main {
-      font-size: 12px;
-      color: #374151;
-      min-width: 0;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-
-    .case-visit {
-      font-size: 12px;
-      color: #4b5563;
-      text-align: right;
-    }
-
-    .case-visit strong {
-      color: #111827;
-    }
-
-    .case-list-empty {
-      font-size: 13px;
-      color: #9ca3af;
-      padding: 12px;
-      text-align: center;
-    }
-
-    .case-list-header {
-      display: grid;
-      grid-template-columns: minmax(0, 4fr) minmax(0, 6fr) minmax(0, 3fr);
-      align-items: center;
-      column-gap: 8px;
-      padding: 6px 10px;
-      font-size: 11px;
-      color: #6b7280;
-      border-bottom: 1px solid #e5e7eb;
-      background: #f3f4f6;
-      position: sticky;
-      top: 0;
-      z-index: 1;
-    }
-
-    .case-list-header span {
-      font-weight: 500;
-    }
-
-    .case-search-row {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 8px;
-    }
-
-    .case-search-row input[type="text"] {
-      flex: 1;
-      padding: 6px 10px;
-      font-size: 13px;
+    input[type=range] {
+      -webkit-appearance: none;
+      height: 4px;
       border-radius: 999px;
-    }
-
-    .case-count {
-      font-size: 11px;
-      color: #6b7280;
-    }
-
-    .case-import-row {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 6px;
-      margin-top: 10px;
-      font-size: 11px;
-      color: #6b7280;
-    }
-
-    .case-import-row .btn-pill-small {
-      font-size: 11px;
-      padding: 4px 8px;
-    }
-
-    .case-import-row code {
       background: #e5e7eb;
-      border-radius: 4px;
-      padding: 0 4px;
-      font-size: 10px;
+      outline: none;
     }
-
-    .summary-visit {
-      font-size: 12px;
-      color: #4b5563;
-      margin-top: 4px;
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: var(--primary);
+      box-shadow: 0 1px 3px rgba(15,23,42,0.4);
+      cursor: pointer;
     }
-
-    .summary-visit strong {
-      color: #111827;
-    }
-
-    .vas-chart-wrapper {
-      margin-top: 12px;
-      border-radius: 12px;
-      border: 1px dashed #e5e7eb;
-      padding: 10px 12px;
-      background: #f9fafb;
+    .page {
       display: none;
+      animation: fadeIn 0.15s ease-out;
     }
-
-    .vas-chart-title {
-      font-size: 12px;
-      font-weight: 600;
-      color: #374151;
-      margin-bottom: 6px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .vas-chart-title .pill {
-      font-size: 10px;
-      padding: 2px 6px;
-      border-radius: 999px;
-      background: #eff6ff;
-      color: #1d4ed8;
-    }
-
-    .vas-chart-hint {
-      font-size: 11px;
-      color: #6b7280;
-      margin-bottom: 6px;
-    }
-
-    .vas-chart-canvas-wrap {
-      width: 100%;
-      overflow: hidden;
-    }
-
-    #vas-chart {
-      width: 100%;
-      height: 180px;
+    .page.active {
       display: block;
     }
-
-    .tag-row {
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .tagline-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 6px;
+    }
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: #10b981;
+    }
+    .status-text {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+    .pill-small {
+      border-radius: 999px;
+      padding: 3px 7px;
+      font-size: 0.7rem;
+      background: #fee2e2;
+      color: var(--danger);
+    }
+    .divider {
+      height: 1px;
+      background: var(--border);
+      margin: 10px 0;
+    }
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 10px;
+      font-size: 0.8rem;
+      padding: 4px 0;
+    }
+    .summary-label {
+      color: var(--muted);
+      min-width: 70px;
+    }
+    .summary-value {
+      flex: 1;
+      text-align: right;
+      font-weight: 500;
+    }
+    .pill-group {
       display: flex;
       flex-wrap: wrap;
       gap: 4px;
-      margin-top: 6px;
+      justify-content: flex-end;
     }
-
-    .tag-row .tag-badge {
-      margin-right: 0;
-      margin-bottom: 0;
+    .pill-ghost {
+      border-radius: 999px;
+      padding: 2px 6px;
+      font-size: 0.7rem;
+      border: 1px solid #e5e7eb;
+      color: var(--muted);
     }
-
-    .login-screen {
-      position: fixed;
-      inset: 0;
-      background: radial-gradient(circle at top, #eff6ff 0, #e5e7eb 40%, #d1d5db 100%);
+    .bottom-space {
+      height: 32px;
+    }
+    .sticky-footer {
+      position: sticky;
+      bottom: -8px;
+      margin-top: 10px;
+      padding-top: 6px;
+      background: linear-gradient(to top, rgba(243,244,246,0.9) 50%, rgba(243,244,246,0));
+    }
+    .btn-row {
       display: flex;
+      gap: 8px;
+    }
+    .btn {
+      flex: 1;
+      border-radius: 999px;
+      padding: 10px 12px;
+      font-size: 0.9rem;
+      border: none;
+      display: inline-flex;
       align-items: center;
       justify-content: center;
-      padding: 16px;
-      z-index: 50;
+      gap: 6px;
     }
-
-    .login-card {
-      width: 100%;
-      max-width: 360px;
-      padding: 24px 20px 20px;
-      background: #ffffff;
-      border-radius: 16px;
-      box-shadow:
-        0 10px 40px rgba(15, 23, 42, 0.25),
-        0 0 0 1px rgba(148, 163, 184, 0.5);
-      border: 1px solid #e5e7eb;
+    .btn-success{background:#16a34a;color:#fff;box-shadow:0 2px 4px rgba(22,163,74,.35)}
+    .btn-primary {
+      background: var(--primary);
+      color: #fff;
+      box-shadow: 0 2px 4px rgba(37,99,235,0.35);
     }
-
-    .login-title {
-      font-size: 20px;
-      font-weight: 700;
-      margin-bottom: 4px;
-      color: #111827;
+    .btn-outline {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--muted);
     }
-
-    .login-subtitle {
-      font-size: 12px;
-      color: #6b7280;
-      margin-bottom: 16px;
+    .pill-toggle-group {
+      display: flex;
+      gap: 4px;
+      flex-wrap: wrap;
     }
-
-    .login-label {
-      font-size: 13px;
-      display: block;
-      margin-bottom: 4px;
-    }
-
-    .login-input {
-      width: 100%;
-      padding: 10px 12px;
-      border-radius: 6px;
-      border: 1px solid #d1d5db;
-      font-size: 14px;
-      margin-bottom: 12px;
-    }
-
-    .login-input:focus {
-      outline: none;
-      border-color: #2563eb;
-      box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.2);
-    }
-
-    .login-btn {
-      width: 100%;
+    .pill-toggle {
       border-radius: 999px;
-      padding: 9px 0;
-      border: none;
-      background: #2563eb;
-      color: #ffffff;
-      font-size: 14px;
-      font-weight: 600;
-      cursor: pointer;
-      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
-      transition: background 0.15s ease, transform 0.05s ease, box-shadow 0.15s ease;
+      padding: 4px 8px;
+      border: 1px solid var(--border);
+      font-size: 0.75rem;
+      background: #f9fafb;
+    }
+    .pill-toggle.active {
+      background: var(--primary-soft);
+      border-color: var(--primary);
+      color: var(--primary);
+      font-weight: 500;
+    }
+  
+    .case-row{display:flex;gap:10px;align-items:center;padding:10px 12px;border-bottom:1px solid var(--border);cursor:pointer;background:#fff;}
+    .case-row:hover{background:#f9fafb;}
+    .case-main{min-width:140px;flex:0 0 auto;}
+    .case-name{font-weight:600;font-size:0.9rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+    .case-sub{font-size:0.78rem;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:2px;}
+    .case-vas{font-size:0.78rem;color:var(--primary);font-weight:600;white-space:nowrap;}
+    .case-actions{display:flex;gap:6px;}
+    .btn-danger{background:var(--danger);color:#fff;}
+    
+  
+    .badge{display:inline-block;padding:2px 8px;border-radius:999px;font-size:12px;font-weight:600}
+    .badge.done{background:#e6f6ea;color:#1a7f37}
+    .badge.draft{background:#fff4e5;color:#9a6700}
+    .timeline{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0}
+    .timeline .t-chip{padding:4px 8px;border-radius:8px;border:1px solid var(--border);cursor:pointer;font-size:0.75rem}
+    .timeline .t-chip.active{background:var(--primary);color:#fff;border-color:var(--primary)}
+    .warn{color:#b42318;font-weight:600}
+
+    .btn-icon{border:none;background:transparent;padding:6px;border-radius:10px;cursor:pointer}
+    .btn-icon:hover{background:#fee2e2}
+    .btn-icon svg{width:18px;height:18px;display:block;fill:currentColor}
+    .btn-icon.btn-danger{background:var(--danger);color:#fff;}
+    .btn-icon.btn-danger:hover{background:#b91c1c;}
+
+    
+    .case-mid{
+      flex:1;
+      text-align:center;
+      font-size:0.85rem;
+      color:#111827;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
     }
 
-    .login-btn:hover {
-      background: #1d4ed8;
-      box-shadow: 0 6px 20px rgba(37, 99, 235, 0.6);
-    }
+</style>
+	<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-    .login-btn:active {
-      transform: translateY(1px);
-      box-shadow: 0 3px 8px rgba(37, 99, 235, 0.5);
-    }
+	<script>
+	  const SUPABASE_URL = "https://yvacvzulhaaehffbhttt.supabase.co";     // 你自己填
+	  const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inl2YWN2enVsaGFhZWhmZmJodHR0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU4OTg1ODUsImV4cCI6MjA4MTQ3NDU4NX0.6tgcZoxClNCn9y5lft_H1XF2pfQGPb6beehSuQLEMD0";     // 你自己填
 
-    .logout-btn {
-      margin-left: 12px;
-      padding: 4px 12px;
-      border-radius: 999px;
-      border: 1px solid #d4d4d8;
-      background: #ffffff;
-      font-size: 12px;
-      color: #4b5563;
-      cursor: pointer;
-    }
-
-    .logout-btn:hover {
-      background: #f3f4f6;
-    }
-  </style>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
+	  const supabase = supabase.createClient(
+		SUPABASE_URL,
+		SUPABASE_KEY
+	  );
+	</script>
 </head>
 <body>
-  <!-- 登入畫面 -->
-  <div id="login-screen" class="login-screen">
-    <div class="login-card">
-      <div class="login-title">PhysioNotes 登入</div>
-      <div class="login-subtitle">請輸入帳號與密碼進入個案系統。</div>
-      <label class="login-label" for="login-email">帳號（Email）</label>
-      <input id="login-email" type="email" class="login-input" autocomplete="email" />
-      <label class="login-label" for="login-password">密碼</label>
-      <input id="login-password" type="password" class="login-input" autocomplete="current-password" />
-      <button id="btn-login" class="login-btn" type="button">登入</button>
-    </div>
-  </div>
 
-  <!-- 主系統 -->
-  <div id="app-root" class="app hidden">
+<!-- LOGIN MODAL -->
+<div id="login-overlay"
+     style="position:fixed;inset:0;background:rgba(0,0,0,.45);
+            display:flex;align-items:center;justify-content:center;
+            z-index:9999;">
+  <div style="background:white;padding:32px;border-radius:12px;
+              width:320px;box-shadow:0 4px 12px rgba(0,0,0,.2);">
+
+    <h3 style="margin-top:0;text-align:center;">登入 PhysioNotes</h3>
+
+    <input id="login-email" type="email" placeholder="Email"
+           style="width:100%;padding:8px;margin-top:12px;border-radius:8px;
+                  border:1px solid #ddd;font-size:15px;" />
+
+    <input id="login-pass" type="password" placeholder="Password"
+           style="width:100%;padding:8px;margin-top:8px;border-radius:8px;
+                  border:1px solid #ddd;font-size:15px;" />
+
+    <button id="btn-login" 
+            style="margin-top:16px;width:100%;padding:10px;
+                   background:#2563eb;color:#fff;border:none;border-radius:8px;font-size:16px;font-weight:600;">
+      Sign in
+    </button>
+  </div>
+</div>
+
+<div class="app">
+
     <header>
       <div class="title">
         PhysioNotes
         <span class="badge">網頁版</span>
       </div>
-      <div class="subtitle">請先填寫個案問診資料，再進入治療師評估頁。</div>
-      <div class="status-text">
-        <span class="status-dot"></span> 自動暫存中
-        <button id="btn-logout" class="logout-btn" type="button">登出</button>
+      <div class="tagline-row">
+        <div class="subtitle">請先填寫個案問診資料，再進入治療師評估頁。</div>
+        <div class="status-text">
+          <span class="status-dot"></span> 自動暫存中
+        </div>
       </div>
       <div class="tabs">
         <button class="tab-btn active" data-target="page-client">
@@ -926,409 +442,378 @@
           <span class="icon">🩺</span>
           治療師評估
         </button>
-        <button class="tab-btn" data-target="page-cases">
-          <span class="icon">📂</span>
-          個案管理
-        </button>
+<button class="tab-btn" data-target="page-cases"><span class="icon">📋</span>個案管理</button>
       </div>
     </header>
 
-    <main>
-      <!-- 個案填寫頁 -->
-      <section id="page-client" class="card">
-        <div class="card-header">
-          <div>
-            <div class="card-title">
-              <span class="emoji">🧑‍⚕️</span>
-              個案問診資料
+    <!-- 個案填寫頁 -->
+    <main id="page-client" class="page active">
+      <div class="card">
+        <div class="section-title">
+          基本資料
+          <span>Basic Info</span>
+        </div>
+        <div class="grid-2">
+          <div class="row">
+            <label for="name">姓名</label>
+            <input id="name" name="name" type="text" placeholder="例：王小美" data-field />
+          </div>
+          <div class="row">
+            <label for="age">年齡</label>
+            <input id="age" name="age" type="number" inputmode="numeric" min="0" max="120" placeholder="30" data-field />
+          </div>
+        </div>
+        <div class="grid-2">
+          <div class="row">
+            <label>性別</label>
+            <div class="pill-toggle-group" data-field="gender" data-type="single">
+              <button type="button" class="pill-toggle" data-value="男">男</button>
+              <button type="button" class="pill-toggle" data-value="女">女</button>
+              <button type="button" class="pill-toggle" data-value="其他">其他</button>
             </div>
-            <div class="card-subtitle">這一頁由個案自行填寫，治療師可在下一頁看到摘要。</div>
+          </div>
+          <div class="row">
+            <label for="job">職業</label>
+            <input id="job" name="job" type="text" placeholder="例：警察、工程師、學生…" data-field />
           </div>
         </div>
 
-        <div class="field-group">
-          <div class="field-row">
-            <div class="field-label">姓名</div>
-            <input id="c-name" type="text" placeholder="請輸入姓名" />
+        <div class="row">
+          <label>主要生活型態（可複選）</label>
+          <div class="chips" data-field="lifestyle" data-type="multi">
+            <button type="button" class="chip" data-value="久坐">久坐</button>
+            <button type="button" class="chip" data-value="久站">久站</button>
+            <button type="button" class="chip" data-value="重物搬運">重物搬運</button>
+            <button type="button" class="chip" data-value="家務/帶小孩">家務 / 帶小孩</button>
+            <button type="button" class="chip" data-value="運動員/高活動量">運動員 / 高活動量</button>
           </div>
-          <div class="field-row">
-            <div class="field-label">年齡</div>
-            <input id="c-age" type="number" min="0" max="120" placeholder="歲" style="max-width: 120px;" />
-          </div>
-          <div class="field-row">
-            <div class="field-label">性別</div>
-            <div class="chip-row" data-group="gender">
-              <button type="button" class="chip" data-value="男">男</button>
-              <button type="button" class="chip" data-value="女">女</button>
-              <button type="button" class="chip" data-value="其他">其他</button>
-            </div>
-          </div>
-          <div class="field-row">
-            <div class="field-label">慣用手</div>
-            <div class="chip-row" data-group="handedness">
-              <button type="button" class="chip" data-value="右手">右手</button>
-              <button type="button" class="chip" data-value="左手">左手</button>
-              <button type="button" class="chip" data-value="雙手皆可">雙手皆可</button>
-            </div>
-          </div>
-          <div class="field-row">
-            <div class="field-label">主要生活型態</div>
-            <div class="chip-row" data-group="lifestyle">
-              <button type="button" class="chip" data-value="久坐">久坐</button>
-              <button type="button" class="chip" data-value="久站">久站</button>
-              <button type="button" class="chip" data-value="需搬重物">需搬重物</button>
-              <button type="button" class="chip" data-value="需久走路">需久走路</button>
-              <button type="button" class="chip" data-value="照顧家人/小孩">照顧家人/小孩</button>
-            </div>
-          </div>
+          <div class="hint">可協助治療師快速了解日常負荷。</div>
         </div>
 
-        <hr class="section-divider" />
+        <div class="divider"></div>
 
         <div class="section-title">
-          目前主訴
-          <span class="pill">疼痛位置、型態、影響活動</span>
+          主訴與症狀
+          <span>Main Complaint</span>
         </div>
 
-        <div class="human-map">
-          <img id="body-map" class="human-canvas" src="https://cdn.jsdelivr.net/gh/physionotes-assets/body-outline-front-back.png" alt="人體示意圖" />
+        <div class="row">
+          <label for="main-complaint">主要不適部位 / 感受</label>
+          <textarea id="main-complaint" name="mainComplaint" placeholder="例：右側臀部延伸到腿後側疼痛，目前變成右腳前腳掌麻…" data-field></textarea>
         </div>
-        <div class="human-legend">請點選常見疼痛區域按鈕，或在下方文字區補充描述。</div>
 
-        <div class="field-group">
-          <div class="field-row">
-            <div class="field-label">疼痛部位</div>
-            <div class="chip-row" data-group="pain-area">
-              <button type="button" class="chip" data-value="頸部">頸部</button>
-              <button type="button" class="chip" data-value="肩膀">肩膀</button>
-              <button type="button" class="chip" data-value="上背">上背</button>
-              <button type="button" class="chip" data-value="下背">下背</button>
-              <button type="button" class="chip" data-value="髖部">髖部</button>
-              <button type="button" class="chip" data-value="膝蓋">膝蓋</button>
-              <button type="button" class="chip" data-value="腳踝">腳踝</button>
-            </div>
-          </div>
-          <div class="field-row">
-            <div class="field-label">主訴內容</div>
-            <textarea id="c-main-complaint" placeholder="例：右側下背持續痠痛兩週，久坐超過30分鐘會加劇，往前彎時最明顯。"></textarea>
-          </div>
-          <div class="field-row">
-            <div class="field-label">疼痛型態</div>
-            <div class="chip-row" data-group="pain-quality">
-              <button type="button" class="chip" data-value="痠痛">痠痛</button>
-              <button type="button" class="chip" data-value="刺痛">刺痛</button>
-              <button type="button" class="chip" data-value="麻木">麻木</button>
-              <button type="button" class="chip" data-value="脹痛">脹痛</button>
-              <button type="button" class="chip" data-value="緊繃">緊繃</button>
-              <button type="button" class="chip" data-value="跳痛">跳痛</button>
-            </div>
-          </div>
-          <div class="field-row">
-            <div class="field-label">誘發動作</div>
-            <textarea id="c-aggravating" placeholder="例：久坐、久站、久走、跑步、提重物、久低頭滑手機、轉身、咳嗽..."></textarea>
-          </div>
-          <div class="field-row">
-            <div class="field-label">緩解方式</div>
-            <textarea id="c-relieving" placeholder="例：熱敷、躺平、休息、伸展、貼藥布..."></textarea>
+        <div class="row">
+          <label>不適類型（可複選）</label>
+          <div class="chips" data-field="painTypes" data-type="multi">
+            <button type="button" class="chip" data-value="酸痛">酸痛</button>
+            <button type="button" class="chip" data-value="緊繃">緊繃</button>
+            <button type="button" class="chip" data-value="刺痛">刺痛</button>
+            <button type="button" class="chip" data-value="麻木/電流感">麻木 / 電流感</button>
+            <button type="button" class="chip" data-value="放射痛">放射痛</button>
           </div>
         </div>
 
-        <hr class="section-divider" />
+        <div class="row">
+          <label>症狀持續時間</label>
+          <div class="pill-toggle-group" data-field="duration" data-type="single">
+            <button type="button" class="pill-toggle" data-value="一週內">一週內</button>
+            <button type="button" class="pill-toggle" data-value="1–4 週">1–4 週</button>
+            <button type="button" class="pill-toggle" data-value="1–3 個月">1–3 個月</button>
+            <button type="button" class="pill-toggle" data-value="超過 3 個月">超過 3 個月</button>
+          </div>
+        </div>
+
+        <div class="row">
+          <label>目前疼痛程度（0–10）</label>
+          <div class="slider-row">
+            <input type="range" min="0" max="10" step="1" value="0" id="pain-now" data-field="painNow" />
+            <span class="slider-value" id="pain-now-value">0</span>
+          </div>
+          <div class="hint">0 = 完全不痛，10 = 生產痛</div>
+        </div>
+
+        <div class="row">
+          <label>最痛時疼痛程度（0–10）</label>
+          <div class="slider-row">
+            <input type="range" min="0" max="10" step="1" value="0" id="pain-max" data-field="painMax" />
+            <span class="slider-value" id="pain-max-value">0</span>
+          </div>
+        </div>
+
+        <div class="row">
+          <label>哪些動作或情境會「變嚴重」？（可複選）</label>
+          <div class="chips" data-field="aggravating" data-type="multi">
+            <button type="button" class="chip" data-value="久坐">久坐</button>
+            <button type="button" class="chip" data-value="久站">久站</button>
+            <button type="button" class="chip" data-value="彎腰">彎腰</button>
+            <button type="button" class="chip" data-value="後仰">後仰</button>
+            <button type="button" class="chip" data-value="提重物">提重物</button>
+            <button type="button" class="chip" data-value="運動時或運動後">運動時 / 運動後</button>
+            <button type="button" class="chip" data-value="睡前">睡前</button>
+            <button type="button" class="chip" data-value="睡醒">睡醒</button>
+          </div>
+        </div>
+
+        <div class="row">
+          <label>哪些事情會「比較舒服」？（可複選）</label>
+          <div class="chips" data-field="easing" data-type="multi">
+            <button type="button" class="chip" data-value="休息/躺著">休息 / 躺著</button>
+            <button type="button" class="chip" data-value="走一走/活動一下">走一走 / 活動一下</button>
+            <button type="button" class="chip" data-value="熱敷">熱敷</button>
+            <button type="button" class="chip" data-value="冰敷">冰敷</button>
+            <button type="button" class="chip" data-value="吃止痛藥">吃止痛藥</button>
+          </div>
+        </div>
+
+        <div class="divider"></div>
 
         <div class="section-title">
-          疼痛分數（VAS）
-          <span class="pill">0 分不痛，10 分為最痛</span>
+          過去病史與用藥
+          <span>Medical History</span>
         </div>
 
-        <div class="field-group">
-          <div class="field-row">
-            <div class="field-label">目前疼痛</div>
-            <div class="slider-row">
-              <input id="vas-now" type="range" min="0" max="10" step="1" />
-              <div class="slider-value" id="vas-now-value">0</div>
-            </div>
-            <div class="small-note">請將滑桿拉到目前最貼近的疼痛程度。</div>
-          </div>
-          <div class="field-row">
-            <div class="field-label">最痛曾達</div>
-            <div class="slider-row">
-              <input id="vas-max" type="range" min="0" max="10" step="1" />
-              <div class="slider-value" id="vas-max-value">0</div>
-            </div>
-            <div class="small-note">回想這次症狀發作以來，最痛曾經達到幾分。</div>
-          </div>
+        <div class="row">
+          <label for="diseases">重大疾病 / 慢性疾病</label>
+          <textarea id="diseases" name="diseases" placeholder="例：高血壓、糖尿病、甲狀腺、風濕、免疫相關疾病…" data-field></textarea>
         </div>
 
-        <hr class="section-divider" />
+        <div class="row">
+          <label for="surgery">手術或重大外傷史</label>
+          <textarea id="surgery" name="surgery" placeholder="例：椎間盤手術、韌帶重建、車禍受傷…" data-field></textarea>
+        </div>
+
+        <div class="row">
+          <label for="meds">目前正在服用的藥物或補充品</label>
+          <textarea id="meds" name="meds" placeholder="例：止痛藥、肌肉鬆弛劑、避孕藥、類固醇、抗凝血藥…" data-field></textarea>
+          <div class="hint">此資訊僅供治療安全評估，不會外流。</div>
+        </div>
+
+        <div class="divider"></div>
 
         <div class="section-title">
-          生活與工作
-          <span class="pill">方便治療師了解你的日常負荷</span>
+          生活狀態與目標
+          <span>Function & Goals</span>
         </div>
 
-        <div class="field-group">
-          <div class="field-row">
-            <div class="field-label">職業</div>
-            <input id="c-job" type="text" placeholder="例：警察、上班族、護理師、餐飲業..." />
-          </div>
-          <div class="field-row">
-            <div class="field-label">運動習慣</div>
-            <div class="chip-row" data-group="sport">
-              <button type="button" class="chip" data-value="幾乎不運動">幾乎不運動</button>
-              <button type="button" class="chip" data-value="每週1-2次">每週1-2次</button>
-              <button type="button" class="chip" data-value="每週3次以上">每週3次以上</button>
-            </div>
-          </div>
-          <div class="field-row">
-            <div class="field-label">常做運動</div>
-            <textarea id="c-sport-detail" placeholder="例：重訓、跑步、瑜珈、游泳、球類運動..."></textarea>
-          </div>
-          <div class="field-row">
-            <div class="field-label">睡眠狀況</div>
-            <div class="chip-row" data-group="sleep">
-              <button type="button" class="chip" data-value="容易入睡且睡得好">容易入睡且睡得好</button>
-              <button type="button" class="chip" data-value="偶爾淺眠或難入睡">偶爾淺眠或難入睡</button>
-              <button type="button" class="chip" data-value="常常睡不好">常常睡不好</button>
-            </div>
+        <div class="row">
+          <label>睡眠品質</label>
+          <div class="pill-toggle-group" data-field="sleep" data-type="single">
+            <button type="button" class="pill-toggle" data-value="很好">很好</button>
+            <button type="button" class="pill-toggle" data-value="普通">普通</button>
+            <button type="button" class="pill-toggle" data-value="偏差">偏差</button>
+            <button type="button" class="pill-toggle" data-value="經常失眠/多夢">經常失眠 / 多夢</button>
           </div>
         </div>
 
-        <hr class="section-divider" />
-
-        <div class="section-title">
-          過去病史與其他資訊
-          <span class="pill">可多選</span>
-        </div>
-
-        <div class="field-group">
-          <div class="field-row">
-            <div class="field-label">曾接受治療</div>
-            <div class="chip-row" data-group="past-treatment">
-              <button type="button" class="chip" data-value="復健科治療">復健科治療</button>
-              <button type="button" class="chip" data-value="物理治療">物理治療</button>
-              <button type="button" class="chip" data-value="中醫針灸">中醫針灸</button>
-              <button type="button" class="chip" data-value="民俗療法">民俗療法</button>
-              <button type="button" class="chip" data-value="無特別治療">無特別治療</button>
-            </div>
-          </div>
-          <div class="field-row">
-            <div class="field-label">重大病史/手術</div>
-            <textarea id="c-history" placeholder="例：椎間盤突出、十字韌帶手術、子宮切除手術..."></textarea>
-          </div>
-          <div class="field-row">
-            <div class="field-label">其他想補充</div>
-            <textarea id="c-note" placeholder="可補充任何你覺得與這次不舒服相關的資訊。"></textarea>
+        <div class="row">
+          <label>運動習慣</label>
+          <div class="pill-toggle-group" data-field="exercise" data-type="single">
+            <button type="button" class="pill-toggle" data-value="幾乎不運動">幾乎不運動</button>
+            <button type="button" class="pill-toggle" data-value="每週 1–2 次">每週 1–2 次</button>
+            <button type="button" class="pill-toggle" data-value="每週 3 次以上">每週 3 次以上</button>
           </div>
         </div>
 
-        <div class="btn-row">
-          <button id="btn-clear-client" type="button" class="btn-secondary">
-            清除暫存
-          </button>
-          <button id="btn-to-therapist" type="button" class="btn-primary">
-            交給治療師評估
-          </button>
-        </div>
-      </section>
-
-      <!-- 治療師評估頁 -->
-      <section id="page-therapist" class="card hidden">
-        <div class="card-header">
-          <div>
-            <div class="card-title">
-              <span class="emoji">🩺</span>
-              治療師評估與紀錄
-            </div>
-            <div class="card-subtitle">左側為個案填寫內容摘要，右側為治療師紀錄區。</div>
+        <div class="row">
+          <label for="goals">本次物理治療最希望達成的目標</label>
+          <textarea id="goals" name="goals" placeholder="例：可以久坐辦公 2 小時不痛、可以正常跑步、可以抱小孩…" data-field></textarea>
+        
+        <div class="divider"></div>
+        
+        <div class="sticky-footer">
+          <div class="btn-row">
+            <button type="button" class="btn btn-outline" id="btn-clear">
+              清除暫存
+            </button>
+            <button type="button" class="btn btn-primary" id="btn-goto-therapist">
+              交給治療師評估 🩺
+            </button>
           </div>
         </div>
-
-        <div class="card-subtitle">
-          <span class="summary-visit">目前為第 <strong id="visit-count-label">1</strong> 次治療紀錄。</span>
-        </div>
-
-        <div style="display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1.8fr);gap:12px;">
-          <div class="pt-section">
-            <div class="pt-section-title">
-              個案摘要
-              <span class="pill">從個案填寫資料自動帶入</span>
-            </div>
-            <div class="pt-section-body">
-              <ul class="summary-list">
-                <li class="summary-item">
-                  <div class="summary-label">姓名</div>
-                  <div class="summary-value" id="s-name">
-                    <span class="summary-empty">⚠ 未填</span>
-                  </div>
-                </li>
-                <li class="summary-item">
-                  <div class="summary-label">年齡/性別</div>
-                  <div class="summary-value" id="s-age-gender">
-                    <span class="summary-empty">⚠ 未填</span>
-                  </div>
-                </li>
-                <li class="summary-item">
-                  <div class="summary-label">慣用手</div>
-                  <div class="summary-value" id="s-handedness">
-                    <span class="summary-empty">⚠ 未填</span>
-                  </div>
-                </li>
-                <li class="summary-item">
-                  <div class="summary-label">生活型態</div>
-                  <div class="summary-value" id="s-lifestyle">
-                    <span class="summary-empty">⚠ 未填</span>
-                  </div>
-                </li>
-                <li class="summary-item">
-                  <div class="summary-label">主訴</div>
-                  <div class="summary-value" id="s-main-complaint">
-                    <span class="summary-empty">⚠ 未填</span>
-                  </div>
-                </li>
-                <li class="summary-item">
-                  <div class="summary-label">疼痛型態</div>
-                  <div class="summary-value" id="s-pain-quality">
-                    <span class="summary-empty">⚠ 未填</span>
-                  </div>
-                </li>
-                <li class="summary-item">
-                  <div class="summary-label">誘發/緩解</div>
-                  <div class="summary-value" id="s-aggravating-relieving">
-                    <span class="summary-empty">⚠ 未填</span>
-                  </div>
-                </li>
-                <li class="summary-item">
-                  <div class="summary-label">VAS</div>
-                  <div class="summary-value" id="s-vas">
-                    <span class="summary-empty">⚠ 未填</span>
-                  </div>
-                </li>
-                <li class="summary-item">
-                  <div class="summary-label">工作/運動</div>
-                  <div class="summary-value" id="s-job-sport">
-                    <span class="summary-empty">⚠ 未填</span>
-                  </div>
-                </li>
-                <li class="summary-item">
-                  <div class="summary-label">睡眠</div>
-                  <div class="summary-value" id="s-sleep">
-                    <span class="summary-empty">⚠ 未填</span>
-                  </div>
-                </li>
-                <li class="summary-item">
-                  <div class="summary-label">病史</div>
-                  <div class="summary-value" id="s-history">
-                    <span class="summary-empty">⚠ 未填</span>
-                  </div>
-                </li>
-              </ul>
-            </div>
-
-            <div id="vas-chart-wrap" class="vas-chart-wrapper">
-              <div class="vas-chart-title">
-                VAS 疼痛趨勢
-                <span class="pill">一次以上治療時會出現趨勢圖</span>
-              </div>
-              <div class="vas-chart-hint">
-                X軸：治療次數；Y軸：疼痛分數（0～10）。<br />
-                藍線：目前疼痛；紅線：最大疼痛。
-              </div>
-              <div class="vas-chart-canvas-wrap">
-                <canvas id="vas-chart"></canvas>
-              </div>
-            </div>
-          </div>
-
-          <div>
-            <div class="pt-section">
-              <div class="pt-section-title">
-                物理治療師評估
-                <span class="pill">僅治療師填寫</span>
-              </div>
-              <div class="field-group">
-                <div class="field-row">
-                  <div class="field-label">初步印象</div>
-                  <textarea id="pt-impression" placeholder="例：疑似右側薦髂關節功能障礙合併腰椎穩定度不足..."></textarea>
-                </div>
-                <div class="field-row">
-                  <div class="field-label">檢查項目</div>
-                  <textarea id="pt-test" placeholder="例：Slump test、SLR、PA、主動屈伸、單腳站立控制..."></textarea>
-                </div>
-                <div class="field-row">
-                  <div class="field-label">治療策略</div>
-                  <textarea id="pt-plan" placeholder="例：深層組織放鬆、關節鬆動、核心控制訓練、動作模式調整..."></textarea>
-                </div>
-              </div>
-            </div>
-
-            <div class="pt-section">
-              <div class="pt-section-title">
-                治療內容紀錄
-                <span class="pill">可作為下次複習依據</span>
-              </div>
-              <div class="field-group">
-                <div class="field-row">
-                  <div class="field-label">本次重點</div>
-                  <textarea id="pt-today-focus" placeholder="例：放鬆右腿後肌群、訓練骨盆穩定、教育久坐中的休息策略..."></textarea>
-                </div>
-                <div class="field-row">
-                  <div class="field-label">回家作業</div>
-                  <textarea id="pt-homework" placeholder="例：每日3回合腰椎減壓動作、臀肌啟動訓練、避免久坐超過30分鐘..."></textarea>
-                </div>
-                <div class="field-row">
-                  <div class="field-label">下次目標</div>
-                  <textarea id="pt-next-goal" placeholder="例：希望能將坐姿疼痛從7分降到5分以下..."></textarea>
-                </div>
-              </div>
-            </div>
-
-            <div class="btn-row">
-              <button id="btn-complete-visit" type="button" class="btn-primary">
-                完成評估（儲存個案紀錄）
-              </button>
-              <button id="btn-export-json" type="button" class="btn-secondary">
-                匯出個案資料庫
-              </button>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- 個案管理頁 -->
-      <section id="page-cases" class="card hidden">
-        <div class="card-header">
-          <div>
-            <div class="card-title">
-              <span class="emoji">📂</span>
-              個案列表與搜尋
-            </div>
-            <div class="card-subtitle">點選個案可重新載入到「個案填寫」與「治療師評估」頁面。</div>
-          </div>
-        </div>
-
-        <div class="case-search-row">
-          <input id="case-search" type="text" placeholder="搜尋姓名或主訴關鍵字..." />
-          <span class="case-count" id="case-count-label">共 0 筆個案</span>
-        </div>
-
-        <div class="case-list-container" id="case-list">
-          <div class="case-list-header">
-            <span>姓名 / 年齡</span>
-            <span>主訴 &nbsp;|&nbsp; VAS</span>
-            <span style="text-align:right;">治療次數 / 刪除</span>
-          </div>
-          <div class="case-list-empty">尚未建立任何個案紀錄。</div>
-        </div>
-
-        <div class="case-import-row">
-          <button id="btn-import-json" type="button" class="btn-pill-small">
-            匯入個案資料庫 JSON
-          </button>
-          <span>匯出後的 JSON 檔可在此重新載入，適合多裝置備份。</span>
-          <input type="file" id="importFile" accept="application/json" style="display:none;" />
-        </div>
-      </section>
+      </div>
     </main>
+
+    <!-- 治療師評估頁 -->
+    <main id="page-therapist" class="page">
+      <div class="card">
+        <div class="section-title">
+          個案摘要
+          <span>Client Summary（讀取左側資料）</span>
+        </div>
+        <div id="summary-block">
+          <div class="summary-row">
+            <div class="summary-label">姓名</div>
+            <div class="summary-value" id="s-name">—</div>
+          </div>
+          <div class="summary-row">
+            <div class="summary-label">年齡 / 性別</div>
+            <div class="summary-value" id="s-age-gender">—</div>
+          </div>
+          <div class="summary-row">
+            <div class="summary-label">職業 / 生活型態</div>
+            <div class="summary-value" id="s-job-life">
+              <div class="pill-group" id="s-lifestyle"></div>
+            </div>
+          </div>
+          <div class="summary-row">
+            <div class="summary-label">主訴</div>
+            <div class="summary-value" id="s-main">—</div>
+          </div>
+          <div class="summary-row">
+            <div class="summary-label">症狀</div>
+            <div class="summary-value" id="s-pain">
+              <div class="pill-group" id="s-pain-tags"></div>
+            </div>
+          </div>
+          <div class="summary-row">
+            <div class="summary-label">疼痛程度</div>
+            <div class="summary-value" id="s-pain-scale">—</div>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="section-title">本次評估時間軸</div>
+<div id="pt-timeline"></div>
+<div class="divider"></div>
+
+        <div class="section-title">
+          觀察與功能測試
+          <span>Observation & Functional Tests</span>
+        </div>
+
+        <div class="grid-2">
+          <div class="row">
+            <label for="obs-posture">姿勢觀察</label>
+            <input id="obs-posture" type="text" placeholder="例：頭前引、骨盆前傾、胸椎後凸…" data-field-pt="obsPosture" />
+          </div>
+          <div class="row">
+            <label for="obs-gait">步態 / 功能</label>
+            <input id="obs-gait" type="text" placeholder="例：右側單腳站不穩、右步幅較小…" data-field-pt="obsGait" />
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="row">
+            <label for="tests-nerve">神經張力 / 測試</label>
+            <input id="tests-nerve" type="text" placeholder="例：Slump（R）+，SLR(R) 60° 放射至小腿…" data-field-pt="testsNerve" />
+          </div>
+          <div class="row">
+            <label for="tests-joint">關節活動 / 其他測試</label>
+            <input id="tests-joint" type="text" placeholder="例：腰椎前彎受限，關節囊牽扯…" data-field-pt="testsJoint" />
+          </div>
+        </div>
+
+        <div class="row">
+          <label for="soft-tissue">軟組織 / 觸診</label>
+          <textarea id="soft-tissue" placeholder="例：右臀中肌壓痛明顯、腿後肌群緊繃、梨狀肌壓痛…" data-field-pt="softTissue"></textarea>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="section-title">
+          臨床推論
+          <span>Clinical Reasoning</span>
+        </div>
+
+        <div class="row">
+          <label>可能的主要問題（可點選＋自行補充）</label>
+          <div class="chips" data-field-pt="reasonTags" data-type="multi">
+            <button type="button" class="chip" data-value="關節活動受限">關節活動受限</button>
+            <button type="button" class="chip" data-value="關節穩定度不足">關節穩定度不足</button>
+            <button type="button" class="chip" data-value="關節軌道異常">關節軌道異常</button>
+            <button type="button" class="chip" data-value="肌肉縮短">肌肉縮短</button>
+            <button type="button" class="chip" data-value="肌肉過長">肌肉過長</button>
+            <button type="button" class="chip" data-value="肌肉高張">肌肉高張</button>
+            <button type="button" class="chip" data-value="肌肉低張">肌肉高張</button>
+            <button type="button" class="chip" data-value="神經高張">神經高張</button>
+            <button type="button" class="chip" data-value="姿勢與動作負荷過高">姿勢與動作負荷過高</button>
+          </div>
+        </div>
+
+        <div class="row">
+          <label for="reasoning">臨床推論摘要</label>
+          <textarea id="reasoning" placeholder="例：推測以神經張力與負荷敏感為主，早期由薦髂痛轉為腿後拉扯與足部麻木…" data-field-pt="reasoning"></textarea>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="section-title">
+          治療計畫與建議
+          <span>Treatment Plan</span>
+        </div>
+
+        <div class="row">
+          <label>本期目標（可複選）</label>
+          <div class="chips" data-field-pt="planGoals" data-type="multi">
+            <button type="button" class="chip" data-value="降低疼痛">降低疼痛</button>
+            <button type="button" class="chip" data-value="改善生活功能">改善生活功能</button>
+            <button type="button" class="chip" data-value="增加柔軟度">增加柔軟度</button>
+            <button type="button" class="chip" data-value="提升控制能力">提升控制能力</button>
+            <button type="button" class="chip" data-value="提升肌力">提升肌力</button>
+          </div>
+        </div>
+
+        <div class="row">
+          <label for="treatment-plan">今日治療內容</label>
+          <textarea id="treatment-plan" placeholder="例：1. 骨盆與腰椎關節鬆動 2. 坐骨神經鬆動術 3. 腿後肌伸展教育…" data-field-pt="treatmentPlan"></textarea>
+        </div>
+
+        <div class="row">
+          <label for="home-ex">居家運動與注意事項</label>
+          <textarea id="home-ex" placeholder="例：每日 3 次神經鬆動、小幅度腿後伸展，避免久坐超過 30–40 分鐘…" data-field-pt="homeEx"></textarea>
+        </div>
+
+        <div class="row">
+          <label for="follow-up">下次追蹤重點</label>
+          <textarea id="follow-up" placeholder="例：觀察麻木頻率變化、久坐耐受度、Slump 測試變化…" data-field-pt="followUp"></textarea>
+        
+        <div class="divider"></div>
+        <div class="section-title">疼痛趨勢</div>
+        <canvas id="vas-chart"></canvas>
+
+        <div class="divider"></div>
+    
+        <div class="sticky-footer">
+          <div class="btn-row">
+            <button type="button" class="btn btn-outline" id="btn-back-client">
+              回到個案填寫
+            </button>
+            <button type="button" id="btn-mark-done" class="btn btn-success">完成本次評估 ✓</button>
+          </div>
+        </div>
+      </div>
+    </main>
+<!-- 第三頁：個案管理 -->
+<main id="page-cases" class="page">
+  <div class="card">
+    <div class="section-title">個案管理</div>
+    <div class="row">
+      <input id="case-search" type="text" placeholder="搜尋姓名或主訴…" 
+             style="width:100%;padding:9px 10px;border-radius:999px;border:1px solid #d1d5db;font-size:0.9rem;">
+    </div>
+    <div id="case-count" class="hint" style="margin-top:6px;">共 0 筆個案</div>
+    <div id="case-list" 
+         style="margin-top:12px;border-radius:12px;border:1px solid #e5e7eb;max-height:60vh;overflow-y:auto;">
+    </div>
+
+    <div class="divider"></div>
+
+    <div style="margin-top:14px; display:flex; gap:8px;">
+      <button id="btn-import-all" class="btn btn-outline" style="flex:1;">
+        匯入個案資料庫(請先重新整理)
+      </button>
+      
+      <button id="btn-export-all" class="btn btn-primary" style="flex:1;">
+        匯出個案資料庫
+      </button>
+
+      <input type="file" id="import-file" accept="application/json" style="display:none;" />
+    </div>
+
+  </div>
+</main>
+
   </div>
 
   <script>
@@ -1342,53 +827,10 @@
     currentRecordIndex: "pt_eval_current_record_idx_v1"
   };
 
-  // === Supabase 設定（請填入自己的 URL 與 anon key） ===
-  const SUPABASE_URL = "https://yvacvzulhaaehffbhttt.supabase.co";
-  const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inl2YWN2enVsaGFhZWhmZmJodHR0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU4OTg1ODUsImV4cCI6MjA4MTQ3NDU4NX0.6tgcZoxClNCn9y5lft_H1XF2pfQGPb6beehSuQLEMD0";
-  let supabaseClient = null;
-  if (window.supabase && SUPABASE_URL && SUPABASE_ANON_KEY) {
-    const { createClient } = window.supabase;
-    supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-  }
-
-  // === 登入設定 ===
-  // 將登入狀態存在 localStorage，避免每次重開都要輸入。
-  // 注意：實際帳號密碼驗證交給 Supabase，這裡只負責控制前端是否顯示主系統。
-  const AUTH_KEY = "physionotes_auth_v1";
-
-  function isLoggedIn() {
-    return localStorage.getItem(AUTH_KEY) === "yes";
-  }
-
-  function setLoggedIn(flag) {
-    if (flag) localStorage.setItem(AUTH_KEY, "yes");
-    else localStorage.removeItem(AUTH_KEY);
-  }
-
-  function applyAuthUI() {
-    const app = document.getElementById("app-root");
-    const login = document.getElementById("login-screen");
-    if (!app || !login) return;
-
-    if (isLoggedIn()) {
-      login.classList.add("hidden");
-      app.classList.remove("hidden");
-    } else {
-      app.classList.add("hidden");
-      login.classList.remove("hidden");
-    }
-  }
-
   const $  = (s, r=document)=>r.querySelector(s);
   const $$ = (s, r=document)=>Array.from(r.querySelectorAll(s));
-
-  function parse(json, fallback) {
-    try {
-      return json ? JSON.parse(json) : fallback;
-    } catch {
-      return fallback;
-    }
-  }
+  const parse = (s,f)=>{try{return JSON.parse(s??"")??f}catch{return f}};
+  const now = ()=>Date.now();
 
   const loadClient    = ()=>parse(localStorage.getItem(STORAGE.client),{});
   const saveClient    = (d)=>localStorage.setItem(STORAGE.client,JSON.stringify(d||{}));
@@ -1404,797 +846,825 @@
   const getCurrentCaseId = ()=>localStorage.getItem(STORAGE.currentCaseId);
   const setCurrentCaseId = (id)=> id ? localStorage.setItem(STORAGE.currentCaseId,id) : localStorage.removeItem(STORAGE.currentCaseId);
 
-  const getCurrentRecordIndex = ()=> {
+  const getCurrentRecordIndex = ()=>{
     const v = localStorage.getItem(STORAGE.currentRecordIndex);
-    return v!=null ? Number(v) : null;
+    return v==null ? 0 : Math.max(0, parseInt(v,10) || 0);
   };
-  const setCurrentRecordIndex = (idx)=> {
-    if (idx==null || isNaN(idx)) localStorage.removeItem(STORAGE.currentRecordIndex);
-    else localStorage.setItem(STORAGE.currentRecordIndex,String(idx));
+  const setCurrentRecordIndex = (i)=> localStorage.setItem(STORAGE.currentRecordIndex, String(Math.max(0, i|0)));
+
+  const pages = {
+    client:   ()=>$("#page-client"),
+    therapist:()=>$("#page-therapist"),
+    cases:    ()=>$("#page-cases")
   };
 
-  function ensureCaseShape(item){
-    if(!item || typeof item!=="object") item={};
-    if(!item.client) item.client={};
-    if(!item.records) item.records=[];
-    return item;
-  }
+  const warn = (v)=> (v==null || (Array.isArray(v)&&v.length===0) || (typeof v==="string" && v.trim()===""))
+    ? "<span class='warn'>⚠ 未填</span>" : v;
 
-  function buildClientFromUI(){
-    const g = (id)=>document.getElementById(id);
-    const getGroup = (groupName)=>{
-      const wrap = document.querySelector(`.chip-row[data-group="${groupName}"]`);
-      if(!wrap) return "";
-      const act = wrap.querySelector(".chip.active");
-      return act ? act.dataset.value || act.textContent.trim() : "";
-    };
-    const getMultiGroup = (groupName)=>{
-      const wrap = document.querySelector(`.chip-row[data-group="${groupName}"]`);
-      if(!wrap) return [];
-      return Array.from(wrap.querySelectorAll(".chip.active")).map(el=>el.dataset.value || el.textContent.trim());
-    };
-
+  const ensureCaseShape = (item)=>{
+    if(!item) return null;
+    if(item.records) return item;
     return {
-      name       : g("c-name")?.value.trim() || "",
-      age        : g("c-age")?.value.trim() || "",
-      gender     : getGroup("gender") || "",
-      handedness : getGroup("handedness") || "",
-      lifestyle  : getMultiGroup("lifestyle"),
-      mainComplaint : g("c-main-complaint")?.value.trim() || "",
-      painArea   : getMultiGroup("pain-area"),
-      painQuality: getMultiGroup("pain-quality"),
-      aggravating: g("c-aggravating")?.value.trim() || "",
-      relieving  : g("c-relieving")?.value.trim() || "",
-      job        : g("c-job")?.value.trim() || "",
-      sportFreq  : getGroup("sport") || "",
-      sportDetail: g("c-sport-detail")?.value.trim() || "",
-      sleep      : getGroup("sleep") || "",
-      pastTreatment : getMultiGroup("past-treatment"),
-      history    : g("c-history")?.value.trim() || "",
-      note       : g("c-note")?.value.trim() || ""
+      client: item.client||{},
+      records: [{
+        therapist: item.therapist||{},
+        status: item.status || "draft",
+        createdAt: item.createdAt || now(),
+        updatedAt: item.updatedAt || now(),
+        visit: item.visit || { vasNow:null, vasMax:null }
+      }]
     };
-  }
+  };
 
-  function applyClientToUI(c){
-    const g = (id)=>document.getElementById(id);
-    const setVal = (id,v)=>{ if(g(id)) g(id).value = v ?? ""; };
+  const collectClient = ()=>{
+    const r = pages.client(), d = {};
+    $$("[data-field]", r).forEach(el=>{
+      if(el.tagName==="INPUT" && el.type==="range") return; // VAS 存到 visit
+      const k = el.name || el.id; if(!k) return;
+      d[k] = (el.type==="number" ? (el.value===""?null:Number(el.value)) : (el.value??"").toString());
+    });
 
-    setVal("c-name",c.name||"");
-    setVal("c-age",c.age||"");
-    setVal("c-main-complaint",c.mainComplaint||"");
-    setVal("c-aggravating",c.aggravating||"");
-    setVal("c-relieving",c.relieving||"");
-    setVal("c-job",c.job||"");
-    setVal("c-sport-detail",c.sportDetail||"");
-    setVal("c-history",c.history||"");
-    setVal("c-note",c.note||"");
+    $$(".pill-toggle-group[data-field]", r).forEach(g=>{
+      const k = g.getAttribute("data-field");
+      const a = g.querySelector(".pill-toggle.active");
+      d[k] = a ? a.getAttribute("data-value") : null;
+    });
 
-    const clearGroup = (groupName)=>{
-      const wrap = document.querySelector(`.chip-row[data-group="${groupName}"]`);
-      if(!wrap) return;
-      wrap.querySelectorAll(".chip").forEach(el=>el.classList.remove("active"));
-    };
-    const setSingleGroup = (groupName,v)=>{
-      clearGroup(groupName);
-      if(!v) return;
-      const wrap = document.querySelector(`.chip-row[data-group="${groupName}"]`);
-      if(!wrap) return;
-      const target = Array.from(wrap.querySelectorAll(".chip")).find(el=>(el.dataset.value||el.textContent.trim())===v);
-      if(target) target.classList.add("active");
-    };
-    const setMultiGroup = (groupName,arr)=>{
-      clearGroup(groupName);
-      if(!Array.isArray(arr)) return;
-      const wrap = document.querySelector(`.chip-row[data-group="${groupName}"]`);
-      if(!wrap) return;
-      arr.forEach(v=>{
-        const target = Array.from(wrap.querySelectorAll(".chip")).find(el=>(el.dataset.value||el.textContent.trim())===v);
-        if(target) target.classList.add("active");
-      });
-    };
+    $$(".chips[data-field]", r).forEach(w=>{
+      const k = w.getAttribute("data-field");
+      d[k] = $$(".chip.selected", w).map(c=>c.getAttribute("data-value"));
+    });
 
-    setSingleGroup("gender",c.gender||"");
-    setSingleGroup("handedness",c.handedness||"");
-    setSingleGroup("sport",c.sportFreq||"");
-    setSingleGroup("sleep",c.sleep||"");
-    setMultiGroup("lifestyle",c.lifestyle||[]);
-    setMultiGroup("pain-area",c.painArea||[]);
-    setMultiGroup("pain-quality",c.painQuality||[]);
-    setMultiGroup("past-treatment",c.pastTreatment||[]);
-  }
+    d.name = (d.name||"").trim();
+    d.mainComplaint = (d.mainComplaint||"").trim();
+    return d;
+  };
 
-  function buildTherapistFromUI(){
-    const g = (id)=>document.getElementById(id);
-    return {
-      impression  : g("pt-impression")?.value.trim() || "",
-      test        : g("pt-test")?.value.trim() || "",
-      plan        : g("pt-plan")?.value.trim() || "",
-      todayFocus  : g("pt-today-focus")?.value.trim() || "",
-      homework    : g("pt-homework")?.value.trim() || "",
-      nextGoal    : g("pt-next-goal")?.value.trim() || ""
-    };
-  }
+  const collectTherapist = ()=>{
+    const r = pages.therapist(), d = {};
+    $$("[data-field-pt]", r).forEach(el=>{
+      const k = el.getAttribute("data-field-pt"); if(!k) return;
+      d[k] = (el.type==="number" ? (el.value===""?null:Number(el.value)) : (el.value??"").toString());
+    });
+    $$(".chips[data-field-pt]", r).forEach(w=>{
+      const k = w.getAttribute("data-field-pt");
+      d[k] = $$(".chip.selected", w).map(c=>c.getAttribute("data-value"));
+    });
+    return d;
+  };
 
-  function applyTherapistToUI(t){
-    const g = (id)=>document.getElementById(id);
-    const setVal = (id,v)=>{ if(g(id)) g(id).value = v ?? ""; };
-
-    setVal("pt-impression",t.impression||"");
-    setVal("pt-test",t.test||"");
-    setVal("pt-plan",t.plan||"");
-    setVal("pt-today-focus",t.todayFocus||"");
-    setVal("pt-homework",t.homework||"");
-    setVal("pt-next-goal",t.nextGoal||"");
-  }
-
-  function applyVisitToUI(v){
-    const nowSlider = document.getElementById("vas-now");
-    const maxSlider = document.getElementById("vas-max");
-    const nowLabel  = document.getElementById("vas-now-value");
-    const maxLabel  = document.getElementById("vas-max-value");
-    const visitCountLabel = document.getElementById("visit-count-label");
-
-    const now = (v && v.vasNow!=null)? Number(v.vasNow) : 0;
-    const mx  = (v && v.vasMax!=null)? Number(v.vasMax) : 0;
-
-    if(nowSlider) nowSlider.value = String(now);
-    if(nowLabel)  nowLabel.textContent = String(now);
-    if(maxSlider) maxSlider.value = String(mx);
-    if(maxLabel)  maxLabel.textContent = String(mx);
-
-    const idx = getCurrentRecordIndex();
-    if(visitCountLabel) {
-      visitCountLabel.textContent = idx!=null ? String(idx+1) : "1";
-    }
-  }
-
-  function buildVisitFromUI(){
-    const nowSlider = document.getElementById("vas-now");
-    const maxSlider = document.getElementById("vas-max");
-    return {
-      vasNow: nowSlider ? Number(nowSlider.value) : null,
-      vasMax: maxSlider ? Number(maxSlider.value) : null
-    };
-  }
-
-  function renderSummary(){
-    const c = loadClient();
+  const collectVisitFromSliders = ()=>{
     const v = loadVisit();
+    return { vasNow: v.vasNow, vasMax: v.vasMax };
+  };
 
-    const setText = (id, val, allowWarning=false)=>{
-      const el = document.getElementById(id);
-      if(!el) return;
-      if(val==null || val==="" || (Array.isArray(val) && val.length===0)){
-        el.innerHTML = allowWarning
-          ? '<span class="summary-warning">⚠ 未填</span>'
-          : '<span class="summary-empty">⚠ 未填</span>';
-      } else {
-        el.textContent = val;
-      }
+  const resetClientUI = ()=>{
+    const r = pages.client();
+    $$("input[type=text],input[type=number],textarea", r).forEach(el=>el.value="");
+    $$(".pill-toggle.active", r).forEach(el=>el.classList.remove("active"));
+    $$(".chip.selected", r).forEach(el=>el.classList.remove("selected"));
+    if($("#pain-now")) { $("#pain-now").value="0"; $("#pain-now-value") && ($("#pain-now-value").textContent="0"); }
+    if($("#pain-max")) { $("#pain-max").value="0"; $("#pain-max-value") && ($("#pain-max-value").textContent="0"); }
+  };
+
+  const resetTherapistUI = ()=>{
+    const r = pages.therapist();
+    $$("input[type=text],input[type=number],textarea", r).forEach(el=>el.value="");
+    $$(".chip.selected", r).forEach(el=>el.classList.remove("selected"));
+  };
+
+  const renderClientUI = (d)=>{
+    d=d||{};
+    resetClientUI();
+    
+    const r = pages.client();
+
+    $$("[data-field]", r).forEach(el=>{
+      if(el.tagName==="INPUT" && el.type==="range") return;
+      const k = el.name || el.id; if(!k) return;
+      el.value = (d[k]==null ? "" : String(d[k]));
+    });
+
+    $$(".pill-toggle-group[data-field]", r).forEach(g=>{
+      const k = g.getAttribute("data-field");
+      const v = d[k];
+      $$(".pill-toggle", g).forEach(b=>b.classList.toggle("active", b.getAttribute("data-value")===v));
+    });
+
+    $$(".chips[data-field]", r).forEach(w=>{
+      const k = w.getAttribute("data-field");
+      const set = new Set(d[k]||[]);
+      $$(".chip", w).forEach(c=>c.classList.toggle("selected", set.has(c.getAttribute("data-value"))));
+    });
+
+    const visit = loadVisit();
+    if($("#pain-now")) { $("#pain-now").value = String(visit.vasNow ?? 0); $("#pain-now-value") && ($("#pain-now-value").textContent = String(visit.vasNow ?? 0)); }
+    if($("#pain-max")) { $("#pain-max").value = String(visit.vasMax ?? 0); $("#pain-max-value") && ($("#pain-max-value").textContent = String(visit.vasMax ?? 0)); }
+  };
+
+  const renderTherapistUI = (d)=>{
+    d=d||{};
+    resetTherapistUI();
+    const r = pages.therapist();
+    $$("[data-field-pt]", r).forEach(el=>{
+      const k = el.getAttribute("data-field-pt"); if(!k) return;
+      el.value = (d[k]==null ? "" : String(d[k]));
+    });
+    $$(".chips[data-field-pt]", r).forEach(w=>{
+      const k = w.getAttribute("data-field-pt");
+      const set = new Set(d[k]||[]);
+      $$(".chip", w).forEach(c=>c.classList.toggle("selected", set.has(c.getAttribute("data-value"))));
+    });
+  };
+
+  const renderSummary = ()=>{
+    const c = loadClient();
+    const visit = loadVisit();
+
+    $("#s-name").innerHTML = c.name?.trim()?c.name:"<span class='warn'>⚠ 未填</span>";
+    const age = Number.isFinite(c.age)?c.age:null;
+    $("#s-age-gender").innerHTML = `${warn(age)} / ${warn(c.gender)}`;
+
+    const life=$("#s-lifestyle"); life.innerHTML="";
+    const job=(c.job||"").trim();
+    if(job){const s=document.createElement("span");s.className="pill-ghost";s.textContent=job;life.appendChild(s)}
+    (c.lifestyle||[]).forEach(v=>{const s=document.createElement("span");s.className="pill-ghost";s.textContent=v;life.appendChild(s)});
+    if(!job && (c.lifestyle||[]).length===0) life.innerHTML="<span class='warn'>⚠ 未填</span>";
+
+    $("#s-main").innerHTML = c.mainComplaint?.trim()?c.mainComplaint:"<span class='warn'>⚠ 未填</span>";
+
+    const pain=$("#s-pain-tags"); pain.innerHTML="";
+    (c.painTypes||[]).forEach(v=>{const s=document.createElement("span");s.className="pill-ghost";s.textContent=v;pain.appendChild(s)});
+    if((c.painTypes||[]).length===0) pain.innerHTML="<span class='warn'>⚠ 未填</span>";
+
+    const nowv = visit.vasNow;
+    const maxv = visit.vasMax;
+    $("#s-pain-scale").innerHTML = (nowv==null && maxv==null)
+      ? "<span class='warn'>⚠ 未填</span>"
+      : `${nowv ?? "—"} / ${maxv ?? "—"}`;
+  };
+
+  const switchTab = (key)=>{
+    $$(".tab-btn").forEach(b=>{
+      b.classList.toggle("active", b.getAttribute("data-target")===`page-${key}`);
+    });
+    Object.keys(pages).forEach(k=>{
+      pages[k]()?.classList.toggle("active", k===key);
+    });
+    if(key==="cases") renderCaseList();
+    if(key==="therapist") { renderSummary(); requestAnimationFrame(()=>{ try{ renderVasChart(); }catch(e){} }); }
+  };
+  window.switchTab = switchTab;
+
+  const openCase = (caseId)=>{
+    const lib = loadLib();
+    const item = ensureCaseShape(lib[caseId]);
+    if(!item) return;
+
+    setCurrentCaseId(caseId);
+
+    const idx = Math.max(0, (item.records?.length||1) - 1);
+    setCurrentRecordIndex(idx);
+
+    saveClient(item.client||{});
+    const visit = item.records[idx]?.visit || { vasNow:null, vasMax:null };
+    saveVisit({ vasNow: visit.vasNow ?? null, vasMax: visit.vasMax ?? null });
+
+    saveTherapist(item.records[idx]?.therapist||{});
+
+    renderClientUI(loadClient());
+    renderTherapistUI(loadTherapist());
+    renderTimeline(item);
+    switchTab("client");
+  };
+
+  const createNewCaseFromCurrent = ()=>{
+    const c = collectClient();
+    if(!c.name){ alert("請填寫姓名"); return null; }
+
+    const id = `case_${now()}_${(c.name||"case").replace(/\s+/g,"_")}`;
+    const item = {
+      client: c,
+      records: [{
+        therapist: collectTherapist(),
+        visit: collectVisitFromSliders(),
+        status: "draft",
+        createdAt: now(),
+        updatedAt: now()
+      }]
     };
 
-    const ageGenderParts = [];
-    if(c.age) ageGenderParts.push(`${c.age} 歲`);
-    if(c.gender) ageGenderParts.push(c.gender);
-    const ageGender = ageGenderParts.join("／");
+    const lib = loadLib();
+    lib[id] = item;
+    saveLib(lib);
+    setCurrentCaseId(id);
+    setCurrentRecordIndex(0);
+    return { id, item };
+  };
 
-    setText("s-name", c.name || "", true);
-    setText("s-age-gender", ageGender || "", true);
-    setText("s-handedness", c.handedness||"", true);
-    setText("s-lifestyle", (c.lifestyle||[]).join("、") || "", true);
-
-    const painArea = (c.painArea||[]).join("、");
-    const mainC    = c.mainComplaint || "";
-    const mainStr  = [painArea, mainC].filter(Boolean).join("／");
-    setText("s-main-complaint", mainStr || "", true);
-
-    setText("s-pain-quality", (c.painQuality||[]).join("、") || "", true);
-
-    const agr = c.aggravating || "";
-    const rel = c.relieving || "";
-    const agrRel = [agr, rel].filter(Boolean).join("／");
-    setText("s-aggravating-relieving", agrRel || "", true);
-
-    if(v && v.vasNow!=null && v.vasMax!=null){
-      setText("s-vas", `目前 ${v.vasNow} 分，最痛 ${v.vasMax} 分`, true);
-    } else if(v && v.vasNow!=null){
-      setText("s-vas", `目前 ${v.vasNow} 分`, true);
-    } else if(v && v.vasMax!=null){
-      setText("s-vas", `最痛 ${v.vasMax} 分`, true);
-    } else {
-      setText("s-vas", "", true);
+  const upsertCurrentCaseAndRecord = ({markDone=false}={})=>{
+    const visit = loadVisit();
+    if(visit.vasNow == null){
+      alert("請個案先填寫「目前疼痛程度（VAS）」");
+      switchTab("client");
+      return null;
     }
-
-    const job = c.job || "";
-    const sportFreq = c.sportFreq || "";
-    const sportDetail = c.sportDetail || "";
-    const jobSportParts = [job, sportFreq, sportDetail].filter(Boolean);
-    setText("s-job-sport", jobSportParts.join("／") || "", true);
-
-    setText("s-sleep", c.sleep || "", true);
-
-    const ptArr = (c.pastTreatment||[]);
-    const history = c.history || "";
-    const histParts = [];
-    if(ptArr.length) histParts.push(`曾接受：${ptArr.join("、")}`);
-    if(history) histParts.push(history);
-    setText("s-history", histParts.join("；") || "", true);
-
-    renderVasChart();
-  }
-
-  function renderVasChart() {
-
-    const wrap = document.getElementById("vas-chart-wrap");
-    const cvs  = document.getElementById("vas-chart");
-    if (!wrap || !cvs) return;
-
-    const ctx = cvs.getContext("2d");
-    if (!ctx) return;
+    if(visit.vasMax == null){
+      alert("請個案先填寫「最痛時疼痛程度（VAS）」");
+      switchTab("client");
+      return null;
+    }
 
     const caseId = getCurrentCaseId();
-    if (!caseId) {
-      wrap.style.display = "none";
+    const lib = loadLib();
+
+    if(!caseId || !lib[caseId]){
+      const created = createNewCaseFromCurrent();
+      if(!created) return null;
+      if(markDone){
+        created.item.records[0].status="done";
+        created.item.records[0].updatedAt=now();
+        lib[created.id]=created.item;
+        saveLib(lib);
+      }
+      return { caseId: created.id, item: created.item, recordIndex: 0 };
+    }
+
+    const item = ensureCaseShape(lib[caseId]);
+    item.client = collectClient();
+
+    const idx = getCurrentRecordIndex();
+    const safeIdx = Math.min(Math.max(0, idx), (item.records.length-1));
+    setCurrentRecordIndex(safeIdx);
+
+    item.records[safeIdx] = item.records[safeIdx] || { therapist:{}, visit:{}, status:"draft", createdAt:now(), updatedAt:now() };
+    item.records[safeIdx].therapist = collectTherapist();
+    item.records[safeIdx].visit = collectVisitFromSliders();
+    item.records[safeIdx].updatedAt = now();
+    if(markDone) item.records[safeIdx].status = "done";
+
+    lib[caseId] = item;
+    saveLib(lib);
+
+    return { caseId, item, recordIndex: safeIdx };
+  };
+
+  const addNewRecordForCurrentCase = ()=>{
+    const caseId = getCurrentCaseId();
+    if(!caseId){
+      alert("請先從「個案管理」選擇一位個案，再新增回診紀錄。");
+      switchTab("cases");
       return;
     }
     const lib = loadLib();
     const item = ensureCaseShape(lib[caseId]);
-    if (!item || !item.records || !item.records.length) {
-      wrap.style.display = "none";
-      return;
-    }
+    if(!item) return;
 
-    const N = item.records.length;
-    const points = item.records
-      .map((r, i) => ({
-        idx: i + 1,
-        vasNow: (r.visit && r.visit.vasNow != null) ? Number(r.visit.vasNow) : null,
-        vasMax: (r.visit && r.visit.vasMax != null) ? Number(r.visit.vasMax) : null,
-      }))
-      .filter(p => p.vasNow != null || p.vasMax != null);
-
-    if (points.length < 1) {
-      wrap.style.display = "none";
-      return;
-    }
-    wrap.style.display = "block";
-
-    const W = cvs.width = (cvs.clientWidth || (cvs.parentElement ? cvs.parentElement.clientWidth : 0) || 320);
-    const H = cvs.height || 180;
-    ctx.clearRect(0, 0, W, H);
-
-    const padL=36, padR=14, padT=14, padB=60;
-    const plotW = W - padL - padR;
-    const plotH = H - padT - padB;
-    if(plotW<=0 || plotH<=0) return;
-
-    ctx.strokeStyle="#94a3b8";
-    ctx.lineWidth=1;
-    ctx.beginPath();
-    ctx.moveTo(padL,padT);
-    ctx.lineTo(padL,H-padB);
-    ctx.lineTo(W-padR,H-padB);
-    ctx.stroke();
-
-    ctx.fillStyle="#475569";
-    ctx.font="12px sans-serif";
-
-    [0,5,10].forEach(v=>{
-      const y = (H-padB) - plotH*(v/10);
-      ctx.beginPath(); ctx.moveTo(padL-4,y); ctx.lineTo(padL,y); ctx.stroke();
-      ctx.fillText(String(v), 8, y+4);
+    const last = item.records[item.records.length-1] || { therapist:{} };
+    item.records.push({
+      therapist: { ...(last.therapist||{}) },
+      visit: { vasNow:null, vasMax:null },
+      status: "draft",
+      createdAt: now(),
+      updatedAt: now()
     });
 
-    let step=1;
-    if(N>20) step=5;
-    else if(N>10) step=2;
+    lib[caseId]=item;
+    saveLib(lib);
 
-    for(let i=1;i<=N;i+=step){
-      const x = padL + plotW*((i-1)/(Math.max(1,N-1)));
-      ctx.beginPath(); ctx.moveTo(x,H-padB); ctx.lineTo(x,H-padB+4); ctx.stroke();
-      ctx.fillText(String(i), x-3, H-padB+16);
-    }
-    if(N>1 && ((N-1) % step) !== 0){
-      const x = padL + plotW;
-      ctx.beginPath(); ctx.moveTo(x,H-padB); ctx.lineTo(x,H-padB+4); ctx.stroke();
-      ctx.fillText(String(N), x-3, H-padB+16);
-    }
-
-    const legendY = H - padB + 33;
-    ctx.font="13px sans-serif";
-
-    ctx.fillStyle="#2563eb";
-    ctx.fillText("目前疼痛（藍）", padL, legendY);
-
-    ctx.fillStyle="#dc2626";
-    ctx.fillText("最大疼痛（紅）", padL, legendY + 20);
-
-    ctx.strokeStyle="#2563eb";
-    ctx.lineWidth=2;
-    ctx.beginPath();
-    let firstNow = true;
-    points.forEach((p)=>{
-      if(p.vasNow==null) return;
-      const x = padL + plotW*((p.idx-1)/(Math.max(1,N-1)));
-      const y = (H-padB) - plotH*(p.vasNow/10);
-      if (firstNow) { ctx.moveTo(x,y); firstNow=false; }
-      else ctx.lineTo(x,y);
-    });
-    if (!firstNow) ctx.stroke();
-
-    ctx.strokeStyle="#dc2626";
-    ctx.lineWidth=2;
-    ctx.beginPath();
-    let firstMax = true;
-    points.forEach((p)=>{
-      if(p.vasMax==null) return;
-      const x = padL + plotW*((p.idx-1)/(Math.max(1,N-1)));
-      const y = (H-padB) - plotH*(p.vasMax/10);
-      if (firstMax) { ctx.moveTo(x,y); firstMax=false; }
-      else ctx.lineTo(x,y);
-    });
-    if (!firstMax) ctx.stroke();
-
-    ctx.fillStyle="#2563eb";
-    points.forEach(p=>{
-      if(p.vasNow==null) return;
-      const x = padL + plotW*((p.idx-1)/(Math.max(1,N-1)));
-      const y = (H-padB) - plotH*(p.vasNow/10);
-      ctx.beginPath(); ctx.arc(x,y,4,0,Math.PI*2); ctx.fill();
-    });
-
-    ctx.fillStyle="#dc2626";
-    points.forEach(p=>{
-      if(p.vasMax==null) return;
-      const x = padL + plotW*((p.idx-1)/(Math.max(1,N-1)));
-      const y = (H-padB) - plotH*(p.vasMax/10);
-      ctx.beginPath(); ctx.arc(x,y,4,0,Math.PI*2); ctx.fill();
-    });
-  }
-
-  function switchTab(targetId){
-    document.querySelectorAll(".tab-btn").forEach(btn=>{
-      const t = btn.getAttribute("data-target");
-      if(t===targetId){
-        btn.classList.add("active");
-      } else {
-        btn.classList.remove("active");
-      }
-    });
-
-    document.querySelectorAll("main > section").forEach(sec=>{
-      if(sec.id === targetId){
-        sec.classList.remove("hidden");
-      } else {
-        sec.classList.add("hidden");
-      }
-    });
-
-    if(targetId==="page-therapist"){
-      renderSummary();
-    }
-    if(targetId==="page-cases"){
-      renderCaseList();
-    }
-  }
-
-  function renderCaseList(){
-    const listEl = document.getElementById("case-list");
-    const countLabel = document.getElementById("case-count-label");
-    const searchInput = document.getElementById("case-search");
-    if(!listEl || !countLabel) return;
-
-    const q = (searchInput?.value || "").trim().toLowerCase();
-
-    const lib = loadLib();
-    const entries = Object.entries(lib);
-
-    entries.sort((a,b)=>{
-      const ai = ensureCaseShape(a[1]);
-      const bi = ensureCaseShape(b[1]);
-      const at = ai.lastUpdated || 0;
-      const bt = bi.lastUpdated || 0;
-      return bt - at;
-    });
-
-    const filtered = entries.filter(([id,item])=>{
-      const c = ensureCaseShape(item).client || {};
-      const name = (c.name||"").toLowerCase();
-      const main = (c.mainComplaint||"").toLowerCase();
-      if(!q) return true;
-      return name.includes(q) || main.includes(q);
-    });
-
-    countLabel.textContent = `共 ${filtered.length} 筆個案`;
-
-    const header = listEl.querySelector(".case-list-header");
-    listEl.innerHTML = "";
-    if(header) listEl.appendChild(header);
-
-    if(filtered.length===0){
-      const empty = document.createElement("div");
-      empty.className = "case-list-empty";
-      empty.textContent = "尚未建立任何個案紀錄。";
-      listEl.appendChild(empty);
-      return;
-    }
-
-    filtered.forEach(([id,item])=>{
-      const data = ensureCaseShape(item);
-      const c = data.client || {};
-      const records = data.records||[];
-      const visitCount = records.length || 1;
-      const firstVisit = records[0] || {};
-      const firstVisitData = firstVisit.visit || {};
-      const mainText = (c.mainComplaint||"").trim() || "（未填主訴）";
-      const vasNow = (firstVisitData.vasNow!=null)? Number(firstVisitData.vasNow) : null;
-      const vasMax = (firstVisitData.vasMax!=null)? Number(firstVisitData.vasMax) : null;
-      let vasText = "VAS：未填";
-      if(vasNow!=null && vasMax!=null) vasText = `VAS：${vasNow}/${vasMax}`;
-      else if(vasNow!=null) vasText = `VAS：${vasNow}`;
-      else if(vasMax!=null) vasText = `VAS：-${vasMax}`;
-
-      const row = document.createElement("div");
-      row.className = "case-list-item";
-      row.dataset.caseId = id;
-
-      const nameAge = document.createElement("div");
-      nameAge.className = "case-name";
-      const agePart = c.age ? `｜${c.age}歲` : "";
-      nameAge.textContent = (c.name || "未命名個案") + agePart;
-
-      const mainVas = document.createElement("div");
-      mainVas.className = "case-main";
-      mainVas.textContent = `${mainText} ｜ ${vasText}`;
-
-      const visitInfo = document.createElement("div");
-      visitInfo.className = "case-visit";
-      visitInfo.innerHTML = `第 <strong>${visitCount}</strong> 次治療 &nbsp;`;
-
-      const delBtn = document.createElement("button");
-      delBtn.type = "button";
-      delBtn.className = "btn-danger";
-      delBtn.textContent = "刪除";
-
-      row.appendChild(nameAge);
-      row.appendChild(mainVas);
-      const visitWrap = document.createElement("div");
-      visitWrap.style.display = "flex";
-      visitWrap.style.alignItems = "center";
-      visitWrap.style.justifyContent = "flex-end";
-      visitWrap.style.gap = "6px";
-      visitWrap.appendChild(visitInfo);
-      visitWrap.appendChild(delBtn);
-      row.appendChild(visitWrap);
-
-      row.addEventListener("click",(e)=>{
-        if(e.target === delBtn) return;
-        loadCaseIntoUI(id);
-        switchTab("page-client");
-      });
-
-      delBtn.addEventListener("click",(e)=>{
-        e.stopPropagation();
-        if(!confirm("確定要刪除此個案？刪除後無法復原。")) return;
-        const lib2 = loadLib();
-        delete lib2[id];
-        saveLib(lib2);
-        if(getCurrentCaseId()===id){
-          setCurrentCaseId(null);
-          setCurrentRecordIndex(null);
-          saveClient({});
-          saveTherapist({});
-          resetVisit();
-          applyClientToUI({});
-          applyTherapistToUI({});
-          applyVisitToUI({ vasNow:null, vasMax:null });
-          renderSummary();
-        }
-        renderCaseList();
-      });
-
-      listEl.appendChild(row);
-    });
-  }
-
-  function loadCaseIntoUI(id){
-    const lib = loadLib();
-    const item = ensureCaseShape(lib[id]);
-    setCurrentCaseId(id);
-
-    const c = item.client || {};
-    applyClientToUI(c);
-
-    const idx = (item.records && item.records.length>0) ? item.records.length-1 : 0;
+    const idx = item.records.length-1;
     setCurrentRecordIndex(idx);
 
-    const rec = item.records[idx] || {};
-    const t = rec.therapist || {};
-    const v = rec.visit || { vasNow:null, vasMax:null };
+    resetVisit();
+    saveTherapist(item.records[idx].therapist||{});
+    renderClientUI(loadClient());
+    renderTherapistUI(loadTherapist());
+    renderTimeline(item);
+    renderVasChart();
+    switchTab("client");
+    alert("已建立新回診紀錄，請個案重新填寫 VAS。");
+  };
 
-    applyTherapistToUI(t);
-    saveTherapist(t);
+  
+  
+function clearVasChart(){
+  const cvs=document.getElementById("vas-chart");
+  if(!cvs) return;
+  const ctx=cvs.getContext("2d");
+  ctx.clearRect(0,0,cvs.width,cvs.height);
+}
 
-    saveVisit(v);
-    applyVisitToUI(v);
+function renderVasChart() {
 
-    saveClient(c);
-    renderSummary();
-  }
+  const cvs = document.getElementById("vas-chart");
+  if (!cvs) return;
 
-  function exportCasesToFile(){
-    const lib = loadLib();
-    const blob = new Blob([JSON.stringify(lib,null,2)],{ type:"application/json" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "physionotes_cases.json";
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-  }
+  const ctx = cvs.getContext("2d");
 
-  function importCasesFromFile(file){
-    if(!file) return;
-    const reader = new FileReader();
-    reader.onload = (e)=>{
-      try{
-        const text = e.target.result;
-        const json = JSON.parse(text);
-        if(typeof json!=="object" || Array.isArray(json)) throw new Error("not object");
-        saveLib(json);
-        alert("匯入完成！");
-        renderCaseList();
-      }catch(err){
-        console.error(err);
-        alert("匯入失敗：非合法JSON");
-      }
-      const inp = document.getElementById("importFile");
-      if(inp) inp.value = "";
-    };
-    reader.readAsText(file);
-  }
+  // ===== width & height real size =====
+  const W = cvs.width = (cvs.clientWidth || (cvs.parentElement ? cvs.parentElement.clientWidth : 0) || 320);
 
-  function bind(){
-    document.querySelectorAll(".tab-btn").forEach(btn=>{
-      btn.addEventListener("click",()=>{
-        const target = btn.getAttribute("data-target");
-        if(target) switchTab(target);
-      });
-    });
+  const H = cvs.height || 180;  // canvas 真正繪製高度
+  ctx.clearRect(0, 0, W, H);
 
-    document.querySelectorAll(".chip-row").forEach(row=>{
-      const isMulti = row.dataset.group === "lifestyle"
-        || row.dataset.group === "pain-area"
-        || row.dataset.group === "pain-quality"
-        || row.dataset.group === "past-treatment";
+  const caseId = getCurrentCaseId();
+  if (!caseId) return;
 
-      row.addEventListener("click",(e)=>{
-        const chip = e.target.closest(".chip");
-        if(!chip) return;
-        if(isMulti){
-          chip.classList.toggle("active");
-        } else {
-          row.querySelectorAll(".chip").forEach(c=>c.classList.remove("active"));
-          chip.classList.add("active");
-        }
-        const c = buildClientFromUI();
-        saveClient(c);
-        renderSummary();
-      });
-    });
+  const lib = loadLib();
+  const item = ensureCaseShape(lib[caseId]);
+  if (!item || !item.records) return;
 
-    ["c-name","c-age","c-main-complaint","c-aggravating","c-relieving",
-     "c-job","c-sport-detail","c-history","c-note"].forEach(id=>{
-      const el = document.getElementById(id);
-      if(el){
-        el.addEventListener("input",()=>{
-          const c = buildClientFromUI();
-          saveClient(c);
-          renderSummary();
-        });
-      }
-    });
+  const N = item.records.length;
 
-    ["vas-now","vas-max"].forEach(id=>{
-      const slider = document.getElementById(id);
-      const label  = document.getElementById(id+"-value");
-      if(slider && label){
-        slider.addEventListener("input",()=>{
-          label.textContent = slider.value;
-        });
-        slider.addEventListener("change",()=>{
-          const visit = buildVisitFromUI();
-          saveVisit(visit);
-          const curId = getCurrentCaseId();
-          const lib = loadLib();
-          let item;
-          if(curId && lib[curId]){
-            item = ensureCaseShape(lib[curId]);
-          } else {
-            const newId = "case_"+Date.now();
-            setCurrentCaseId(newId);
-            item = ensureCaseShape({ client: loadClient(), records: [] });
-          }
+  // === extract: visit index + vas now + vas max ===
+  const points = item.records
+    .map((r, i) => ({
+      idx: i + 1,
+      vasNow: (r.visit && r.visit.vasNow != null) ? Number(r.visit.vasNow) : null,
+      vasMax: (r.visit && r.visit.vasMax != null) ? Number(r.visit.vasMax) : null,
+    }))
+    .filter(p => p.vasNow != null || p.vasMax != null);
 
-          let idx = getCurrentRecordIndex();
-          if(idx==null || idx<0){
-            idx = item.records.length>0 ? item.records.length-1 : 0;
-            setCurrentRecordIndex(idx);
-          }
-          if(!item.records[idx]) item.records[idx] = { therapist:{}, visit:{} };
-          item.records[idx].visit = visit;
-          item.lastUpdated = Date.now();
-          lib[getCurrentCaseId()] = item;
-          saveLib(lib);
+  if (points.length < 1) return;
 
-          const v = buildVisitFromUI();
-          saveVisit(v);
-          applyVisitToUI(v);
-          renderSummary();
-        });
-      }
-    });
+  // --- 下面這段開始才進入你的繪製 ---
 
-    const btnClear = document.getElementById("btn-clear-client");
-    if(btnClear){
-      btnClear.addEventListener("click",()=>{
-        if(!confirm("確定要清除目前個案填寫資料與暫存VAS嗎？")) return;
-        saveClient({});
-        resetVisit();
-        setCurrentCaseId(null);
-        setCurrentRecordIndex(null);
-        applyClientToUI({});
-        applyVisitToUI({ vasNow:null, vasMax:null });
-        renderSummary();
-      });
-    }
+  const padL=36, padR=14, padT=14, padB=60;
+  const plotW = W - padL - padR;
+  const plotH = H - padT - padB;
+  if(plotW<=0 || plotH<=0) return;
 
-    const btnToPT = document.getElementById("btn-to-therapist");
-    if(btnToPT){
-      btnToPT.addEventListener("click",()=>{
-        const c = buildClientFromUI();
-        saveClient(c);
-        renderSummary();
-        switchTab("page-therapist");
-      });
-    }
+  // Axes: Y (VAS) left, X (visit #) bottom
+  ctx.strokeStyle="#94a3b8";
+  ctx.lineWidth=1;
+  ctx.beginPath();
+  ctx.moveTo(padL,padT);
+  ctx.lineTo(padL,H-padB);
+  ctx.lineTo(W-padR,H-padB);
+  ctx.stroke();
 
-    const btnComplete = document.getElementById("btn-complete-visit");
-    if(btnComplete){
-      btnComplete.addEventListener("click",()=>{
-        const client  = buildClientFromUI();
-        const therapist = buildTherapistFromUI();
-        const visit   = buildVisitFromUI();
+  ctx.fillStyle="#475569";
+  ctx.font="12px sans-serif";
 
-        saveClient(client);
-        saveTherapist(therapist);
-        saveVisit(visit);
-
-        const lib = loadLib();
-        let caseId = getCurrentCaseId();
-        if(!caseId){
-          caseId = "case_"+Date.now();
-          setCurrentCaseId(caseId);
-        }
-        const item = ensureCaseShape(lib[caseId]);
-
-        let idx = getCurrentRecordIndex();
-        if(idx==null || idx<0 || idx>=item.records.length){
-          idx = item.records.length;
-          setCurrentRecordIndex(idx);
-        }
-
-        item.client = client;
-        item.records[idx] = {
-          therapist,
-          visit
-        };
-        item.lastUpdated = Date.now();
-        lib[caseId] = item;
-        saveLib(lib);
-
-        const f = document.getElementById("case-count-label");
-        renderSummary();
-        alert("本次治療紀錄已完成並寫入個案資料庫。");
-        renderCaseList();
-      });
-    }
-
-    const btnExport = document.getElementById("btn-export-json");
-    if(btnExport){
-      btnExport.addEventListener("click",exportCasesToFile);
-    }
-
-    const btnImport = document.getElementById("btn-import-json");
-    const fileInput = document.getElementById("importFile");
-    if(btnImport && fileInput){
-      btnImport.addEventListener("click",()=>{
-        fileInput.click();
-      });
-      fileInput.addEventListener("change",()=>{
-        if(fileInput.files && fileInput.files[0]){
-          importCasesFromFile(fileInput.files[0]);
-        }
-      });
-    }
-
-    const caseSearch = document.getElementById("case-search");
-    if(caseSearch){
-      caseSearch.addEventListener("input",renderCaseList);
-    }
-  }
-
-  document.addEventListener("DOMContentLoaded", () => {
-    bind();
-
-    const client = loadClient();
-    applyClientToUI(client);
-    const visit = loadVisit();
-    applyVisitToUI(visit);
-    renderSummary();
-
-    const loginBtn   = document.getElementById("btn-login");
-    const pwInput    = document.getElementById("login-password");
-    const emailInput = document.getElementById("login-email");
-
-    if (loginBtn && pwInput) {
-      loginBtn.addEventListener("click", async () => {
-        const pw    = pwInput.value.trim();
-        const email = emailInput ? emailInput.value.trim() : "";
-
-        if (!email || !pw) {
-          alert("請輸入帳號與密碼");
-          return;
-        }
-        if (!supabaseClient) {
-          alert("登入系統尚未設定 Supabase，請稍後再試或聯絡管理者。");
-          return;
-        }
-        try {
-          const { data, error } = await supabaseClient.auth.signInWithPassword({
-            email,
-            password: pw
-          });
-          if (error) {
-            console.error("Supabase login error", error);
-            alert("登入失敗：" + (error.message || "請確認帳號密碼"));
-            return;
-          }
-          setLoggedIn(true);
-          applyAuthUI();
-          pwInput.value = "";
-          if (emailInput) emailInput.value = "";
-        } catch (err) {
-          console.error("login error", err);
-          alert("登入時發生錯誤，請稍後再試");
-        }
-      });
-
-      pwInput.addEventListener("keydown", (e) => {
-        if (e.key === "Enter") loginBtn.click();
-      });
-      if (emailInput) {
-        emailInput.addEventListener("keydown", (e) => {
-          if (e.key === "Enter") loginBtn.click();
-        });
-      }
-    }
-
-    const logoutBtn = document.getElementById("btn-logout");
-    if (logoutBtn) {
-      logoutBtn.addEventListener("click", () => {
-        if (!confirm("確定要登出嗎？")) return;
-        setLoggedIn(false);
-        applyAuthUI();
-      });
-    }
-
-    applyAuthUI();
+  // Y ticks: VAS 0/5/10 (bottom->top)
+  [0,5,10].forEach(v=>{
+    const y = (H-padB) - plotH*(v/10);
+    ctx.beginPath(); ctx.moveTo(padL-4,y); ctx.lineTo(padL,y); ctx.stroke();
+    ctx.fillText(String(v), 8, y+4);
   });
 
+  // X ticks: visit index 1..N (left->right)
+  let step=1;
+  if(N>20) step=5;
+  else if(N>10) step=2;
+
+  for(let i=1;i<=N;i+=step){
+    const x = padL + plotW*((i-1)/(Math.max(1,N-1)));
+    ctx.beginPath(); ctx.moveTo(x,H-padB); ctx.lineTo(x,H-padB+4); ctx.stroke();
+    ctx.fillText(String(i), x-3, H-padB+16);
+  }
+  if(N>1 && ((N-1) % step) !== 0){
+    const x = padL + plotW;
+    ctx.beginPath(); ctx.moveTo(x,H-padB); ctx.lineTo(x,H-padB+4); ctx.stroke();
+    ctx.fillText(String(N), x-3, H-padB+16);
+  }
+  
+  // ---- 圖例 ----
+  const legendY = H - padB + 33; // 在 X軸下方一點高度
+  
+  ctx.font="13px sans-serif";
+  
+  // 第一列：藍
+  ctx.fillStyle="#2563eb";
+  ctx.fillText("目前疼痛（藍）", padL, legendY);
+  
+  // 第二列：紅
+  ctx.fillStyle="#dc2626";
+  ctx.fillText("最大疼痛（紅）", padL, legendY + 20);
+
+  // ---- 畫目前疼痛線 (藍) ----
+  ctx.strokeStyle="#2563eb";
+  ctx.lineWidth=2;
+  ctx.beginPath();
+  points.forEach((p,i)=>{
+    if(p.vasNow==null) return;
+    const x = padL + plotW*((p.idx-1)/(Math.max(1,N-1)));
+    const y = (H-padB) - plotH*(p.vasNow/10);
+    i ? ctx.lineTo(x,y) : ctx.moveTo(x,y);
+  });
+  ctx.stroke();
+  
+  // ---- 畫最大疼痛 (紅) ----
+  ctx.strokeStyle="#dc2626";
+  ctx.lineWidth=2;
+  ctx.beginPath();
+  points.forEach((p,i)=>{
+    if(p.vasMax==null) return;
+    const x = padL + plotW*((p.idx-1)/(Math.max(1,N-1)));
+    const y = (H-padB) - plotH*(p.vasMax/10);
+    i ? ctx.lineTo(x,y) : ctx.moveTo(x,y);
+  });
+  ctx.stroke();
+
+  // ---- dots: VAS 目前疼痛 (藍點) ----
+  ctx.fillStyle="#2563eb";
+  points.forEach(p=>{
+    if(p.vasNow==null) return;
+    const x = padL + plotW*((p.idx-1)/(Math.max(1,N-1)));
+    const y = (H-padB) - plotH*(p.vasNow/10);
+    ctx.beginPath(); ctx.arc(x,y,4,0,Math.PI*2); ctx.fill();
+  });
+  
+  // ---- dots: VAS 最大疼痛 (紅點) ----
+  ctx.fillStyle="#dc2626";
+  points.forEach(p=>{
+    if(p.vasMax==null) return;
+    const x = padL + plotW*((p.idx-1)/(Math.max(1,N-1)));
+    const y = (H-padB) - plotH*(p.vasMax/10);
+    ctx.beginPath(); ctx.arc(x,y,4,0,Math.PI*2); ctx.fill();
+  });
+
+}
+
+    
+  const renderTimeline = (item)=>{
+    const wrap = $("#pt-timeline");
+    if(!wrap) return;
+    wrap.innerHTML = "";
+    const recs = item.records || [];
+    const idx = getCurrentRecordIndex();
+
+    const tl = document.createElement("div");
+    tl.className = "timeline";
+
+    recs.forEach((r,i)=>{
+      const chip = document.createElement("div");
+      chip.className = "t-chip" + (i===idx ? " active" : "");
+      chip.textContent = `第 ${i+1} 次`;
+      chip.onclick = ()=>{
+        setCurrentRecordIndex(i);
+        saveTherapist(r.therapist||{});
+        saveVisit(r.visit||{ vasNow:null, vasMax:null });
+        renderTherapistUI(loadTherapist());
+        renderClientUI(loadClient());
+        renderTimeline(item);
+        renderSummary();
+        renderVasChart();
+      };
+      tl.appendChild(chip);
+    });
+
+    const addBtn = document.createElement("button");
+    addBtn.type="button";
+    addBtn.className="btn btn-outline";
+    addBtn.textContent="+ 新增一次評估";
+    addBtn.onclick = addNewRecordForCurrentCase;
+
+    wrap.appendChild(tl);
+    wrap.appendChild(addBtn);
+  };
+
+  const deleteCase = (caseId)=>{
+    const lib = loadLib();
+    if(!lib[caseId]) return;
+    if(!confirm("確定要刪除此個案？（此動作不可復原）")) return;
+    delete lib[caseId];
+    saveLib(lib);
+
+    if(getCurrentCaseId()===caseId){
+      setCurrentCaseId(null);
+      setCurrentRecordIndex(0);
+    }
+    renderCaseList();
+  };
+
+  const renderCaseList = ()=>{
+    const list = $("#case-list");
+    const cnt  = $("#case-count");
+    const q    = $("#case-search");
+    if(!list || !cnt || !q) return;
+
+    const lib = loadLib();
+    const keys = Object.keys(lib);
+
+    const kw = (q.value||"").trim();
+    const ids = kw ? keys.filter(id=>{
+      const it = ensureCaseShape(lib[id]);
+      const c = it?.client||{};
+      const last = it?.records?.[it.records.length-1] || {};
+      const vas = last.visit?.vasNow;
+      return (c.name||"").includes(kw) || (c.mainComplaint||"").includes(kw) || String(vas ?? "").includes(kw);
+    }) : keys;
+
+    cnt.textContent = `共 ${ids.length} 筆個案`;
+    list.innerHTML = "";
+
+    ids.forEach(id=>{
+      const it = ensureCaseShape(lib[id]);
+      if(!it) return;
+      const c = it.client||{};
+      const last = it.records[it.records.length-1] || {};
+      const vasNow = last.visit?.vasNow;
+
+      const row = document.createElement("div");
+      row.className = "case-row";
+
+      const main = document.createElement("div");
+      main.className = "case-main";
+      const nm = document.createElement("div");
+      nm.className="case-name";
+      const ageText = (c.age==null || c.age==="") ? "?" : c.age;
+      nm.textContent = c.name ? `${c.name} | ${ageText}歲` : "(無姓名)";
+      main.appendChild(nm);
+
+      const mid = document.createElement("div");
+      mid.className="case-mid";
+      mid.textContent = `${c.mainComplaint || "無主訴"} | ${(vasNow==null) ? "VAS: -" : `VAS: ${vasNow}/10`}`;
+
+      const visitBadge = document.createElement("div");
+      visitBadge.className="pill";
+      visitBadge.textContent = `第 ${it.records.length} 次`;
+
+      const actions = document.createElement("div");
+      actions.className="case-actions";
+      const del = document.createElement("button");
+      del.type="button";
+      del.className="btn-icon btn-danger";
+      del.title="刪除";
+      del.innerHTML = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 3h6l1 2h5v2H3V5h5l1-2zm1 7h2v8h-2v-8zm4 0h2v8h-2v-8zM7 10h2v8H7v-8z"/></svg>`;
+      del.onclick = (e)=>{ e.stopPropagation(); deleteCase(id); };
+      actions.appendChild(del);
+
+      row.appendChild(main);
+      row.appendChild(mid);
+      row.appendChild(visitBadge);
+      row.appendChild(actions);
+
+      row.onclick = ()=> openCase(id);
+
+      list.appendChild(row);
+    });
+
+    // normalize back to library
+    const normalized = {};
+    Object.keys(lib).forEach(id=>{
+      normalized[id] = ensureCaseShape(lib[id]) || lib[id];
+    });
+    saveLib(normalized);
+  };
+
+  const bind = ()=>{
+    // tabs
+    $$(".tab-btn").forEach(b=>{
+      b.addEventListener("click", ()=> switchTab((b.getAttribute("data-target")||"page-client").replace("page-","")));
+    });
+
+    // pill toggles
+    document.addEventListener("click", (e)=>{
+      const btn = e.target.closest(".pill-toggle");
+      if(!btn) return;
+      const group = btn.closest(".pill-toggle-group");
+      if(!group) return;
+      $$(".pill-toggle", group).forEach(x=>x.classList.remove("active"));
+      btn.classList.add("active");
+      saveClient(collectClient());
+      renderSummary();
+    });
+
+    // chips multi
+    document.addEventListener("click", (e)=>{
+      const chip = e.target.closest(".chip");
+      if(!chip) return;
+      const wrap = chip.closest(".chips");
+      if(!wrap) return;
+      chip.classList.toggle("selected");
+      if(wrap.hasAttribute("data-field-pt")) saveTherapist(collectTherapist());
+      else saveClient(collectClient());
+      renderSummary();
+    });
+
+    // VAS sliders
+    const pn=$("#pain-now");
+    const pm=$("#pain-max");
+    pn && pn.addEventListener("input", ()=>{
+      $("#pain-now-value") && ($("#pain-now-value").textContent = pn.value);
+      const v = loadVisit();
+      v.vasNow = Number(pn.value);
+      saveVisit(v);
+      renderSummary();
+    });
+    pm && pm.addEventListener("input", ()=>{
+      $("#pain-max-value") && ($("#pain-max-value").textContent = pm.value);
+      const v = loadVisit();
+      v.vasMax = Number(pm.value);
+      saveVisit(v);
+      renderSummary();
+    });
+
+    // clear cache
+    $("#btn-clear") && $("#btn-clear").addEventListener("click", ()=>{
+      if(!confirm("確定要清除暫存？（不會刪除個案庫）")) return;
+      localStorage.removeItem(STORAGE.client);
+      localStorage.removeItem(STORAGE.therapist);
+      localStorage.removeItem(STORAGE.visit);
+      setCurrentCaseId(null);
+      setCurrentRecordIndex(0);
+      resetVisit();
+      renderClientUI({});
+      renderTherapistUI({});
+      renderSummary();
+      renderTimeline({ records: [] });
+      clearVasChart();
+      alert("已清除暫存。");
+    });
+
+    // client -> therapist
+    $("#btn-goto-therapist") && $("#btn-goto-therapist").addEventListener("click", ()=>{
+      // 先把畫面上的內容存進暫存
+      saveClient(collectClient());
+      saveVisit(collectVisitFromSliders());
+      saveTherapist(collectTherapist());
+
+      // 關鍵：這一步會把「目前這次評估」寫回 records[] 裡
+      const res = upsertCurrentCaseAndRecord({ markDone:false });
+      if(!res) {
+        // upsert 內部已經會幫你跳回 client 並 alert 缺少 VAS 的情況
+        return;
+      }
+
+      // 用最新寫回去的 item 來更新 timeline / 圖表
+      const item = res.item;
+
+      renderSummary();
+      renderVasChart();
+      renderTimeline(item);
+
+      // 最後再切換到治療師評估頁
+      switchTab("therapist");
+    });
+
+
+    // therapist -> client
+    $("#btn-back-client") && $("#btn-back-client").addEventListener("click", ()=>{
+      renderClientUI(loadClient());
+      switchTab("client");
+    });
+
+    // 完成本次評估 = 儲存（新案建立 / 舊案更新不新增個案）+ done
+    $("#btn-mark-done") && $("#btn-mark-done").addEventListener("click", ()=>{
+      saveTherapist(collectTherapist());
+      const res = upsertCurrentCaseAndRecord({ markDone:true });
+      if(!res) return;
+
+      renderTimeline(res.item);
+      renderVasChart();
+      renderCaseList();
+      alert("已完成本次評估並儲存至個案管理。");
+      switchTab("cases");
+    });
+
+    // 匯出紀錄 = 更新目前個案 + 下載 JSON（不新增個案）
+    $("#btn-export") && $("#btn-export").addEventListener("click", ()=>{
+      const res = upsertCurrentCaseAndRecord({ markDone:false });
+      if(!res) return;
+
+      const blob = new Blob([JSON.stringify(res.item, null, 2)], { type: "application/json;charset=utf-8" });
+      const a = document.createElement("a");
+      const name = (res.item.client?.name || "case").replace(/\s+/g,"_");
+      const dt = new Date().toISOString().slice(0,10);
+      a.href = URL.createObjectURL(blob);
+      a.download = `${name}_${dt}.json`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(()=>URL.revokeObjectURL(a.href), 2000);
+
+      alert("已更新個案資料並下載 JSON。");
+      renderCaseList();
+    });
+
+    // search
+    $("#case-search") && $("#case-search").addEventListener("input", renderCaseList);
+  };
+
+  document.addEventListener("DOMContentLoaded", ()=>{
+    bind();
+
+    // 初始化：如果 visit 不存在，先設為 null（逼每次都要填 VAS）
+    if(!localStorage.getItem(STORAGE.visit)) resetVisit();
+
+    renderClientUI(loadClient());
+    renderTherapistUI(loadTherapist());
+    renderSummary();
+    renderCaseList();
+    switchTab("client");
+  });
+
+// ========== Supabase Login ==========
+
+async function requireLogin() {
+  const { data, error } = await supabase.auth.getSession();
+  if (!data.session) {
+    document.getElementById("login-overlay").style.display = "flex";
+  } else {
+    document.getElementById("login-overlay").style.display = "none";
+  }
+}
+
+// 使用者點登入
+document.getElementById("btn-login")?.addEventListener("click", async()=>{
+
+  const email = document.getElementById("login-email").value.trim();
+  const pass  = document.getElementById("login-pass").value.trim();
+
+  if(!email || !pass){
+    alert("請輸入 Email 和密碼");
+    return;
+  }
+
+  const { data, error } = await supabase.auth.signInWithPassword({
+    email,
+    password:pass,
+  });
+
+  if(error){
+    alert("登入失敗："+error.message);
+    return;
+  }
+
+  document.getElementById("login-overlay").style.display="none";
+});
+
+
+async function logout(){
+  await supabase.auth.signOut();
+  location.reload();
+}
+
+  
+  // ==== 批量匯出全部個案 ====
+document.getElementById("btn-export-all")?.addEventListener("click", ()=>{
+  const lib = loadLib();          // 所有個案
+  const blob = new Blob(
+    [ JSON.stringify(lib,null,2) ],
+    { type: "application/json;charset=utf-8" }
+  );
+
+  const a = document.createElement("a");
+  const dt = new Date().toISOString().slice(0,10);
+  a.href = URL.createObjectURL(blob);
+  a.download = `cases_list_${dt}.json`;
+  a.click();
+  setTimeout(()=>URL.revokeObjectURL(a.href),2000);
+
+  alert("已匯出個案資料庫");
+});
+
+
+// ==== 批量匯入全部個案 ====
+document.getElementById("btn-import-all")?.addEventListener("click",()=>{
+  document.getElementById("import-file").click();
+});
+
+document.getElementById("import-file")?.addEventListener("change",(e)=>{
+  const f = e.target.files?.[0];
+  if(!f) return;
+
+  const reader = new FileReader();
+  reader.onload = ()=>{
+    try{
+      const obj = JSON.parse(reader.result);
+
+      if(typeof obj !== "object"){
+        alert("格式錯誤，需為 JSON 格式");
+        return;
+      }
+
+      saveLib(obj);        
+      
+      setCurrentCaseId(null);              // ✨ reset 選取的個案
+      setCurrentRecordIndex(0);            // ✨ reset 評估次數
+      resetVisit();                        // ✨ reset VAS 暫存
+      saveClient({});                      // ✨ 清空 client
+      saveTherapist({});                   // ✨ 清空 therapist
+      
+      alert("匯入完成✔ 已更新個案列表");
+
+      renderCaseList();                    // ✨更新 UI
+      renderClientUI({});                  // ✨強制刷新第一頁
+      renderTherapistUI({});               
+      renderSummary();
+
+    }catch(err){
+      console.error(err);
+      alert("匯入失敗：非合法JSON");
+    }
+    document.getElementById("importFile").value = null;
+  };
+  reader.readAsText(f);
+});
+
 })();
-  </script>
+</script>
 </body>
 </html>
