@@ -420,13 +420,24 @@
   </div>
 </div>
 
-<div class="app">
+<div class="app" id="app-root" style="display:none;">
 
     <header>
       <div class="title">
         PhysioNotes
         <span class="badge">網頁版</span>
       </div>
+		<button id="btn-logout"
+		  style="margin-left:auto;
+				 background:#ef4444;
+				 color:white;
+				 border:none;
+				 padding:6px 12px;
+				 border-radius:8px;
+				 display:none;">
+			登出
+		</button>
+
       <div class="tagline-row">
         <div class="subtitle">請先填寫個案問診資料，再進入治療師評估頁。</div>
         <div class="status-text">
@@ -1548,6 +1559,7 @@ function renderVasChart() {
   };
 
   document.addEventListener("DOMContentLoaded", ()=>{
+	await syncAuthUI();
     bind();
 
     // 初始化：如果 visit 不存在，先設為 null（逼每次都要填 VAS）
@@ -1592,14 +1604,32 @@ document.getElementById("btn-login")?.addEventListener("click", async()=>{
     return;
   }
 
-  document.getElementById("login-overlay").style.display="none";
+  await syncAuthUI();
+});
+
+async function syncAuthUI(){
+  const { data } = await supabase.auth.getSession();
+
+  if(data.session){
+    // 登入成功
+    document.getElementById("login-overlay").style.display = "none";
+    document.getElementById("app-root").style.display="block";
+    document.getElementById("btn-logout").style.display="inline-block";
+  } else {
+    // 登出/未登入
+    document.getElementById("app-root").style.display="none";
+    document.getElementById("btn-logout").style.display="none";
+    document.getElementById("login-overlay").style.display="flex";
+  }
+}
+
+
+document.getElementById("btn-logout")?.addEventListener("click", async()=>{
+  await supabase.auth.signOut();
+  await syncAuthUI();
 });
 
 
-async function logout(){
-  await supabase.auth.signOut();
-  location.reload();
-}
 
   
   // ==== 批量匯出全部個案 ====
