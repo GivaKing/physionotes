@@ -380,64 +380,14 @@
     }
 
 </style>
-	<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-	<script>
-	  const SUPABASE_URL = "https://yvacvzulhaaehffbhttt.supabase.co";     // 你自己填
-	  const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inl2YWN2enVsaGFhZWhmZmJodHR0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU4OTg1ODUsImV4cCI6MjA4MTQ3NDU4NX0.6tgcZoxClNCn9y5lft_H1XF2pfQGPb6beehSuQLEMD0";     // 你自己填
-
-	  const supabase = supabase.createClient(
-		SUPABASE_URL,
-		SUPABASE_KEY
-	  );
-	</script>
 </head>
 <body>
-
-<!-- LOGIN MODAL -->
-<div id="login-overlay"
-     style="position:fixed;inset:0;background:rgba(0,0,0,.45);
-            display:flex;align-items:center;justify-content:center;
-            z-index:9999;">
-  <div style="background:white;padding:32px;border-radius:12px;
-              width:320px;box-shadow:0 4px 12px rgba(0,0,0,.2);">
-
-    <h3 style="margin-top:0;text-align:center;">登入 PhysioNotes</h3>
-
-    <input id="login-email" type="email" placeholder="Email"
-           style="width:100%;padding:8px;margin-top:12px;border-radius:8px;
-                  border:1px solid #ddd;font-size:15px;" />
-
-    <input id="login-pass" type="password" placeholder="Password"
-           style="width:100%;padding:8px;margin-top:8px;border-radius:8px;
-                  border:1px solid #ddd;font-size:15px;" />
-
-    <button id="btn-login" 
-            style="margin-top:16px;width:100%;padding:10px;
-                   background:#2563eb;color:#fff;border:none;border-radius:8px;font-size:16px;font-weight:600;">
-      Sign in
-    </button>
-  </div>
-</div>
-
-<div class="app" id="app-root" style="display:none;">
-
+  <div class="app">
     <header>
       <div class="title">
         PhysioNotes
         <span class="badge">網頁版</span>
       </div>
-		<button id="btn-logout"
-		  style="margin-left:auto;
-				 background:#ef4444;
-				 color:white;
-				 border:none;
-				 padding:6px 12px;
-				 border-radius:8px;
-				 display:none;">
-			登出
-		</button>
-
       <div class="tagline-row">
         <div class="subtitle">請先填寫個案問診資料，再進入治療師評估頁。</div>
         <div class="status-text">
@@ -1558,8 +1508,7 @@ function renderVasChart() {
     $("#case-search") && $("#case-search").addEventListener("input", renderCaseList);
   };
 
-  document.addEventListener("DOMContentLoaded", async ()=>{
-	await syncAuthUI();
+  document.addEventListener("DOMContentLoaded", ()=>{
     bind();
 
     // 初始化：如果 visit 不存在，先設為 null（逼每次都要填 VAS）
@@ -1571,67 +1520,6 @@ function renderVasChart() {
     renderCaseList();
     switchTab("client");
   });
-
-// ========== Supabase Login ==========
-
-async function requireLogin() {
-  const { data, error } = await supabase.auth.getUser();
-  if (!data.session) {
-    document.getElementById("login-overlay").style.display = "flex";
-  } else {
-    document.getElementById("login-overlay").style.display = "none";
-  }
-}
-
-// 使用者點登入
-document.getElementById("btn-login")?.addEventListener("click", async()=>{
-
-  const email = document.getElementById("login-email").value.trim();
-  const pass  = document.getElementById("login-pass").value.trim();
-
-  if(!email || !pass){
-    alert("請輸入 Email 和密碼");
-    return;
-  }
-
-  const { data, error } = await supabase.auth.signInWithPassword({
-    email,
-    password:pass,
-  });
-
-  if(error){
-    alert("登入失敗："+error.message);
-    return;
-  }
-
-  await syncAuthUI();
-});
-
-async function syncAuthUI(){
-  const { data } = await supabase.auth.getSession();
-
-  if(data.session){
-    // 登入成功
-    document.getElementById("login-overlay").style.display = "none";
-    document.getElementById("app-root").style.display="block";
-    document.getElementById("btn-logout").style.display="inline-block";
-  } else {
-    // 登出/未登入
-    document.getElementById("app-root").style.display="none";
-    document.getElementById("btn-logout").style.display="none";
-    document.getElementById("login-overlay").style.display="flex";
-  }
-}
-
-
-document.getElementById("btn-logout")?.addEventListener("click", async()=>{
-  await supabase.auth.signOut();
-  await syncAuthUI();
-});
-
-
-
-  
   // ==== 批量匯出全部個案 ====
 document.getElementById("btn-export-all")?.addEventListener("click", ()=>{
   const lib = loadLib();          // 所有個案
