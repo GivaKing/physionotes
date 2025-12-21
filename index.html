@@ -1558,7 +1558,7 @@ function renderVasChart() {
     $("#case-search") && $("#case-search").addEventListener("input", renderCaseList);
   };
 
-  document.addEventListener("DOMContentLoaded", ()=>{
+  document.addEventListener("DOMContentLoaded", async ()=>{
 	await syncAuthUI();
     bind();
 
