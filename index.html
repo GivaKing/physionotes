@@ -909,6 +909,19 @@
     <div id="case-list" 
          style="margin-top:12px;border-radius:12px;border:1px solid #e5e7eb;max-height:60vh;overflow-y:auto;">
     </div>
+
+    <div style="margin-top:14px; display:flex; gap:8px;">
+      <button id="btn-import-all" class="btn btn-outline" style="flex:1;">
+        匯入個案資料庫(請先重新整理)
+      </button>
+      
+      <button id="btn-export-all" class="btn btn-primary" style="flex:1;">
+        匯出個案資料庫
+      </button>
+
+      <input type="file" id="import-file" accept="application/json" style="display:none;" />
+    </div>
+
   </div>
 </main>
 
@@ -1840,6 +1853,67 @@ function renderVasChart() {
     renderCaseList();
     switchTab("client");
   });
+    // ==== 批量匯出全部個案 ====
+document.getElementById("btn-export-all")?.addEventListener("click", ()=>{
+  const lib = loadLib();          // 所有個案
+  const blob = new Blob(
+    [ JSON.stringify(lib,null,2) ],
+    { type: "application/json;charset=utf-8" }
+  );
+
+  const a = document.createElement("a");
+  const dt = new Date().toISOString().slice(0,10);
+  a.href = URL.createObjectURL(blob);
+  a.download = `all_cases_${dt}.json`;
+  a.click();
+  setTimeout(()=>URL.revokeObjectURL(a.href),2000);
+
+  alert("已匯出個案資料庫");
+});
+
+
+// ==== 批量匯入全部個案 ====
+document.getElementById("btn-import-all")?.addEventListener("click",()=>{
+  document.getElementById("import-file").click();
+});
+
+document.getElementById("import-file")?.addEventListener("change",(e)=>{
+  const f = e.target.files?.[0];
+  if(!f) return;
+
+  const reader = new FileReader();
+  reader.onload = ()=>{
+    try{
+      const obj = JSON.parse(reader.result);
+
+      if(typeof obj !== "object"){
+        alert("格式錯誤，需為 JSON 格式");
+        return;
+      }
+
+      saveLib(obj);        
+      
+      setCurrentCaseId(null);              // ✨ reset 選取的個案
+      setCurrentRecordIndex(0);            // ✨ reset 評估次數
+      resetVisit();                        // ✨ reset VAS 暫存
+      saveClient({});                      // ✨ 清空 client
+      saveTherapist({});                   // ✨ 清空 therapist
+      
+      alert("匯入完成✔ 已更新個案列表");
+
+      renderCaseList();                    // ✨更新 UI
+      renderClientUI({});                  // ✨強制刷新第一頁
+      renderTherapistUI({});               
+      renderSummary();
+
+    }catch(err){
+      console.error(err);
+      alert("匯入失敗：非合法JSON");
+    }
+    document.getElementById("importFile").value = null;
+  };
+  reader.readAsText(f);
+});
 
 })();
 
