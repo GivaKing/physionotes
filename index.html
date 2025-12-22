@@ -930,7 +930,7 @@
   
   const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-  async function saveCurrentCaseToSupabase() {
+  async function syncCaseToSupabase() {
     const client = loadClient();
     const visit = loadVisit();
     const therapist = loadTherapist();
@@ -1113,11 +1113,20 @@
   const now = ()=>Date.now();
 
   const loadClient    = ()=>parse(localStorage.getItem(STORAGE.client),{});
-  const saveClient    = (d)=>localStorage.setItem(STORAGE.client,JSON.stringify(d||{}));
+  const saveClient = (d)=>{
+    localStorage.setItem(STORAGE.client, JSON.stringify(d||{}));
+    syncCaseToSupabase();  // ⭐ 自動 sync
+  };
   const loadTherapist = ()=>parse(localStorage.getItem(STORAGE.therapist),{});
-  const saveTherapist = (d)=>localStorage.setItem(STORAGE.therapist,JSON.stringify(d||{}));
+  const saveTherapist = (d)=>{
+    localStorage.setItem(STORAGE.therapist, JSON.stringify(d||{}));
+    syncCaseToSupabase();
+  };
   const loadVisit     = ()=>parse(localStorage.getItem(STORAGE.visit),{ vasNow:null, vasMax:null });
-  const saveVisit     = (d)=>localStorage.setItem(STORAGE.visit,JSON.stringify(d||{ vasNow:null, vasMax:null }));
+  const saveVisit = (d)=>{
+    localStorage.setItem(STORAGE.visit, JSON.stringify(d||{}));
+    syncCaseToSupabase();  
+  };
   const resetVisit    = ()=>saveVisit({ vasNow:null, vasMax:null });
 
   const loadLib = ()=>parse(localStorage.getItem(STORAGE.library),{});
