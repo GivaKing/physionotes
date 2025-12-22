@@ -1023,19 +1023,6 @@
     }
   }
 
-    // ✅ Auth 狀態改變時，重新訂閱 + 同步一次
-  sb.auth.onAuthStateChange(async (event, session) => {
-    if (session) {
-      await subscribePatientsRealtime();
-      await syncPatientsFromSupabase();
-    } else {
-      if (patientChannel) {
-        sb.removeChannel(patientChannel);
-        patientChannel = null;
-      }
-    }
-  });
-
   // 綁定 Auth 相關事件
   if (tabLogin && tabSignup && btnAuth){
     tabLogin.addEventListener("click", () => setAuthMode("login"));
