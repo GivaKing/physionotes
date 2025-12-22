@@ -931,6 +931,81 @@
   
   const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
+  //  Supabase Realtime：即時同步個案列表
+  let patientChannel = null;
+  
+  async function subscribePatientsRealtime() {
+    // 確保已登入
+    const { data } = await sb.auth.getSession();
+    if (!data?.session) return;
+  
+    // 避免重複訂閱
+    if (patientChannel) {
+      sb.removeChannel(patientChannel);
+    }
+  
+    patientChannel = sb
+      .channel("patients-realtime")
+      .on(
+        "postgres_changes",
+        {
+          event: "*",           // INSERT / UPDATE / DELETE
+          schema: "public",
+          table: "patients",
+        },
+        async (payload) => {
+          console.log("🔄 Supabase patients 變更", payload);
+  
+          // ⭐ 重點：重新從 Supabase 拉一次資料
+          await syncPatientsFromSupabase();
+        }
+      )
+      .subscribe();
+  }
+
+  async function syncPatientsFromSupabase() {
+  const { data: userResult } = await sb.auth.getUser();
+  if (!userResult?.user) return;
+
+  const userId = userResult.user.id;
+
+  const { data, error } = await sb
+    .from("patients")
+    .select("*")
+    .eq("user_id", userId)
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    console.error("❌ 拉 patients 失敗", error);
+    return;
+  }
+
+  const lib = {};
+
+  data.forEach((p) => {
+    const caseId = `sb_${p.id}`;
+
+    lib[caseId] = {
+      client: p.raw_client || {},
+      records: [
+        {
+          therapist: {},
+          visit: {},
+          status: "done",
+          createdAt: new Date(p.created_at).getTime(),
+          updatedAt: new Date(p.updated_at || p.created_at).getTime(),
+        },
+      ],
+    };
+  });
+
+  // ⭐ 存回 localStorage（你原本的資料結構）
+  saveLib(lib);
+
+  // ⭐ 更新畫面
+  renderCaseList();
+}
+
     
 (() => {
 
@@ -1013,6 +1088,8 @@
       if (error) throw error;
       if (data && data.session){
         showApp();
+        subscribePatientsRealtime();
+        syncPatientsFromSupabase();
       }else{
         showLogin();
       }
@@ -1091,7 +1168,7 @@
   };
   const resetVisit    = ()=>saveVisit({ vasNow:null, vasMax:null });
 
-      async function syncCaseToSupabase() {
+  async function syncCaseToSupabase() {
     // 1. 檢查 Supabase 有沒有準備好
     if (!sb) {
       console.warn("⚠️ Supabase 還沒設定好，先不存。");
