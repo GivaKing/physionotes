@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <title>PhysioNotes</title>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
   <style>
     :root {
@@ -495,6 +495,7 @@
   }
 
 </style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
   <!-- Auth Screen -->
@@ -2027,7 +2028,7 @@ document.getElementById("import-file")?.addEventListener("change",(e)=>{
       console.error(err);
       alert("匯入失敗：非合法JSON");
     }
-    document.getElementById("importFile").value = null;
+    document.getElementById("import-File").value = null;
   };
   reader.readAsText(f);
 });
