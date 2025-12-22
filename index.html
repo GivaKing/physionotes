@@ -1017,7 +1017,7 @@
       if (data && data.session){
         showApp();
         subscribePatientsRealtime();
-        syncPatientsFromSupabase();
+        //syncPatientsFromSupabase();
       }else{
         showLogin();
       }
@@ -1199,7 +1199,7 @@
           console.log("🔄 Supabase patients 變更", payload);
   
           // ⭐ 重點：重新從 Supabase 拉一次資料
-          await syncPatientsFromSupabase();
+          await //syncPatientsFromSupabase();
         }
       )
       .subscribe();
