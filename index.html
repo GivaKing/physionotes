@@ -1001,11 +1001,6 @@
   }
 
   async function initAuthOnLoad(){
-    const session = await supabase.auth.getSession();
-    if (!session?.data?.session) {
-      showLogin();
-      return;
-    }
     if (!sb){
       // 沒設定 Supabase 就直接顯示主畫面，避免整個系統無法使用
       showApp();
@@ -1205,25 +1200,6 @@
       .subscribe();
   }
 
-  async function deleteCaseFromSupabase(caseId){
-    const { error } = await supabase
-      .from('patients')
-      .delete()
-      .eq('id', caseId);
-  
-    if (error) {
-      alert('刪除失敗：' + error.message);
-      return;
-    }
-  
-    // 再刪 localStorage
-    const cases = loadCases().filter(c => c.id !== caseId);
-    saveCases(cases);
-  
-    renderCaseList();
-  }
-
-
   const loadLib = ()=>parse(localStorage.getItem(STORAGE.library),{});
   const saveLib = (d)=>localStorage.setItem(STORAGE.library,JSON.stringify(d||{}));
 
@@ -1235,17 +1211,7 @@
   
     const { data, error } = await sb
       .from("patients")
-      .select(`
-        *,
-        visits (
-          id,
-          vas_now,
-          vas_max,
-          raw_visit,
-          raw_therapist,
-          created_at
-        )
-      `)
+      .select("*")
       .eq("user_id", userId)
       .order("created_at", { ascending: false });
   
@@ -1261,16 +1227,15 @@
   
       lib[caseId] = {
         client: p.raw_client || {},
-        records: (p.visits || []).map(v => ({
-          therapist: v.raw_therapist || {},
-          visit: {
-            vasNow: v.vas_now,
-            vasMax: v.vas_max
+        records: [
+          {
+            therapist: {},
+            visit: {},
+            status: "done",
+            createdAt: new Date(p.created_at).getTime(),
+            updatedAt: new Date(p.updated_at || p.created_at).getTime(),
           },
-          status: "done",
-          createdAt: new Date(v.created_at).getTime(),
-          updatedAt: new Date(v.created_at).getTime()
-        }))
+        ],
       };
     });
   
@@ -1758,28 +1723,18 @@ function renderVasChart() {
     wrap.appendChild(addBtn);
   };
 
-  const deleteCase = async (caseId)=>{
+  const deleteCase = (caseId)=>{
+    const lib = loadLib();
+    if(!lib[caseId]) return;
     if(!confirm("確定要刪除此個案？（此動作不可復原）")) return;
-  
-    try{
-      // ⭐ 先刪 Supabase
-      await deleteCaseFromSupabase(caseId);
-  
-      // ⭐ 再刪 localStorage
-      const lib = loadLib();
-      delete lib[caseId];
-      saveLib(lib);
-  
-      if(getCurrentCaseId()===caseId){
-        setCurrentCaseId(null);
-        setCurrentRecordIndex(0);
-      }
-  
-      renderCaseList();
-  
-    }catch(e){
-      console.error(e);
+    delete lib[caseId];
+    saveLib(lib);
+
+    if(getCurrentCaseId()===caseId){
+      setCurrentCaseId(null);
+      setCurrentRecordIndex(0);
     }
+    renderCaseList();
   };
 
   const renderCaseList = ()=>{
