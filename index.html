@@ -968,16 +968,6 @@
 
     
 (() => {
-  // === Supabase Auth 設定 ===
-  const SUPABASE_URL = "YOUR_SUPABASE_URL";
-  const SUPABASE_ANON_KEY = "YOUR_SUPABASE_ANON_KEY";
-
-  let sb = null;
-  if (window.supabase) {
-    sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-  } else {
-    console.warn("Supabase SDK 未載入；登入功能無法使用。");
-  }
 
   const authScreen = document.getElementById("auth-screen");
   const appRoot   = document.getElementById("app-root");
