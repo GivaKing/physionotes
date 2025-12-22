@@ -930,38 +930,6 @@
   const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inl2YWN2enVsaGFhZWhmZmJodHR0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU4OTg1ODUsImV4cCI6MjA4MTQ3NDU4NX0.6tgcZoxClNCn9y5lft_H1XF2pfQGPb6beehSuQLEMD0";
   
   const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-  //  Supabase Realtime：即時同步個案列表
-  let patientChannel = null;
-  
-  async function subscribePatientsRealtime() {
-    // 確保已登入
-    const { data } = await sb.auth.getSession();
-    if (!data?.session) return;
-  
-    // 避免重複訂閱
-    if (patientChannel) {
-      sb.removeChannel(patientChannel);
-    }
-  
-    patientChannel = sb
-      .channel("patients-realtime")
-      .on(
-        "postgres_changes",
-        {
-          event: "*",           // INSERT / UPDATE / DELETE
-          schema: "public",
-          table: "patients",
-        },
-        async (payload) => {
-          console.log("🔄 Supabase patients 變更", payload);
-  
-          // ⭐ 重點：重新從 Supabase 拉一次資料
-          await syncPatientsFromSupabase();
-        }
-      )
-      .subscribe();
-  }
     
 (() => {
 
@@ -1200,6 +1168,38 @@
     console.log("✅ 已成功寫入 Supabase", { patientRow, visitPayload });
     // 你如果不想一直跳視窗，可以把 alert 拿掉
     // alert("已成功把這次的紀錄存到 Supabase！");
+  }
+
+    //  Supabase Realtime：即時同步個案列表
+  let patientChannel = null;
+  
+  async function subscribePatientsRealtime() {
+    // 確保已登入
+    const { data } = await sb.auth.getSession();
+    if (!data?.session) return;
+  
+    // 避免重複訂閱
+    if (patientChannel) {
+      sb.removeChannel(patientChannel);
+    }
+  
+    patientChannel = sb
+      .channel("patients-realtime")
+      .on(
+        "postgres_changes",
+        {
+          event: "*",           // INSERT / UPDATE / DELETE
+          schema: "public",
+          table: "patients",
+        },
+        async (payload) => {
+          console.log("🔄 Supabase patients 變更", payload);
+  
+          // ⭐ 重點：重新從 Supabase 拉一次資料
+          await syncPatientsFromSupabase();
+        }
+      )
+      .subscribe();
   }
 
   const loadLib = ()=>parse(localStorage.getItem(STORAGE.library),{});
