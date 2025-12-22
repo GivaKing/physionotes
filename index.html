@@ -1426,13 +1426,21 @@
     alert("已建立新回診紀錄，請個案重新填寫 VAS。");
   };
 
-function collectFullCase() {
-  return {
-    client: collectClient(),
-    visit: collectVisitFromSliders(),
-    therapist: collectTherapist()
-  };
-}
+  function collectFullCase() {
+    return {
+      client: localStorage.getItem("pt_eval_client_v1"),
+      therapist: localStorage.getItem("pt_eval_therapist_v1"),
+      visit: localStorage.getItem("pt_eval_visit_v1"),
+      caseLibrary: localStorage.getItem("pt_eval_case_library_v1"),
+      currentRecordIndex: localStorage.getItem("pt_eval_current_record_idx_v1"),
+  
+      // VAS slider
+      vasMin: localStorage.getItem("vasMin"),
+      vasMax: localStorage.getItem("vasMax"),
+  
+      // 你之後其他欄位依序補上
+    }
+  }
   
 function clearVasChart(){
   const cvs=document.getElementById("vas-chart");
