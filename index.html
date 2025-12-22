@@ -1204,25 +1204,26 @@
       )
       .subscribe();
   }
-
+  
   async function deleteCaseFromSupabase(caseId){
-    const { error } = await supabase
-      .from('patients')
+    if (!sb) return;
+  
+    // ⚠️ Supabase id 是數字，你的 caseId 是 sb_123
+    const realId = String(caseId).startsWith("sb_")
+      ? caseId.replace("sb_", "")
+      : caseId;
+  
+    const { error } = await sb
+      .from("patients")
       .delete()
-      .eq('id', caseId);
+      .eq("id", realId);
   
     if (error) {
-      alert('刪除失敗：' + error.message);
+      console.error(error);
+      alert("刪除失敗：" + error.message);
       return;
     }
-  
-    // 再刪 localStorage
-    const cases = loadCases().filter(c => c.id !== caseId);
-    saveCases(cases);
-  
-    renderCaseList();
   }
-
 
   const loadLib = ()=>parse(localStorage.getItem(STORAGE.library),{});
   const saveLib = (d)=>localStorage.setItem(STORAGE.library,JSON.stringify(d||{}));
