@@ -1001,6 +1001,11 @@
   }
 
   async function initAuthOnLoad(){
+    const session = await supabase.auth.getSession();
+    if (!session?.data?.session) {
+      showLogin();
+      return;
+    }
     if (!sb){
       // 沒設定 Supabase 就直接顯示主畫面，避免整個系統無法使用
       showApp();
@@ -1201,20 +1206,21 @@
   }
 
   async function deleteCaseFromSupabase(caseId){
-    if (!caseId.startsWith("sb_")) return;
-  
-    const patientId = caseId.replace("sb_", "");
-  
-    const { error } = await sb
-      .from("patients")
+    const { error } = await supabase
+      .from('patients')
       .delete()
-      .eq("id", patientId);
+      .eq('id', caseId);
   
-    if (error){
-      console.error("❌ Supabase 刪除失敗", error);
-      alert("刪除資料庫失敗：" + error.message);
-      throw error;
+    if (error) {
+      alert('刪除失敗：' + error.message);
+      return;
     }
+  
+    // 再刪 localStorage
+    const cases = loadCases().filter(c => c.id !== caseId);
+    saveCases(cases);
+  
+    renderCaseList();
   }
 
 
