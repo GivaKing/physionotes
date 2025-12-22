@@ -1255,15 +1255,16 @@
   
       lib[caseId] = {
         client: p.raw_client || {},
-        records: [
-          {
-            therapist: {},
-            visit: {},
-            status: "done",
-            createdAt: new Date(p.created_at).getTime(),
-            updatedAt: new Date(p.updated_at || p.created_at).getTime(),
+        records: (p.visits || []).map(v => ({
+          therapist: v.raw_therapist || {},
+          visit: {
+            vasNow: v.vas_now,
+            vasMax: v.vas_max
           },
-        ],
+          status: "done",
+          createdAt: new Date(v.created_at).getTime(),
+          updatedAt: new Date(v.created_at).getTime()
+        }))
       };
     });
   
