@@ -946,9 +946,9 @@
     const user = userResult.user; // 這裡有 user.id 可以用來當 user_id
   
     // 3. 從 localStorage 把三個區塊的資料拿出來
-    const client = JSON.parse(localStorage.getItem(STORAGE.client)) || {};
-    const therapist = JSON.parse(localStorage.getItem(STORAGE.therapist)) || {};
-    const visit = JSON.parse(localStorage.getItem(STORAGE.visit)) || {};
+    const client    = loadClient();    // 基本資料
+    const visit     = loadVisit();     // 本次就診
+    const therapist = loadTherapist(); // 治療師評估
   
     // 4. 如果連姓名都沒有，就先不要寫入（避免一堆空資料）
     if (!client.name) {
