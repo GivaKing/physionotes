@@ -1019,8 +1019,8 @@
       if (error) throw error;
       if (data && data.session){
         showApp();
+        await syncPatientsFromSupabase();
         subscribePatientsRealtime();
-        syncPatientsFromSupabase();
       }else{
         showLogin();
       }
