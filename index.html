@@ -3,8 +3,7 @@
 <html lang="zh-Hant">
 <head>
   <meta charset="UTF-8" />
-  <link rel="icon" href="/logo.ico" type="image/x-icon">
-  <title>PhysioNotes</title>
+  <title>物理治療評估系統</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
   <style>
     :root {
@@ -379,20 +378,164 @@
       text-overflow:ellipsis;
     }
 
+
+  /* === Auth screen === */
+  .hidden{display:none !important;}
+  .auth-screen-wrap{
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:#f3f4f6;
+  }
+  .auth-card{
+    width:100%;
+    max-width:520px;
+    background:#ffffff;
+    border-radius:16px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.08);
+    padding:32px 36px 28px;
+  }
+  .auth-title{
+    font-size:1.25rem;
+    font-weight:700;
+    color:#111827;
+    margin-bottom:4px;
+  }
+  .auth-sub{
+    font-size:0.9rem;
+    color:#6b7280;
+    margin-bottom:20px;
+  }
+  .auth-tabs{
+    display:flex;
+    gap:8px;
+    background:#f3f4f6;
+    padding:4px;
+    border-radius:999px;
+    margin-bottom:20px;
+  }
+  .auth-tab{
+    flex:1;
+    border-radius:999px;
+    border:none;
+    padding:8px 0;
+    font-size:0.9rem;
+    cursor:pointer;
+    background:transparent;
+    color:#6b7280;
+    font-weight:500;
+  }
+  .auth-tab.active{
+    background:#2563eb;
+    color:#ffffff;
+  }
+  .auth-field{
+    margin-bottom:14px;
+  }
+  .auth-label{
+    display:block;
+    font-size:0.8rem;
+    color:#374151;
+    margin-bottom:4px;
+  }
+  .auth-input{
+    width:100%;
+    border-radius:999px;
+    border:1px solid #d1d5db;
+    padding:10px 14px;
+    font-size:0.9rem;
+  }
+  .auth-input:focus{
+    outline:none;
+    border-color:#2563eb;
+    box-shadow:0 0 0 1px rgba(37,99,235,0.2);
+  }
+  .auth-btn{
+    width:100%;
+    border-radius:999px;
+    border:none;
+    padding:11px 16px;
+    font-size:0.95rem;
+    font-weight:600;
+    background:#2563eb;
+    color:#ffffff;
+    cursor:pointer;
+    margin-top:4px;
+  }
+  .auth-btn:hover{background:#1d4ed8;}
+  .auth-error{
+    margin-top:8px;
+    font-size:0.8rem;
+    color:#b91c1c;
+    min-height:1em;
+  }
+  .auth-footer{
+    margin-top:16px;
+    font-size:0.78rem;
+    color:#9ca3af;
+    text-align:right;
+  }
+
+  .btn-logout{
+    margin-left:auto;
+    padding:6px 14px;
+    border-radius:999px;
+    border:1px solid #d1d5db;
+    background:#ffffff;
+    font-size:0.85rem;
+    color:#4b5563;
+  }
+  .btn-logout:hover{
+    background:#f3f4f6;
+  }
 </style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
-  <div class="app">
+  <!-- Auth Screen -->
+  <div id="auth-screen" class="auth-screen-wrap">
+    <div class="auth-card">
+      <div class="auth-title">PhysioNotes 登入</div>
+      <div class="auth-sub">請先登入或註冊帳號，才能進入個案系統。</div>
+
+      <div class="auth-tabs">
+        <button type="button" class="auth-tab active" id="tab-login">登入</button>
+        <button type="button" class="auth-tab" id="tab-signup">註冊</button>
+      </div>
+
+      <div class="auth-field">
+        <label class="auth-label" for="auth-email">Email</label>
+        <input id="auth-email" type="email" class="auth-input" placeholder="you@example.com" autocomplete="email">
+      </div>
+
+      <div class="auth-field">
+        <label class="auth-label" for="auth-password">密碼</label>
+        <input id="auth-password" type="password" class="auth-input" placeholder="至少 6 碼" autocomplete="current-password">
+      </div>
+
+      <button type="button" class="auth-btn" id="btn-auth-submit">登入</button>
+      <div class="auth-error" id="auth-error"></div>
+      <div class="auth-footer">
+        本系統使用 Supabase Auth 儲存帳號密碼。
+      </div>
+    </div>
+  </div>
+
+  <!-- App Root -->
+  <div id="app-root" class="app hidden">
     <header>
       <div class="title">
-        PhysioNotes
-        <span class="badge">網頁版</span>
+        物理治療評估
+        <span class="badge">iPad / 手機版</span>
       </div>
       <div class="tagline-row">
-        <div class="subtitle">請先填寫個案問診資料，再進入治療師評估頁。</div>
+        <div class="subtitle">請先由個案填寫諮詢資料，再由治療師進入評估頁。</div>
+
         <div class="status-text">
           <span class="status-dot"></span> 自動暫存中
         </div>
+        <button id="btn-logout" class="btn btn-outline btn-logout">登出</button>
       </div>
       <div class="tabs">
         <button class="tab-btn active" data-target="page-client">
@@ -581,6 +724,8 @@
         
         <div class="divider"></div>
         
+    
+        <div class="bottom-space"></div>
         <div class="sticky-footer">
           <div class="btn-row">
             <button type="button" class="btn btn-outline" id="btn-clear">
@@ -661,7 +806,7 @@
           </div>
           <div class="row">
             <label for="tests-joint">關節活動 / 其他測試</label>
-            <input id="tests-joint" type="text" placeholder="例：腰椎前彎受限，關節囊牽扯…" data-field-pt="testsJoint" />
+            <input id="tests-joint" type="text" placeholder="例：腰椎前彎受限，FABER(R) 牽扯…" data-field-pt="testsJoint" />
           </div>
         </div>
 
@@ -680,15 +825,11 @@
         <div class="row">
           <label>可能的主要問題（可點選＋自行補充）</label>
           <div class="chips" data-field-pt="reasonTags" data-type="multi">
-            <button type="button" class="chip" data-value="關節活動受限">關節活動受限</button>
-            <button type="button" class="chip" data-value="關節穩定度不足">關節穩定度不足</button>
-            <button type="button" class="chip" data-value="關節軌道異常">關節軌道異常</button>
-            <button type="button" class="chip" data-value="肌肉縮短">肌肉縮短</button>
-            <button type="button" class="chip" data-value="肌肉過長">肌肉過長</button>
-            <button type="button" class="chip" data-value="肌肉高張">肌肉高張</button>
-            <button type="button" class="chip" data-value="肌肉低張">肌肉高張</button>
-            <button type="button" class="chip" data-value="神經高張">神經高張</button>
-            <button type="button" class="chip" data-value="姿勢與動作負荷過高">姿勢與動作負荷過高</button>
+            <button type="button" class="chip" data-value="薦髂關節機能失衡">薦髂關節機能失衡</button>
+            <button type="button" class="chip" data-value="坐骨神經張力偏高">坐骨神經張力偏高</button>
+            <button type="button" class="chip" data-value="骨盆穩定度不足">骨盆穩定度不足</button>
+            <button type="button" class="chip" data-value="腿後肌過度緊繃/保護">腿後肌過度緊繃 / 保護</button>
+            <button type="button" class="chip" data-value="姿勢與久坐負荷過高">姿勢與久坐負荷過高</button>
           </div>
         </div>
 
@@ -717,7 +858,7 @@
 
         <div class="row">
           <label for="treatment-plan">今日治療內容</label>
-          <textarea id="treatment-plan" placeholder="例：1. 骨盆與腰椎關節鬆動 2. 坐骨神經鬆動術 3. 腿後肌伸展教育…" data-field-pt="treatmentPlan"></textarea>
+          <textarea id="treatment-plan" placeholder="例：1. 骨盆與腰椎關節鬆動 2. 坐骨神經鬆動滑動 3. 腿後肌伸展教育…" data-field-pt="treatmentPlan"></textarea>
         </div>
 
         <div class="row">
@@ -730,17 +871,19 @@
           <textarea id="follow-up" placeholder="例：觀察麻木頻率變化、久坐耐受度、Slump 測試變化…" data-field-pt="followUp"></textarea>
         
         <div class="divider"></div>
-        <div class="section-title">疼痛趨勢</div>
-        <canvas id="vas-chart"></canvas>
-
-        <div class="divider"></div>
+        <div class="section-title">VAS 趨勢</div>
+        <canvas id="vas-chart" height="180"></canvas>
     
+        <div class="bottom-space"></div>
         <div class="sticky-footer">
           <div class="btn-row">
             <button type="button" class="btn btn-outline" id="btn-back-client">
               回到個案填寫
             </button>
             <button type="button" id="btn-mark-done" class="btn btn-success">完成本次評估 ✓</button>
+            <button type="button" class="btn btn-primary" id="btn-export">
+              匯出紀錄
+            </button>
           </div>
         </div>
       </div>
@@ -757,28 +900,196 @@
     <div id="case-list" 
          style="margin-top:12px;border-radius:12px;border:1px solid #e5e7eb;max-height:60vh;overflow-y:auto;">
     </div>
-
-    <div class="divider"></div>
-
-    <div style="margin-top:14px; display:flex; gap:8px;">
-      <button id="btn-import-all" class="btn btn-outline" style="flex:1;">
-        匯入個案資料庫(請先重新整理)
-      </button>
-      
-      <button id="btn-export-all" class="btn btn-primary" style="flex:1;">
-        匯出個案資料庫
-      </button>
-
-      <input type="file" id="import-file" accept="application/json" style="display:none;" />
-    </div>
-
   </div>
 </main>
 
   </div>
 
   <script>
+    
+  const SUPABASE_URL = "https://yvacvzulhaaehffbhttt.supabase.co";
+  const SUPABASE_ANON_KEY = "sb_publishable_ijanE0hGO0oxGX30q1TlEw_-RCVeemj";
+  
+  const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  async function saveCurrentCaseToSupabase() {
+    const client = loadClient();
+    const visit = loadVisit();
+    const therapist = loadTherapist();
+  
+    if (!client.name) {
+      alert("沒有姓名，不能存");
+      return;
+    }
+  
+    // 1. 建立 patient
+    const { data: patient, error: pErr } = await sb
+      .from("patients")
+      .insert({
+        name: client.name,
+        age: client.age,
+        gender: client.gender,
+        job: client.job,
+        main_complaint: client.mainComplaint,
+        raw_client: client
+      })
+      .select()
+      .single();
+  
+    if (pErr) {
+      console.error("❌ 存 patient 失敗", pErr);
+      alert("存 patient 失敗");
+      return;
+    }
+  
+    // 2. 建立 visit
+    const { error: vErr } = await sb
+      .from("visits")
+      .insert({
+        patient_id: patient.id,
+        visit_index: 1,
+        vas_now: visit.vasNow,
+        vas_max: visit.vasMax,
+        raw_visit: visit,
+        raw_therapist: therapist
+      });
+  
+    if (vErr) {
+      console.error("❌ 存 visit 失敗", vErr);
+      alert("存 visit 失敗");
+      return;
+    }
+  
+    console.log("✅ 成功寫入 Supabase", patient);
+    alert("已寫入 Supabase（測試成功）");
+  }
+
+
+    
 (() => {
+  // === Supabase Auth 設定 ===
+  const SUPABASE_URL = "YOUR_SUPABASE_URL";
+  const SUPABASE_ANON_KEY = "YOUR_SUPABASE_ANON_KEY";
+
+  let sb = null;
+  if (window.supabase) {
+    sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  } else {
+    console.warn("Supabase SDK 未載入；登入功能無法使用。");
+  }
+
+  const authScreen = document.getElementById("auth-screen");
+  const appRoot   = document.getElementById("app-root");
+  const emailInput = document.getElementById("auth-email");
+  const pwInput    = document.getElementById("auth-password");
+  const authError  = document.getElementById("auth-error");
+  const tabLogin   = document.getElementById("tab-login");
+  const tabSignup  = document.getElementById("tab-signup");
+  const btnAuth    = document.getElementById("btn-auth-submit");
+  const btnLogout  = document.getElementById("btn-logout");
+
+  let authMode = "login"; // login | signup
+
+  function setAuthMode(mode){
+    authMode = mode;
+    if (mode === "login"){
+      tabLogin.classList.add("active");
+      tabSignup.classList.remove("active");
+      btnAuth.textContent = "登入";
+    } else {
+      tabSignup.classList.add("active");
+      tabLogin.classList.remove("active");
+      btnAuth.textContent = "註冊並登入";
+    }
+    authError.textContent = "";
+  }
+
+  function showApp(){
+    if (!appRoot || !authScreen) return;
+    authScreen.classList.add("hidden");
+    appRoot.classList.remove("hidden");
+  }
+
+  function showLogin(){
+    if (!appRoot || !authScreen) return;
+    appRoot.classList.add("hidden");
+    authScreen.classList.remove("hidden");
+  }
+
+  async function handleAuthSubmit(){
+    if (!sb){
+      alert("Supabase 尚未設定，請先設定 URL 與 Key。");
+      return;
+    }
+    const email = (emailInput?.value || "").trim();
+    const password = pwInput?.value || "";
+    authError.textContent = "";
+    if (!email || !password){
+      authError.textContent = "請輸入 Email 與密碼。";
+      return;
+    }
+
+    try{
+      if (authMode === "login"){
+        const { data, error } = await sb.auth.signInWithPassword({ email, password });
+        if (error) throw error;
+        showApp();
+      }else{
+        const { data, error } = await sb.auth.signUp({ email, password });
+        if (error) throw error;
+        alert("註冊成功，已自動登入。");
+        showApp();
+      }
+    }catch(err){
+      console.error(err);
+      authError.textContent = err.message || "登入 / 註冊失敗，請稍後再試。";
+    }
+  }
+
+  async function initAuthOnLoad(){
+    if (!sb){
+      // 沒設定 Supabase 就直接顯示主畫面，避免整個系統無法使用
+      showApp();
+      return;
+    }
+    try{
+      const { data, error } = await sb.auth.getSession();
+      if (error) throw error;
+      if (data && data.session){
+        showApp();
+      }else{
+        showLogin();
+      }
+    }catch(err){
+      console.error(err);
+      showLogin();
+    }
+  }
+
+  // 綁定 Auth 相關事件
+  if (tabLogin && tabSignup && btnAuth){
+    tabLogin.addEventListener("click", () => setAuthMode("login"));
+    tabSignup.addEventListener("click", () => setAuthMode("signup"));
+    btnAuth.addEventListener("click", handleAuthSubmit);
+    pwInput?.addEventListener("keydown", (e)=>{
+      if (e.key === "Enter") handleAuthSubmit();
+    });
+  }
+
+  if (btnLogout){
+    btnLogout.addEventListener("click", async () => {
+      if (sb){
+        await sb.auth.signOut();
+      }
+      showLogin();
+    });
+  }
+
+  // 初始化狀態
+  setAuthMode("login");
+  initAuthOnLoad();
+
+
   const STORAGE = {
     client: "pt_eval_client_v1",
     therapist: "pt_eval_therapist_v1",
@@ -1001,7 +1312,7 @@
 
   const createNewCaseFromCurrent = ()=>{
     const c = collectClient();
-    if(!c.name){ alert("請填寫姓名"); return null; }
+    if(!c.name){ alert("請至少填寫姓名"); return null; }
 
     const id = `case_${now()}_${(c.name||"case").replace(/\s+/g,"_")}`;
     const item = {
@@ -1101,7 +1412,6 @@
     renderClientUI(loadClient());
     renderTherapistUI(loadTherapist());
     renderTimeline(item);
-    renderVasChart();
     switchTab("client");
     alert("已建立新回診紀錄，請個案重新填寫 VAS。");
   };
@@ -1115,42 +1425,31 @@ function clearVasChart(){
   ctx.clearRect(0,0,cvs.width,cvs.height);
 }
 
-function renderVasChart() {
+function renderVasChart(){
+  const cvs=document.getElementById("vas-chart");
+  if(!cvs) return;
+  const ctx=cvs.getContext("2d");
 
-  const cvs = document.getElementById("vas-chart");
-  if (!cvs) return;
-
-  const ctx = cvs.getContext("2d");
-
-  // ===== width & height real size =====
+  // width after page is visible
   const W = cvs.width = (cvs.clientWidth || (cvs.parentElement ? cvs.parentElement.clientWidth : 0) || 320);
+  const H = cvs.height || 180;
+  ctx.clearRect(0,0,W,H);
 
-  const H = cvs.height || 180;  // canvas 真正繪製高度
-  ctx.clearRect(0, 0, W, H);
-
-  const caseId = getCurrentCaseId();
-  if (!caseId) return;
-
-  const lib = loadLib();
-  const item = ensureCaseShape(lib[caseId]);
-  if (!item || !item.records) return;
+  const caseId=getCurrentCaseId();
+  if(!caseId) return;
+  const lib=loadLib();
+  const item=ensureCaseShape(lib[caseId]);
+  if(!item || !item.records) return;
 
   const N = item.records.length;
-
-  // === extract: visit index + vas now + vas max ===
+  // points: X=visit index, Y=VAS
   const points = item.records
-    .map((r, i) => ({
-      idx: i + 1,
-      vasNow: (r.visit && r.visit.vasNow != null) ? Number(r.visit.vasNow) : null,
-      vasMax: (r.visit && r.visit.vasMax != null) ? Number(r.visit.vasMax) : null,
-    }))
-    .filter(p => p.vasNow != null || p.vasMax != null);
+    .map((r,i)=>({ idx:i+1, vas: (r.visit && r.visit.vasNow!=null) ? Number(r.visit.vasNow) : null }))
+    .filter(p=>p.vas!=null);
 
-  if (points.length < 1) return;
+  if(points.length < 2) return;
 
-  // --- 下面這段開始才進入你的繪製 ---
-
-  const padL=36, padR=14, padT=14, padB=60;
+  const padL=36, padR=14, padT=14, padB=28;
   const plotW = W - padL - padR;
   const plotH = H - padT - padB;
   if(plotW<=0 || plotH<=0) return;
@@ -1189,62 +1488,25 @@ function renderVasChart() {
     ctx.beginPath(); ctx.moveTo(x,H-padB); ctx.lineTo(x,H-padB+4); ctx.stroke();
     ctx.fillText(String(N), x-3, H-padB+16);
   }
-  
-  // ---- 圖例 ----
-  const legendY = H - padB + 33; // 在 X軸下方一點高度
-  
-  ctx.font="13px sans-serif";
-  
-  // 第一列：藍
-  ctx.fillStyle="#2563eb";
-  ctx.fillText("目前疼痛（藍）", padL, legendY);
-  
-  // 第二列：紅
-  ctx.fillStyle="#dc2626";
-  ctx.fillText("最大疼痛（紅）", padL, legendY + 20);
 
-  // ---- 畫目前疼痛線 (藍) ----
+  // line
   ctx.strokeStyle="#2563eb";
   ctx.lineWidth=2;
   ctx.beginPath();
   points.forEach((p,i)=>{
-    if(p.vasNow==null) return;
     const x = padL + plotW*((p.idx-1)/(Math.max(1,N-1)));
-    const y = (H-padB) - plotH*(p.vasNow/10);
-    i ? ctx.lineTo(x,y) : ctx.moveTo(x,y);
-  });
-  ctx.stroke();
-  
-  // ---- 畫最大疼痛 (紅) ----
-  ctx.strokeStyle="#dc2626";
-  ctx.lineWidth=2;
-  ctx.beginPath();
-  points.forEach((p,i)=>{
-    if(p.vasMax==null) return;
-    const x = padL + plotW*((p.idx-1)/(Math.max(1,N-1)));
-    const y = (H-padB) - plotH*(p.vasMax/10);
+    const y = (H-padB) - plotH*(p.vas/10);
     i ? ctx.lineTo(x,y) : ctx.moveTo(x,y);
   });
   ctx.stroke();
 
-  // ---- dots: VAS 目前疼痛 (藍點) ----
+  // dots
   ctx.fillStyle="#2563eb";
   points.forEach(p=>{
-    if(p.vasNow==null) return;
     const x = padL + plotW*((p.idx-1)/(Math.max(1,N-1)));
-    const y = (H-padB) - plotH*(p.vasNow/10);
+    const y = (H-padB) - plotH*(p.vas/10);
     ctx.beginPath(); ctx.arc(x,y,4,0,Math.PI*2); ctx.fill();
   });
-  
-  // ---- dots: VAS 最大疼痛 (紅點) ----
-  ctx.fillStyle="#dc2626";
-  points.forEach(p=>{
-    if(p.vasMax==null) return;
-    const x = padL + plotW*((p.idx-1)/(Math.max(1,N-1)));
-    const y = (H-padB) - plotH*(p.vasMax/10);
-    ctx.beginPath(); ctx.arc(x,y,4,0,Math.PI*2); ctx.fill();
-  });
-
 }
 
     
@@ -1413,6 +1675,20 @@ function renderVasChart() {
       v.vasNow = Number(pn.value);
       saveVisit(v);
       renderSummary();
+      // 🔹 即時同步到個案庫（如果已有個案）
+      const caseId = getCurrentCaseId();
+      if (caseId) {
+        const lib = loadLib();
+        const item = ensureCaseShape(lib[caseId]);
+        const idx = getCurrentRecordIndex();
+        if (item && item.records[idx]) {
+          item.records[idx].visit = loadVisit();
+          item.records[idx].updatedAt = Date.now();
+          lib[caseId] = item;
+          saveLib(lib);
+        }
+      }
+
     });
     pm && pm.addEventListener("input", ()=>{
       $("#pain-max-value") && ($("#pain-max-value").textContent = pm.value);
@@ -1434,36 +1710,34 @@ function renderVasChart() {
       renderClientUI({});
       renderTherapistUI({});
       renderSummary();
-      renderTimeline({ records: [] });
-      clearVasChart();
       alert("已清除暫存。");
     });
 
-    // client -> therapist
+    // client -> therapist (require VAS)
     $("#btn-goto-therapist") && $("#btn-goto-therapist").addEventListener("click", ()=>{
-      // 先把畫面上的內容存進暫存
-      saveClient(collectClient());
-      saveVisit(collectVisitFromSliders());
-      saveTherapist(collectTherapist());
+      const c = collectClient();
+      saveClient(c);
 
-      // 關鍵：這一步會把「目前這次評估」寫回 records[] 裡
-      const res = upsertCurrentCaseAndRecord({ markDone:false });
-      if(!res) {
-        // upsert 內部已經會幫你跳回 client 並 alert 缺少 VAS 的情況
+      const v = loadVisit();
+      if(v.vasNow == null){
+        alert("請先填寫「目前疼痛程度（VAS）」");
+        return;
+      }
+      if(v.vasMax == null){
+        alert("請先填寫「最痛時疼痛程度（VAS）」");
         return;
       }
 
-      // 用最新寫回去的 item 來更新 timeline / 圖表
-      const item = res.item;
-
       renderSummary();
-      renderVasChart();
-      renderTimeline(item);
-
-      // 最後再切換到治療師評估頁
       switchTab("therapist");
-    });
 
+      const caseId = getCurrentCaseId();
+      if(caseId){
+        const lib = loadLib();
+        const item = ensureCaseShape(lib[caseId]);
+        item && renderTimeline(item);
+      }
+    });
 
     // therapist -> client
     $("#btn-back-client") && $("#btn-back-client").addEventListener("click", ()=>{
@@ -1511,6 +1785,9 @@ function renderVasChart() {
   document.addEventListener("DOMContentLoaded", ()=>{
     bind();
 
+    //testSupabaseConnection();
+    //testInsertPatient();
+
     // 初始化：如果 visit 不存在，先設為 null（逼每次都要填 VAS）
     if(!localStorage.getItem(STORAGE.visit)) resetVisit();
 
@@ -1520,69 +1797,10 @@ function renderVasChart() {
     renderCaseList();
     switchTab("client");
   });
-  // ==== 批量匯出全部個案 ====
-document.getElementById("btn-export-all")?.addEventListener("click", ()=>{
-  const lib = loadLib();          // 所有個案
-  const blob = new Blob(
-    [ JSON.stringify(lib,null,2) ],
-    { type: "application/json;charset=utf-8" }
-  );
-
-  const a = document.createElement("a");
-  const dt = new Date().toISOString().slice(0,10);
-  a.href = URL.createObjectURL(blob);
-  a.download = `cases_list_${dt}.json`;
-  a.click();
-  setTimeout(()=>URL.revokeObjectURL(a.href),2000);
-
-  alert("已匯出個案資料庫");
-});
-
-
-// ==== 批量匯入全部個案 ====
-document.getElementById("btn-import-all")?.addEventListener("click",()=>{
-  document.getElementById("import-file").click();
-});
-
-document.getElementById("import-file")?.addEventListener("change",(e)=>{
-  const f = e.target.files?.[0];
-  if(!f) return;
-
-  const reader = new FileReader();
-  reader.onload = ()=>{
-    try{
-      const obj = JSON.parse(reader.result);
-
-      if(typeof obj !== "object"){
-        alert("格式錯誤，需為 JSON 格式");
-        return;
-      }
-
-      saveLib(obj);        
-      
-      setCurrentCaseId(null);              // ✨ reset 選取的個案
-      setCurrentRecordIndex(0);            // ✨ reset 評估次數
-      resetVisit();                        // ✨ reset VAS 暫存
-      saveClient({});                      // ✨ 清空 client
-      saveTherapist({});                   // ✨ 清空 therapist
-      
-      alert("匯入完成✔ 已更新個案列表");
-
-      renderCaseList();                    // ✨更新 UI
-      renderClientUI({});                  // ✨強制刷新第一頁
-      renderTherapistUI({});               
-      renderSummary();
-
-    }catch(err){
-      console.error(err);
-      alert("匯入失敗：非合法JSON");
-    }
-    document.getElementById("importFile").value = null;
-  };
-  reader.readAsText(f);
-});
-
+          // ===== Supabase 測試用 =====
+window.testInsertPatient = testInsertPatient;
 })();
+
 </script>
 </body>
 </html>
