@@ -1219,8 +1219,8 @@
     const { error } = await sb
       .from("patients")
       .delete()
-      .eq("id", realId);
-      .eq("user_id", u.user.id)
+      .eq("id", realId)
+      .eq("user_id", u.user.id);
   
     if (error) {
       console.error(error);
