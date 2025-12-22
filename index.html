@@ -930,37 +930,6 @@
   
   const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-  //  Supabase Realtime：即時同步個案列表
-  let patientChannel = null;
-  
-  async function subscribePatientsRealtime() {
-    // 確保已登入
-    const { data } = await sb.auth.getSession();
-    if (!data?.session) return;
-  
-    // 避免重複訂閱
-    if (patientChannel) {
-      sb.removeChannel(patientChannel);
-    }
-  
-    patientChannel = sb
-      .channel("patients-realtime")
-      .on(
-        "postgres_changes",
-        {
-          event: "*",           // INSERT / UPDATE / DELETE
-          schema: "public",
-          table: "patients",
-        },
-        async (payload) => {
-          console.log("🔄 Supabase patients 變更", payload);
-  
-          // ⭐ 重點：重新從 Supabase 拉一次資料
-          await syncPatientsFromSupabase();
-        }
-      )
-      .subscribe();
-  }
     
 (() => {
 
@@ -1053,6 +1022,19 @@
       showLogin();
     }
   }
+
+    // ✅ Auth 狀態改變時，重新訂閱 + 同步一次
+  sb.auth.onAuthStateChange(async (event, session) => {
+    if (session) {
+      await subscribePatientsRealtime();
+      await syncPatientsFromSupabase();
+    } else {
+      if (patientChannel) {
+        sb.removeChannel(patientChannel);
+        patientChannel = null;
+      }
+    }
+  });
 
   // 綁定 Auth 相關事件
   if (tabLogin && tabSignup && btnAuth){
@@ -1199,6 +1181,38 @@
     console.log("✅ 已成功寫入 Supabase", { patientRow, visitPayload });
     // 你如果不想一直跳視窗，可以把 alert 拿掉
     // alert("已成功把這次的紀錄存到 Supabase！");
+  }
+
+    //  Supabase Realtime：即時同步個案列表
+  let patientChannel = null;
+  
+  async function subscribePatientsRealtime() {
+    // 確保已登入
+    const { data } = await sb.auth.getSession();
+    if (!data?.session) return;
+  
+    // 避免重複訂閱
+    if (patientChannel) {
+      sb.removeChannel(patientChannel);
+    }
+  
+    patientChannel = sb
+      .channel("patients-realtime")
+      .on(
+        "postgres_changes",
+        {
+          event: "*",           // INSERT / UPDATE / DELETE
+          schema: "public",
+          table: "patients",
+        },
+        async (payload) => {
+          console.log("🔄 Supabase patients 變更", payload);
+  
+          // ⭐ 重點：重新從 Supabase 拉一次資料
+          await syncPatientsFromSupabase();
+        }
+      )
+      .subscribe();
   }
 
   const loadLib = ()=>parse(localStorage.getItem(STORAGE.library),{});
