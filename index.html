@@ -1046,20 +1046,6 @@
   setAuthMode("login");
   initAuthOnLoad();
 
-  // ✅ Auth 狀態改變時，重新訂閱 + 同步一次
-  sb.auth.onAuthStateChange(async (event, session) => {
-    if (session) {
-      await subscribePatientsRealtime();
-      await syncPatientsFromSupabase();
-    } else {
-      if (patientChannel) {
-        sb.removeChannel(patientChannel);
-        patientChannel = null;
-      }
-    }
-  });
-
-
   const STORAGE = {
     client: "pt_eval_client_v1",
     therapist: "pt_eval_therapist_v1",
