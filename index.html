@@ -886,9 +886,6 @@
               回到個案填寫
             </button>
             <button type="button" id="btn-mark-done" class="btn btn-success">完成本次評估 ✓</button>
-            <button type="button" class="btn btn-primary" id="btn-export">
-              匯出紀錄
-            </button>
           </div>
         </div>
       </div>
@@ -1826,26 +1823,6 @@ function renderVasChart() {
       renderCaseList();
       alert("已完成本次評估並儲存至個案管理。");
       switchTab("cases");
-    });
-
-    // 匯出紀錄 = 更新目前個案 + 下載 JSON（不新增個案）
-    $("#btn-export") && $("#btn-export").addEventListener("click", ()=>{
-      const res = upsertCurrentCaseAndRecord({ markDone:false });
-      if(!res) return;
-
-      const blob = new Blob([JSON.stringify(res.item, null, 2)], { type: "application/json;charset=utf-8" });
-      const a = document.createElement("a");
-      const name = (res.item.client?.name || "case").replace(/\s+/g,"_");
-      const dt = new Date().toISOString().slice(0,10);
-      a.href = URL.createObjectURL(blob);
-      a.download = `${name}_${dt}.json`;
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-      setTimeout(()=>URL.revokeObjectURL(a.href), 2000);
-
-      alert("已更新個案資料並下載 JSON。");
-      renderCaseList();
     });
 
     // search
