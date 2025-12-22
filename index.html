@@ -1126,11 +1126,8 @@
       job: client.job || null,
       // 如果你有 main_complaint 之類的欄位也可以一起放
       main_complaint: client.mainComplaint || null,
-  
-      // 把所有原始內容都塞進 JSON 欄位裡
+
       raw_client: client,
-      raw_visit: visit,
-      raw_therapist: therapist
     };
   
     // 6. 先建立/插入一筆 patient（病人基本資料）
