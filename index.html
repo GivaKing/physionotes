@@ -1155,12 +1155,12 @@
     };
   
     const { error: vErr } = await sb
-      .from("visits")
+      .from("visit")
       .insert(visitPayload);
   
     if (vErr) {
-      console.error("❌ 存 visits 失敗", vErr);
-      alert("存 visits 失敗：" + (vErr.message || ""));
+      console.error("❌ 存 visit 失敗", vErr);
+      alert("存 visit 失敗：" + (vErr.message || ""));
       return;
     }
   
