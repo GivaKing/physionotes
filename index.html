@@ -931,57 +931,50 @@
   const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
   async function syncCaseToSupabase() {
-    const client = loadClient();
-    const visit = loadVisit();
-    const therapist = loadTherapist();
+    const full = collectFullCase(); 
+    const c = full.client;
+    const v = full.visit;
+    const t = full.therapist;
   
-    if (!client.name) {
-      alert("沒有姓名，不能存");
-      return;
+    if (!c.name) {
+      return; // 沒有姓名先不要寫入避免資料無效
     }
   
-    // 1. 建立 patient
+    // ＝＝＝＝＝建立患者＝＝＝＝＝
     const { data: patient, error: pErr } = await sb
       .from("patients")
       .insert({
-        name: client.name,
-        age: client.age,
-        gender: client.gender,
-        job: client.job,
-        main_complaint: client.mainComplaint,
-        raw_client: client
+        name: c.name,
+        age: c.age,
+        gender: c.gender,
+        job: c.job,
+  
+        // ⭐直接把所有細節存成 JSON
+        raw_client: c,
+        raw_visit: v,
+        raw_therapist: t
       })
       .select()
       .single();
   
     if (pErr) {
-      console.error("❌ 存 patient 失敗", pErr);
-      alert("存 patient 失敗");
+      console.error("❌ 建立 patient 失敗", pErr);
       return;
     }
   
-    // 2. 建立 visit
+    // ＝＝＝＝＝建立訪視紀錄＝＝＝＝＝
     const { error: vErr } = await sb
       .from("visits")
       .insert({
         patient_id: patient.id,
-        visit_index: 1,
-        vas_now: visit.vasNow,
-        vas_max: visit.vasMax,
-        raw_visit: visit,
-        raw_therapist: therapist
+        raw_visit: v,
+        raw_therapist: t
       });
   
     if (vErr) {
-      console.error("❌ 存 visit 失敗", vErr);
-      alert("存 visit 失敗");
-      return;
+      console.error("❌ 建立 visit 失敗", vErr);
     }
-  
-    console.log("✅ 成功寫入 Supabase", patient);
-    alert("已寫入 Supabase（測試成功）");
   }
-
 
     
 (() => {
@@ -1433,7 +1426,13 @@
     alert("已建立新回診紀錄，請個案重新填寫 VAS。");
   };
 
-  
+function collectFullCase() {
+  return {
+    client: collectClient(),
+    visit: collectVisitFromSliders(),
+    therapist: collectTherapist()
+  };
+}
   
 function clearVasChart(){
   const cvs=document.getElementById("vas-chart");
