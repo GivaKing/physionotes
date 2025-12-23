@@ -1102,81 +1102,67 @@
   const resetVisit    = ()=>saveVisit({ vasNow:null, vasMax:null });
 
   async function syncCaseToSupabase() {
-    // 1. 檢查 Supabase 有沒有準備好
-    if (!sb) {
-      console.warn("⚠️ Supabase 還沒設定好，先不存。");
-      return;
+    if (!sb) return;
+  
+    const { data: userResult } = await sb.auth.getUser();
+    if (!userResult?.user) return;
+    const userId = userResult.user.id;
+  
+    const client = loadClient();
+    const visit = loadVisit();
+    const therapist = loadTherapist();
+  
+    if (!client.name) return;
+  
+    let patientId = null;
+    const currentCaseId = getCurrentCaseId();
+  
+    // ✅ 1️⃣ 已存在的 Supabase 病人
+    if (currentCaseId && currentCaseId.startsWith("sb_")) {
+      patientId = currentCaseId.replace("sb_", "");
     }
   
-    // 2. 檢查現在有沒有登入的人
-    const { data: userResult, error: userErr } = await sb.auth.getUser();
-    if (userErr || !userResult || !userResult.user) {
-      console.warn("⚠️ 還沒有登入帳號，所以不寫入 Supabase。");
-      return;
-    }
-    const user = userResult.user; // 這裡有 user.id 可以用來當 user_id
+    // ✅ 2️⃣ 如果沒有，才建立新 patient
+    if (!patientId) {
+      const { data: newPatient, error } = await sb
+        .from("patients")
+        .insert({
+          user_id: userId,
+          name: client.name,
+          age: client.age,
+          gender: client.gender,
+          job: client.job,
+          main_complaint: client.mainComplaint,
+          raw_client: client
+        })
+        .select()
+        .single();
   
-    // 3. 從 localStorage 把三個區塊的資料拿出來
-    const client    = loadClient();    // 基本資料
-    const visit     = loadVisit();     // 本次就診
-    const therapist = loadTherapist(); // 治療師評估
+      if (error) {
+        alert(error.message);
+        return;
+      }
   
-    // 4. 如果連姓名都沒有，就先不要寫入（避免一堆空資料）
-    if (!client.name) {
-      console.log("⚠️ 還沒有填姓名，先不寫入 Supabase。");
-      return;
-    }
-  
-    // 5. 組一包要丟進「patients」資料表的資料
-    const patientPayload = {
-      user_id: user.id,          // ★ 一定要有，才符合 RLS policy
-      name: client.name || null,
-      age: client.age || null,
-      gender: client.gender || null,
-      job: client.job || null,
-      // 如果你有 main_complaint 之類的欄位也可以一起放
-      main_complaint: client.mainComplaint || null,
-
-      raw_client: client,
-    };
-  
-    // 6. 先建立/插入一筆 patient（病人基本資料）
-    const { data: patientRow, error: pErr } = await sb
-      .from("patients")
-      .insert(patientPayload)
-      .select()
-      .single();
-  
-    if (pErr) {
-      console.error("❌ 存 patients 失敗", pErr);
-      alert("存 patients 失敗：" + (pErr.message || ""));
-      return;
+      patientId = newPatient.id;
+      setCurrentCaseId(`sb_${patientId}`);
     }
   
-    // 7. 再建立一筆 visit（這次來看診的紀錄）
-    const visitPayload = {
-      user_id: user.id,        // 同一個人
-      patient_id: patientRow.id,
-      visit_index: 1,          // 先固定 1，有需要之後再做多次就診
-      vas_now: visit.vasNow ?? null,
-      vas_max: visit.vasMax ?? null,
+    // ✅ 3️⃣ 永遠只新增 visit（療程）
+    const { error: vErr } = await sb.from("visit").insert({
+      user_id: userId,
+      patient_id: patientId,
+      vas_now: visit.vasNow,
+      vas_max: visit.vasMax,
       raw_visit: visit,
       raw_therapist: therapist
-    };
-  
-    const { error: vErr } = await sb
-      .from("visit")
-      .insert(visitPayload);
+    });
   
     if (vErr) {
-      console.error("❌ 存 visit 失敗", vErr);
-      alert("存 visit 失敗：" + (vErr.message || ""));
+      alert(vErr.message);
       return;
     }
   
-    console.log("✅ 已成功寫入 Supabase", { patientRow, visitPayload });
-    // 你如果不想一直跳視窗，可以把 alert 拿掉
-    // alert("已成功把這次的紀錄存到 Supabase！");
+    console.log("✅ 新增一筆療程成功", patientId);
   }
 
     //  Supabase Realtime：即時同步個案列表
