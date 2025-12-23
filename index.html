@@ -1220,7 +1220,7 @@
       .from("patients")
       .delete()
       .eq("id", realId)
-      .eq("user_id", u.user.id);
+      .eq("user_id", userId);
   
     if (error) {
       console.error(error);
