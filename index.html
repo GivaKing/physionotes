@@ -990,7 +990,10 @@
       if (authMode === "login"){
         const { data, error } = await sb.auth.signInWithPassword({ email, password });
         if (error) throw error;
+      
         showApp();
+        await syncPatientsFromSupabase();
+        subscribePatientsRealtime();
       }else{
         const { data, error } = await sb.auth.signUp({ email, password });
         if (error) throw error;
