@@ -991,11 +991,15 @@
         const { data, error } = await sb.auth.signInWithPassword({ email, password });
         if (error) throw error;
       
+        localStorage.removeItem(STORAGE.client);
+        localStorage.removeItem(STORAGE.therapist);
+        localStorage.removeItem(STORAGE.visit);
         setCurrentCaseId(null);
         setCurrentRecordIndex(0);
         resetVisit();
-        saveClient({});
-        saveTherapist({});
+        renderClientUI({});
+        renderTherapistUI({});
+        renderSummary();
 
         showApp();
         
@@ -1933,7 +1937,7 @@ function renderVasChart() {
 
     // clear cache
     $("#btn-clear") && $("#btn-clear").addEventListener("click", ()=>{
-      if(!confirm("確定要清除暫存？（不會刪除個案庫）")) return;
+      if(!confirm("確定要清除暫存？")) return;
       localStorage.removeItem(STORAGE.client);
       localStorage.removeItem(STORAGE.therapist);
       localStorage.removeItem(STORAGE.visit);
@@ -1943,7 +1947,6 @@ function renderVasChart() {
       renderClientUI({});
       renderTherapistUI({});
       renderSummary();
-      alert("已清除暫存。");
     });
 
    // client -> therapist
