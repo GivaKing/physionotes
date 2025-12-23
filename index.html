@@ -991,12 +991,14 @@
         const { data, error } = await sb.auth.signInWithPassword({ email, password });
         if (error) throw error;
       
-        showApp();
         setCurrentCaseId(null);
         setCurrentRecordIndex(0);
         resetVisit();
         saveClient({});
         saveTherapist({});
+
+        showApp();
+        
         await syncPatientsFromSupabase();
         subscribePatientsRealtime();
       }else{
