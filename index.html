@@ -1211,22 +1211,33 @@
   async function deleteCaseFromSupabase(caseId){
     if (!sb) return;
   
+    // ✅ 每次自己重新拿 user（不要依賴外部變數）
+    const { data: userResult, error } = await sb.auth.getUser();
+    if (error || !userResult?.user) {
+      alert("尚未登入，無法刪除");
+      return;
+    }
+  
     const userId = userResult.user.id;
+  
+    // 處理 sb_ 前綴
     const realId = String(caseId).startsWith("sb_")
       ? caseId.replace("sb_", "")
       : caseId;
   
-    const { error } = await sb
+    const { error: delErr } = await sb
       .from("patients")
       .delete()
       .eq("id", realId)
       .eq("user_id", userId);
   
-    if (error) {
-      console.error(error);
-      alert("刪除失敗：" + error.message);
+    if (delErr) {
+      console.error(delErr);
+      alert("刪除失敗：" + delErr.message);
       return;
     }
+  
+    console.log("✅ Supabase 個案已刪除", realId);
   }
 
   const loadLib = ()=>parse(localStorage.getItem(STORAGE.library),{});
