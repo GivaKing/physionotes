@@ -1211,7 +1211,7 @@
   async function deleteCaseFromSupabase(caseId){
     if (!sb) return;
   
-    // ⚠️ Supabase id 是數字，你的 caseId 是 sb_123
+    const userId = userResult.user.id;
     const realId = String(caseId).startsWith("sb_")
       ? caseId.replace("sb_", "")
       : caseId;
