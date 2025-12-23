@@ -991,15 +991,7 @@
         const { data, error } = await sb.auth.signInWithPassword({ email, password });
         if (error) throw error;
       
-        localStorage.removeItem(STORAGE.client);
-        localStorage.removeItem(STORAGE.therapist);
-        localStorage.removeItem(STORAGE.visit);
-        setCurrentCaseId(null);
-        setCurrentRecordIndex(0);
-        resetVisit();
-        renderClientUI({});
-        renderTherapistUI({});
-        renderSummary();
+        clearLocalDraft();
 
         showApp();
         
@@ -1057,6 +1049,7 @@
   if (btnLogout){
     btnLogout.addEventListener("click", async () => {
       if (sb){
+        clearLocalDraft()
         await sb.auth.signOut();
       }
       showLogin();
@@ -1296,6 +1289,19 @@
     // ⭐ 更新畫面
     renderCaseList();
   }
+
+  function clearLocalDraft() {
+    localStorage.removeItem(STORAGE.client);
+    localStorage.removeItem(STORAGE.therapist);
+    localStorage.removeItem(STORAGE.visit);
+    setCurrentCaseId(null);
+    setCurrentRecordIndex(0);
+    resetVisit();
+    renderClientUI({});
+    renderTherapistUI({});
+    renderSummary();
+  }
+
 
   const getCurrentCaseId = ()=>localStorage.getItem(STORAGE.currentCaseId);
   const setCurrentCaseId = (id)=> id ? localStorage.setItem(STORAGE.currentCaseId,id) : localStorage.removeItem(STORAGE.currentCaseId);
