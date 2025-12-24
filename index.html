@@ -1014,7 +1014,7 @@
       }else{
         const { data, error } = await sb.auth.signUp({ email, password });
         if (error) throw error;
-        alert("註冊成功 🎉\n\n請聯絡PhysioNotes官方開通權限。");
+        alert("註冊成功！\n\n請聯絡PhysioNotes官方開通權限。");
         pwInput.value = "";
       }
     }catch(err){
