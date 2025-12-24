@@ -1008,12 +1008,21 @@
         
         await syncPatientsFromSupabase();
         subscribePatientsRealtime();
-      }else{
-        const { data, error } = await sb.auth.signUp({ email, password });
-        if (error) throw error;
-        alert("註冊成功，已自動登入。");
-        showApp();
-      }
+      }}else{
+          const { data, error } = await sb.auth.signUp({
+            email,
+            password,
+            options: {
+              emailRedirectTo: window.location.origin
+            }
+          });
+          if (error) throw error;
+        
+          alert(
+            "註冊成功 🎉\n\n請至 Email 收取驗證信，完成驗證後再次登入。"
+          );
+          pwInput.value = "";
+        }
     }catch(err){
       console.error(err);
       authError.textContent = err.message || "登入 / 註冊失敗，請稍後再試。";
