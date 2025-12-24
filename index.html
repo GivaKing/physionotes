@@ -1008,7 +1008,7 @@
         
         await syncPatientsFromSupabase();
         subscribePatientsRealtime();
-      }}else{
+      }else{
           const { data, error } = await sb.auth.signUp({
             email,
             password,
