@@ -967,7 +967,7 @@
     } else {
       tabSignup.classList.add("active");
       tabLogin.classList.remove("active");
-      btnAuth.textContent = "註冊並登入";
+      btnAuth.textContent = "註冊";
     }
     authError.textContent = "";
   }
@@ -1008,19 +1008,10 @@
         
         await syncPatientsFromSupabase();
         subscribePatientsRealtime();
-      }}else{
-          const { data, error } = await sb.auth.signUp({
-            email,
-            password,
-            options: {
-              emailRedirectTo: window.location.origin
-            }
-          });
+        }else{
+          const { data, error } = await sb.auth.signUp({ email, password });
           if (error) throw error;
-        
-          alert(
-            "註冊成功 🎉\n\n請至 Email 收取驗證信，完成驗證後再次登入。"
-          );
+          alert("註冊成功 🎉\n\n請至 Email 收取驗證信，完成驗證後再次登入。");
           pwInput.value = "";
         }
     }catch(err){
