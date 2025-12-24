@@ -1001,6 +1001,9 @@
       if (authMode === "login"){
         const { data, error } = await sb.auth.signInWithPassword({ email, password });
         if (error) throw error;
+
+        const ok = await guardRoleOrBlock();
+        if (!ok) return;
       
         clearLocalDraft();
 
@@ -1011,7 +1014,7 @@
       }else{
         const { data, error } = await sb.auth.signUp({ email, password });
         if (error) throw error;
-        alert("註冊成功 🎉\n\n請至 Email 收取驗證信，完成驗證後再次登入。");
+        alert("註冊成功 🎉\n\n請聯絡PhysioNotes官方開通權限。");
         pwInput.value = "";
       }
     }catch(err){
@@ -1035,6 +1038,9 @@
       const { data, error } = await sb.auth.getSession();
       if (error) throw error;
       if (data && data.session){
+
+        const ok = await guardRoleOrBlock();
+        if (!ok) return;
         showApp();
         await syncPatientsFromSupabase();
         subscribePatientsRealtime();
@@ -1313,6 +1319,47 @@
     renderSummary();
   }
 
+  async function getMyRole(){
+    if (!sb) return null;
+  
+    const { data: userResult } = await sb.auth.getUser();
+    const user = userResult?.user;
+    if (!user) return null;
+  
+    const { data, error } = await sb
+      .from("profiles")
+      .select("role")
+      .eq("user_id", userId)
+      .maybeSingle();
+  
+    if (error) {
+      console.error("讀取 profiles 失敗", error);
+      return null;
+    }
+    return data?.role ?? null;
+  }
+  
+  async function guardRoleOrBlock(){
+    const role = await getMyRole();
+  
+    // 沒有 role 也先擋（通常是 profiles/RLS/trigger 沒弄好）
+    if (!role) {
+      alert("此帳號尚未建立權限資料。");
+      await sb.auth.signOut();
+      showLogin();
+      return false;
+    }
+  
+    if (role === "pending") {
+      alert("你的帳號正在等待開通。\n請聯絡管理者開通權限。");
+      await sb.auth.signOut();
+      showLogin();
+      return false;
+    }
+  
+    // therapist / admin 才放行
+    return true;
+  }
 
   const getCurrentCaseId = ()=>localStorage.getItem(STORAGE.currentCaseId);
   const setCurrentCaseId = (id)=> id ? localStorage.setItem(STORAGE.currentCaseId,id) : localStorage.removeItem(STORAGE.currentCaseId);
