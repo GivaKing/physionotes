@@ -1011,8 +1011,8 @@
       }else{
         const { data, error } = await sb.auth.signUp({ email, password });
         if (error) throw error;
-        alert("註冊成功，已自動登入。");
-        showApp();
+        alert("註冊成功 🎉\n\n請至 Email 收取驗證信，完成驗證後再次登入。");
+        pwInput.value = "";
       }
     }catch(err){
       console.error(err);
