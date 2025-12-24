@@ -1012,9 +1012,7 @@
           const { data, error } = await sb.auth.signUp({
             email,
             password,
-            options: {
-              emailRedirectTo: window.location.origin
-            }
+
           });
           if (error) throw error;
         
