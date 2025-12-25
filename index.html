@@ -1036,7 +1036,7 @@
         // ⬇⬇⬇【重要：確保不殘留登入狀態】
         await sb.auth.signOut();
       
-        alert("註冊成功！\n\n請聯絡 PhysioNotes 官方開通權限後再登入。");
+        alert("註冊成功！\n\n請聯絡 PhysioNotes 管理員開通權限後再登入。");
         pwInput.value = "";
       }
 
@@ -1374,14 +1374,23 @@
     }
   
     if (role === "pending") {
-      alert("你的帳號正在等待開通。\n請聯絡管理者開通權限。");
+      alert("你的帳號正在等待開通。\n請聯絡 PhysioNotes 管理員開通權限。");
       await sb.auth.signOut();
       showLogin();
       return false;
     }
   
-    // therapist / admin 才放行
-    return true;
+    // ✅ trial / therapist / admin 都放行
+    if (role === "trial" || role === "therapist" || role === "admin") {
+      window.__role = role; // ✅存一個全域，等等 UI 會用到
+      return true;
+    }
+  
+    // 其他未知角色：保守擋掉
+    alert("此帳號權限設定不正確。");
+    await sb.auth.signOut();
+    showLogin();
+    return false;
   }
 
   const getCurrentCaseId = ()=>localStorage.getItem(STORAGE.currentCaseId);
