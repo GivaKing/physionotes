@@ -1309,7 +1309,7 @@
       return;
     }
   
-    const lib = {};
+    const lib = loadLib() || {};
   
     data.forEach((p) => {
       const caseId = `sb_${p.id}`;
@@ -2030,8 +2030,36 @@ function renderVasChart() {
 
   const bind = ()=>{
     // tabs
+    // tabs（點「個案管理」時：先 sync 再 render）
+    let _subscribedPatients = false;
+    
     $$(".tab-btn").forEach(b=>{
-      b.addEventListener("click", ()=> switchTab((b.getAttribute("data-target")||"page-client").replace("page-","")));
+      b.addEventListener("click", async ()=>{
+        const key = (b.getAttribute("data-target") || "page-client").replace("page-","");
+        switchTab(key);
+    
+        // ✅ 重點：點個案管理時，強制從 Supabase 拉最新資料再渲染
+        if (key === "cases") {
+          try{
+            if (typeof syncPatientsFromSupabase === "function") {
+              await syncPatientsFromSupabase();
+            }
+          }catch(err){
+            console.error("syncPatientsFromSupabase failed:", err);
+          }
+    
+          // ✅ 不管 sync 成功與否，至少都 render 一次（避免畫面空白）
+          if (typeof renderCaseList === "function") {
+            renderCaseList();
+          }
+    
+          // ✅ realtime 只訂閱一次，避免越點越多次
+          if (!_subscribedPatients && typeof subscribePatientsRealtime === "function") {
+            subscribePatientsRealtime();
+            _subscribedPatients = true;
+          }
+        }
+      });
     });
 
     // pill toggles
