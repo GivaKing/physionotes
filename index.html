@@ -1165,7 +1165,13 @@
     if (currentCaseId && currentCaseId.startsWith("sb_")) {
       patientId = currentCaseId.replace("sb_", "");
     }
-  
+
+    // ✅ 如果 trial 已達上限，而且現在是「要建立新 patient」就擋
+    if (!patientId && isTrialAndReachedLimit()) {
+      alert(`試用版最多新增 ${getTrialLimit()} 筆個案，如需更多請升級或聯絡管理者。`);
+      return;
+    } 
+    
     // ✅ 2️⃣ 如果沒有，才建立新 patient
     if (!patientId) {
       const { data: newPatient, error } = await sb
@@ -1342,7 +1348,7 @@
     renderSummary();
   }
 
-  async function getMyRole(){
+  async function getMyProfile(){
     if (!sb) return null;
   
     const { data: userResult } = await sb.auth.getUser();
@@ -1351,7 +1357,7 @@
   
     const { data, error } = await sb
       .from("profiles")
-      .select("role")
+      .select("role, trial_patient_limit")
       .eq("user_id", user.id)
       .maybeSingle();
   
@@ -1359,19 +1365,21 @@
       console.error("讀取 profiles 失敗", error);
       return null;
     }
-    return data?.role ?? null;
+  
+    return data || null;
   }
   
   async function guardRoleOrBlock(){
-    const role = await getMyRole();
+    const profile = await getMyProfile();
   
-    // 沒有 role 也先擋（通常是 profiles/RLS/trigger 沒弄好）
-    if (!role) {
+    if (!profile || !profile.role) {
       alert("此帳號尚未建立權限資料。");
       await sb.auth.signOut();
       showLogin();
       return false;
     }
+  
+    const role = profile.role;
   
     if (role === "pending") {
       alert("你的帳號正在等待開通。\n請聯絡 PhysioNotes 管理員開通權限。");
@@ -1380,18 +1388,19 @@
       return false;
     }
   
-    // ✅ trial / therapist / admin 都放行
+    // ✅ trial / therapist / admin 放行
     if (role === "trial" || role === "therapist" || role === "admin") {
-      window.__role = role; // ✅存一個全域，等等 UI 會用到
+      window.__role = role;
+      window.__profile = profile; // ✅這行很重要：給 UI / 限制用
       return true;
     }
   
-    // 其他未知角色：保守擋掉
     alert("此帳號權限設定不正確。");
     await sb.auth.signOut();
     showLogin();
     return false;
   }
+
 
   const getCurrentCaseId = ()=>localStorage.getItem(STORAGE.currentCaseId);
   const setCurrentCaseId = (id)=> id ? localStorage.setItem(STORAGE.currentCaseId,id) : localStorage.removeItem(STORAGE.currentCaseId);
@@ -1589,6 +1598,12 @@
   };
 
   const createNewCaseFromCurrent = ()=>{
+
+    if (isTrialAndReachedLimit()) {
+      alert(`試用版最多新增 ${getTrialLimit()} 筆個案，如需更多請升級或聯絡管理者。`);
+      return null;
+    }
+    
     const c = collectClient();
     if(!c.name){ alert("請至少填寫姓名"); return null; }
 
@@ -1894,6 +1909,32 @@ function renderVasChart() {
     }
   };
 
+  function getTrialLimit(){
+    const n = Number(window.__profile?.trial_patient_limit);
+    return Number.isFinite(n) && n > 0 ? n : 3;
+  }
+  
+  function getCaseCount(){
+    const lib = loadLib();
+    return Object.keys(lib || {}).length;
+  }
+  
+  // 是否已達「新增個案」上限
+  function isTrialAndReachedLimit(){
+    return window.__role === "trial" && getCaseCount() >= getTrialLimit();
+  }
+  
+  function setButtonsLocked(locked){
+    const btnGoto = document.getElementById("btn-goto-therapist");
+    const btnDone = document.getElementById("btn-mark-done");
+    if (btnGoto) btnGoto.disabled = !!locked;
+    if (btnDone) btnDone.disabled = !!locked;
+  
+    // 讓使用者看得懂為何不能按
+    if (btnGoto) btnGoto.title = locked ? `試用版已達上限（最多 ${getTrialLimit()} 筆個案）` : "";
+    if (btnDone) btnDone.title = locked ? `試用版已達上限（最多 ${getTrialLimit()} 筆個案）` : "";
+  }
+
   const renderCaseList = ()=>{
     const list = $("#case-list");
     const cnt  = $("#case-count");
@@ -1912,7 +1953,25 @@ function renderVasChart() {
       return (c.name||"").includes(kw) || (c.mainComplaint||"").includes(kw) || String(vas ?? "").includes(kw);
     }) : keys;
 
-    cnt.textContent = `共 ${ids.length} 筆個案`;
+    const total = ids.length;
+
+    if (window.__role === "trial") {
+      const limit = getTrialLimit();
+      cnt.textContent = `共 ${total} 筆個案（試用版最多新增 ${limit} 筆個案）`;
+    
+      if (total >= limit) {
+        // 1) 跳提示
+        alert(`試用版最多新增 ${limit} 筆個案，如需更多請升級或聯絡管理者。`);
+        // 2) 鎖定按鈕
+        setButtonsLocked(true);
+      } else {
+        setButtonsLocked(false);
+      }
+    } else {
+      cnt.textContent = `共 ${total} 筆個案`;
+      setButtonsLocked(false);
+    }
+
     list.innerHTML = "";
 
     ids.forEach(id=>{
