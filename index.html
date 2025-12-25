@@ -1168,7 +1168,7 @@
 
     // ✅ 如果 trial 已達上限，而且現在是「要建立新 patient」就擋
     if (!patientId && isTrialAndReachedLimit()) {
-      alert(`試用版最多新增 ${getTrialLimit()} 筆個案，如需更多請升級或聯絡管理者。`);
+      alert(`試用版最多新增 ${getTrialLimit()} 筆個案。\n如需更多請升級或聯絡 PhysioNotes 管理員。`);
       return;
     } 
     
@@ -1600,7 +1600,7 @@
   const createNewCaseFromCurrent = ()=>{
 
     if (isTrialAndReachedLimit()) {
-      alert(`試用版最多新增 ${getTrialLimit()} 筆個案，如需更多請升級或聯絡 PhysioNotes 管理員。`);
+      alert(`試用版最多新增 ${getTrialLimit()} 筆個案。\n如需更多請升級或聯絡 PhysioNotes 管理員。` ;
       return null;
     }
     
