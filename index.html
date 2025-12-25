@@ -170,8 +170,19 @@
       background: #fff;
       box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.12);
     }
+    .title{
+      display:flex;
+      align-items:center;
+      gap:12px;
+    }
+    
+    .title-right{
+      margin-left:auto;
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
     .user-chip{
-      margin-left: auto;
       display: inline-flex;
       align-items: center;
       gap: 8px;
@@ -577,11 +588,13 @@
       <div class="title">
         PhysioNotes
         <span class="badge">網頁版</span>
-        <div class="user-chip hidden" id="user-chip" title="">
-          <span class="user-dot"></span>
-          <span class="user-text" id="user-text">User</span>
+        <div class="title-right">
+          <div class="user-chip hidden" id="user-chip" title="">
+            <span class="user-dot"></span>
+            <span class="user-text" id="user-text">User</span>
+          </div>
+          <button id="btn-logout" class="btn btn-outline btn-logout">登出</button>
         </div>
-        <button id="btn-logout" class="btn btn-outline btn-logout">登出</button>
       </div>
       <div class="tagline-row">
         <div class="subtitle">請先由個案填寫諮詢資料，再由治療師進入評估頁。</div>
