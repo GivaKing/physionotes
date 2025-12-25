@@ -894,6 +894,11 @@
 
         <div class="row">
           <label for="reasoning">臨床推論摘要</label>
+          
+          <div class="inline-tools">
+            <button type="button" class="chip insert-arrow">→</button>
+          </div>
+          
           <textarea id="reasoning" placeholder="例：推測以神經張力與負荷敏感為主，早期由薦髂痛轉為腿後拉扯與足部麻木…" data-field-pt="reasoning"></textarea>
         </div>
 
@@ -2232,6 +2237,32 @@ function renderVasChart() {
     
       alert("完成本次評估，並已同步到雲端資料庫");
       switchTab("cases");
+    });
+
+    // 在臨床推論摘要插入 →
+    document.querySelector(".insert-arrow")?.addEventListener("click", () => {
+      const textarea = document.getElementById("reasoning");
+      if (!textarea) return;
+    
+      const arrow = " → ";
+    
+      const start = textarea.selectionStart;
+      const end = textarea.selectionEnd;
+      const value = textarea.value;
+    
+      // 在游標位置插入 →
+      textarea.value =
+        value.slice(0, start) +
+        arrow +
+        value.slice(end);
+    
+      // 游標移到插入後
+      const newPos = start + arrow.length;
+      textarea.setSelectionRange(newPos, newPos);
+      textarea.focus();
+    
+      // 若你有 auto-save 或 sync
+      textarea.dispatchEvent(new Event("input", { bubbles: true }));
     });
 
     // search
