@@ -1014,9 +1014,32 @@
       }else{
         const { data, error } = await sb.auth.signUp({ email, password });
         if (error) throw error;
-        alert("註冊成功！\n\n請聯絡PhysioNotes官方開通權限。");
+      
+        const user = data.user;
+        if (!user){
+          throw new Error("使用者建立失敗，請稍後再試");
+        }
+      
+        // ⬇⬇⬇【新增：建立 profiles】
+        const { error: profileError } = await sb
+          .from("profiles")
+          .insert({
+            user_id: user.id,
+            email: user.email,
+            role: "pending",
+          });
+      
+        if (profileError){
+          throw profileError;
+        }
+      
+        // ⬇⬇⬇【重要：確保不殘留登入狀態】
+        await sb.auth.signOut();
+      
+        alert("註冊成功！\n\n請聯絡 PhysioNotes 官方開通權限後再登入。");
         pwInput.value = "";
       }
+
     }catch(err){
       console.error(err);
       authError.textContent = err.message || "登入 / 註冊失敗，請稍後再試。";
