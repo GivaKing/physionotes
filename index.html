@@ -1411,6 +1411,7 @@
   
     // 顯示名稱優先：profiles.name > email
     let label = user.email || "User";
+    if (label.includes("@")) label = label.split("@")[0];
   
     // 如果你有 profiles 表，想顯示 name，可打開這段：
     // const { data: prof } = await sb
