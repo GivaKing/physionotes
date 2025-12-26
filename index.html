@@ -213,28 +213,65 @@
     }
     
     .hidden{ display:none !important; }
-
-    .terms-line {
+    
+    .terms-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+    }
+    
+    .terms-backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.45);
+    }
+    
+    .terms-panel {
+      position: relative;
+      margin: 5vh auto;
+      width: min(92vw, 720px);
+      max-height: 90vh;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.25);
       display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 0.9rem;
-      color: #374151;
+      flex-direction: column;
     }
     
-    .terms-line input[type="checkbox"] {
-      width: 16px;
-      height: 16px;
+    .terms-content {
+      padding: 24px;
+      overflow-y: auto;
+      line-height: 1.6;
+      color: #111827;
     }
     
-    .terms-line a {
-      color: #2563eb;
-      text-decoration: underline;
+    .terms-content h1 {
+      font-size: 1.4rem;
+      margin-bottom: 16px;
+    }
+    
+    .terms-content h2 {
+      font-size: 1.1rem;
+      margin-top: 20px;
+    }
+    
+    .terms-content ol {
+      padding-left: 20px;
+    }
+    
+    .terms-close {
+      position: absolute;
+      top: 10px;
+      right: 12px;
+      border: none;
+      background: transparent;
+      font-size: 1.4rem;
       cursor: pointer;
+      color: #6b7280;
     }
     
-    .terms-line a:hover {
-      color: #1d4ed8;
+    .terms-close:hover {
+      color: #111827;
     }
 
     .chips {
@@ -2313,10 +2350,14 @@ function renderVasChart() {
     </html>
     `;
   
-    const win = window.open("", "_blank", "width=700,height=800,scrollbars=yes");
-    win.document.open();
-    win.document.write(html);
-    win.document.close();
+    window.openTermsWindow = function () {
+      document.getElementById("terms-modal")?.classList.remove("hidden");
+    };
+    
+    window.closeTermsModal = function () {
+      document.getElementById("terms-modal")?.classList.add("hidden");
+    };
+
   }
 
   const renderCaseList = ()=>{
@@ -2694,5 +2735,47 @@ document.getElementById("import-file")?.addEventListener("change",(e)=>{
 })();
 
 </script>
+
+  <!-- ===== Terms Modal ===== -->
+  <div id="terms-modal" class="terms-modal hidden">
+    <div class="terms-backdrop" onclick="closeTermsModal()"></div>
+  
+    <div class="terms-panel">
+      <button class="terms-close" onclick="closeTermsModal()">✕</button>
+  
+      <div class="terms-content">
+        <h1>個人資料蒐集、處理及利用同意書</h1>
+  
+        <p>
+          歡迎您使用 PhysioNotes（以下稱「本系統」）。為了提供個案管理與治療評估服務，
+          我們將依據《個人資料保護法》蒐集、處理及利用您的個人資料：
+        </p>
+  
+        <h2>一、蒐集之目的</h2>
+        <ol>
+          <li>提供個案紀錄、治療評估與醫療輔助管理服務。</li>
+          <li>使用者帳號識別、身分驗證與系統管理。</li>
+          <li>系統功能通知、使用狀態提醒。</li>
+        </ol>
+  
+        <h2>二、蒐集之個人資料類別</h2>
+        <ol>
+          <li>姓名、電子郵件</li>
+          <li>出生年月日、職業</li>
+          <li>登入與操作紀錄</li>
+        </ol>
+  
+        <h2>三、您的權利</h2>
+        <ol>
+          <li>查詢、閱覽、更正或刪除</li>
+          <li>請求停止蒐集與利用</li>
+        </ol>
+  
+        <p>勾選同意並完成註冊，即表示您已閱讀並同意上述內容。</p>
+      </div>
+    </div>
+  </div>
+
+  
 </body>
 </html>
