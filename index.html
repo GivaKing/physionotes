@@ -1528,26 +1528,33 @@
     const text = document.getElementById("user-text");
     if (!chip || !text || !sb) return;
   
-    const { data: { user } } = await sb.auth.getUser();
-    if (!user){
+    // 1️⃣ 先拿 auth user
+    const { data: { user }, error } = await sb.auth.getUser();
+    if (error || !user){
       chip.classList.add("hidden");
       return;
     }
   
-    // 顯示名稱優先：profiles.name > email
+    // 2️⃣ 預設 fallback：email
     let label = user.email || "User";
-    if (label.includes("@")) label = label.split("@")[0];
   
-    // 如果你有 profiles 表，想顯示 name，可打開這段：
-    // const { data: prof } = await sb
-    //   .from("profiles")
-    //   .select("name")
-    //   .eq("user_id", user.id)
-    //   .maybeSingle();
-    // if (prof?.name) label = prof.name;
+    // 3️⃣ 從 profiles 讀 name（關鍵）
+    const { data: prof, error: profErr } = await sb
+      .from("profiles")
+      .select("name")
+      .eq("id", user.id)        // ⚠️ 注意：是 id，不是 user_id
+      .maybeSingle();
   
+    if (!profErr && prof?.name) {
+      label = prof.name;
+    } else {
+      // 如果沒有 name，再把 email 拿 @ 前面當顯示
+      if (label.includes("@")) label = label.split("@")[0];
+    }
+  
+    // 4️⃣ 更新 UI
     text.textContent = label;
-    chip.title = label; // 滑鼠移上去可看到完整內容
+    chip.title = label;
     chip.classList.remove("hidden");
   }
 
