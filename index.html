@@ -502,6 +502,9 @@
     border:1px solid #d1d5db;
     padding:10px 14px;
     font-size:0.9rem;
+    background:#f9fafb;
+    color: var(--text);
+    outline:none;
   }
   .auth-input:focus{
     outline:none;
@@ -1168,6 +1171,7 @@
   const appRoot   = document.getElementById("app-root");
   const emailInput = document.getElementById("auth-email");
   const pwInput    = document.getElementById("auth-password");
+  const btnTogglePw = document.getElementById("btn-toggle-pw");
   const authError  = document.getElementById("auth-error");
   const tabLogin   = document.getElementById("tab-login");
   const tabSignup  = document.getElementById("tab-signup");
@@ -1266,9 +1270,9 @@
           .insert({
             user_id: user.id,
             email: user.email,
-            name: document.getElementById("signup-name").value,
-            birthday: document.getElementById("signup-birthday").value,
-            job: document.getElementById("signup-job").value,
+            name: document.getElementById("auth-name")?.value || "",
+            birthday: document.getElementById("auth-birthday")?.value || "",
+            job: document.getElementById("auth-job")?.value || "",
             role: "pending",
           });
       
@@ -1382,11 +1386,6 @@
     }
   }
 
-  const pwToggle = document.getElementById("toggle-password");
-  pwToggle?.addEventListener("click", () => {
-    pwInput.type = pwInput.type === "password" ? "text" : "password";
-  });
-  const btnTogglePw = document.getElementById("btn-toggle-pw");
 
   const loadClient    = ()=>parse(localStorage.getItem(STORAGE.client),{});
   const saveClient = (d)=>{
