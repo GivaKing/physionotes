@@ -399,31 +399,6 @@
       color: var(--primary);
       font-weight: 500;
     }
-    .terms-row{
-      display:flex;
-      align-items:center;
-      gap:10px;
-      padding:6px 2px;
-    }
-    .terms-row input[type="checkbox"]{
-      width:16px;
-      height:16px;
-      flex:0 0 auto;
-    }
-    .terms-text{
-      margin:0;
-      font-size:.85rem;
-      color:#374151;
-      line-height:1.2;
-    }
-    .terms-link{
-      color:#2563eb;
-      text-decoration:none;
-      font-weight:600;
-    }
-    .terms-link:hover{
-      text-decoration:underline;
-    }
   
     .case-row{display:flex;gap:10px;align-items:center;padding:10px 12px;border-bottom:1px solid var(--border);cursor:pointer;background:#fff;}
     .case-row:hover{background:#f9fafb;}
@@ -688,16 +663,25 @@
         </div>
       </div>
 
-      <!-- ✅ 只在註冊顯示：個資告知 + 同意（單行） -->
+      <!-- ✅ 只在註冊顯示：註冊須知 + 勾選 -->
       <div class="auth-field signup-only">
-        <div class="terms-row">
-          <input id="agree-terms" type="checkbox" />
-          <label for="agree-terms" class="terms-text">
-            我已閱讀並同意
-            <a href="#" onclick="openTermsWindow(); return false;">註冊須知與個資同意書</a>
-          </label>
-        </div>
-        <div class="hint">需勾選同意才可註冊。</div>
+        <details style="margin:6px 0 8px;">
+          <summary style="cursor:pointer;color:#374151;font-size:.85rem;">
+            註冊須知與個資同意書（點開查看）
+          </summary>
+          <div style="margin-top:8px;font-size:.8rem;color:#4b5563;line-height:1.5;">
+            <!-- 這裡放你的條款文字（可先放短版，之後再擴充） -->
+            1. 本系統僅用於個案管理與評估紀錄。<br>
+            2. 您同意系統依用途保存必要資料。<br>
+            3. 未付費開通權限前無法使用完整功能。<br>
+            4. 註冊帳號後請先連絡管理員開通帳號。<br>
+          </div>
+        </details>
+      
+        <label style="display:flex;align-items:center;gap:8px;font-size:.85rem;color:#374151;">
+          <input id="agree-terms" type="checkbox">
+          我已閱讀並同意以上內容
+        </label>
       </div>
 
       <button type="button" class="auth-btn" id="btn-auth-submit">登入</button>
@@ -1226,92 +1210,6 @@
   
     authError.textContent = "";
   }
-
-  (() => {
-
-  // ✅ 放在這裡：IIFE 裡面，後面會用得到
-  function openTermsWindow() {
-    const html = `
-<!doctype html>
-<html lang="zh-Hant">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>PhysioNotes 註冊須知與個資同意書</title>
-  <style>
-    body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;line-height:1.6;padding:20px;max-width:880px;margin:0 auto;color:#111}
-    h1{font-size:20px;margin:0 0 12px}
-    h2{font-size:16px;margin:18px 0 8px}
-    ol,ul{padding-left:20px}
-    .muted{color:#666;font-size:13px}
-    .box{background:#f7f7f7;border:1px solid #e5e7eb;border-radius:12px;padding:14px}
-  </style>
-</head>
-<body>
-  <h1>PhysioNotes 註冊須知與個資同意書</h1>
-  <div class="muted">版本：v1｜更新日期：2025-12-26</div>
-
-  <div class="box">
-    <p>為使用 PhysioNotes（下稱「本系統」）之個案管理與評估紀錄功能，您於註冊前請詳閱並同意以下條款；勾選「我已閱讀並同意」即表示您已閱讀、瞭解並同意本文件內容。</p>
-  </div>
-
-  <h2>一、蒐集之個人資料類別</h2>
-  <ol>
-    <li>帳號資料：Email、密碼（由 Supabase Auth 進行驗證與保存）。</li>
-    <li>基本資料：姓名、出生年月日、職業等您於註冊時所填資料。</li>
-    <li>系統使用資料：登入時間、操作紀錄、必要的除錯紀錄（僅為維運與資安目的）。</li>
-  </ol>
-
-  <h2>二、蒐集目的與利用方式</h2>
-  <ol>
-    <li>用於帳號建立、身分識別、登入驗證、權限控管與客服聯繫。</li>
-    <li>用於建立治療師/管理者之個案管理、評估紀錄與資料同步（含雲端資料庫）。</li>
-    <li>利用地區：原則上於台灣；若使用第三方雲端服務（如 Supabase），可能涉及跨境傳輸與儲存。</li>
-  </ol>
-
-  <h2>三、資料保存期間</h2>
-  <ol>
-    <li>於您帳號存續期間，或達成蒐集目的之必要期間內保存。</li>
-    <li>若您要求刪除帳號或終止使用，本系統將依合理期間與法令要求處理。</li>
-  </ol>
-
-  <h2>四、第三方與委外處理</h2>
-  <ol>
-    <li>本系統使用 Supabase 作為驗證與資料庫服務供應商，可能由其代為處理與保存資料。</li>
-    <li>本系統會採取合理資安措施（如存取控管、權限隔離、傳輸加密等）保護資料。</li>
-  </ol>
-
-  <h2>五、您的權利（依個資法）</h2>
-  <ol>
-    <li>您得就您的個人資料行使查詢/閱覽、製給複製本、補充/更正、停止蒐集處理利用、刪除等權利。</li>
-    <li>若您選擇不提供必要資料，可能導致無法完成註冊或使用部分功能。</li>
-  </ol>
-
-  <h2>六、帳號與使用規範</h2>
-  <ol>
-    <li>您應提供正確資料並妥善保管帳密；若因您保管不當致損害，須自行負責。</li>
-    <li>禁止任何未經授權之存取、破解、干擾服務或不法利用；違者本系統得暫停或終止服務並依法處理。</li>
-  </ol>
-
-  <h2>七、同意之表示</h2>
-  <p>您勾選「我已閱讀並同意」並完成註冊，即表示您已閱讀、瞭解並同意本同意書與註冊須知。</p>
-
-  <p class="muted">若有個資相關問題，請聯絡系統管理者。</p>
-</body>
-</html>
-    `.trim();
-
-    const w = window.open("", "termsWindow", "width=900,height=700,noopener,noreferrer,scrollbars=yes");
-    if (!w) {
-      alert("瀏覽器阻擋彈出視窗，請允許此網站開啟新視窗後再試一次。");
-      return;
-    }
-    w.document.open();
-    w.document.write(html);
-    w.document.close();
-  }
-
-  window.openTermsWindow = openTermsWindow;
 
   function showApp(){
     if (!appRoot || !authScreen) return;
