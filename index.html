@@ -586,6 +586,8 @@
   .auth-input[type="date"]{
     -webkit-appearance: none;
     appearance: none;
+    height: auto;
+    line-height: normal;
   }
 
 </style>
@@ -661,24 +663,6 @@
             </svg>
           </button>
         </div>
-      </div>
-
-      <div id="signup-agreement" class="hidden" style="margin-top:12px;">
-        <details>
-          <summary style="cursor:pointer;font-size:0.85rem;">
-            📄 註冊須知與個資同意書（點開查看）
-          </summary>
-          <div style="font-size:0.78rem;color:#4b5563;margin-top:6px;line-height:1.5;">
-            本系統僅供醫療紀錄與臨床評估使用。  
-            您所填寫之個人資料，僅限用於 PhysioNotes 服務。  
-            請勿填寫不屬於您本人的資訊。
-          </div>
-        </details>
-      
-        <label style="display:flex;align-items:center;gap:6px;margin-top:8px;font-size:0.8rem;">
-          <input type="checkbox" id="agree-terms">
-          我已閱讀並同意以上內容
-        </label>
       </div>
 
       <button type="button" class="auth-btn" id="btn-auth-submit">登入</button>
