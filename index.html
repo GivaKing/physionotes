@@ -589,12 +589,25 @@
   .auth-eye:hover{ background:#f3f4f6; }
   .auth-eye svg{ width:18px;height:18px; }
   
-  /* date input 在不同瀏覽器會怪，盡量統一 */
+  /* date input：強制跟其他欄位同高 */
   .auth-input[type="date"]{
     -webkit-appearance: none;
     appearance: none;
-    height: auto;
-    line-height: normal;
+    height: 44px;         /* ✅ 跟其他欄位一致 */
+    line-height: 44px;    /* ✅ 文字垂直置中 */
+    padding: 0 14px;      /* ✅ 跟其他欄位一致 */
+  }
+  
+  /* WebKit(Chrome/Safari) 日期文字區域也對齊 */
+  .auth-input[type="date"]::-webkit-date-and-time-value{
+    line-height: 44px;
+  }
+  
+  /* 日曆 icon 不要擠壓高度（可留可不留，但通常會更穩） */
+  .auth-input[type="date"]::-webkit-calendar-picker-indicator{
+    cursor: pointer;
+    height: 18px;
+    width: 18px;
   }
 
 </style>
