@@ -549,6 +549,41 @@
   .btn-logout:hover{
     background:#f3f4f6;
   }
+  /* 註冊欄位：只在 signup 顯示 */
+  .signup-only { display: none; }
+  .auth-card.signup .signup-only { display: block; }
+  
+  /* password + eye */
+  .auth-input-wrap{
+    position: relative;
+  }
+  .auth-input-wrap .auth-input{
+    padding-right: 44px; /* 右邊留給眼睛 */
+  }
+  .auth-eye{
+    position:absolute;
+    right:10px;
+    top:50%;
+    transform:translateY(-50%);
+    width:34px;
+    height:34px;
+    border:none;
+    background:transparent;
+    border-radius:999px;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#6b7280;
+  }
+  .auth-eye:hover{ background:#f3f4f6; }
+  .auth-eye svg{ width:18px;height:18px; }
+  
+  /* date input 在不同瀏覽器會怪，盡量統一 */
+  .auth-input[type="date"]{
+    -webkit-appearance: none;
+    appearance: none;
+  }
 
 </style>
 </head>
@@ -590,30 +625,17 @@
       </div>
 
       <div class="auth-field">
-        <label class="auth-label">密碼</label>
+        <label class="auth-label" for="auth-password">密碼</label>
       
-        <div style="position:relative;">
-          <input
-            id="auth-password"
-            type="password"
-            class="auth-input"
-            placeholder="至少 6 碼"
-          />
-      
-          <button
-            type="button"
-            id="toggle-password"
-            style="
-              position:absolute;
-              right:12px;
-              top:50%;
-              transform:translateY(-50%);
-              background:none;
-              border:none;
-              cursor:pointer;
-              font-size:16px;
-            "
-          >👁</button>
+        <div class="auth-input-wrap">
+          <input id="auth-password" type="password" class="auth-input"
+                 placeholder="至少 6 碼" autocomplete="current-password">
+          <button type="button" class="auth-eye" id="btn-toggle-pw" aria-label="顯示/隱藏密碼">
+            <!-- eye icon -->
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 5c5 0 9 4.5 10 7-1 2.5-5 7-10 7S3 14.5 2 12c1-2.5 5-7 10-7zm0 2C8.6 7 5.6 9.9 4.4 12 5.6 14.1 8.6 17 12 17s6.4-2.9 7.6-5C18.4 9.9 15.4 7 12 7zm0 2.5A2.5 2.5 0 1 1 12 14a2.5 2.5 0 0 1 0-5z"/>
+            </svg>
+          </button>
         </div>
       </div>
 
@@ -624,8 +646,8 @@
           </summary>
           <div style="font-size:0.78rem;color:#4b5563;margin-top:6px;line-height:1.5;">
             本系統僅供醫療紀錄與臨床評估使用。  
-            您所填寫之個人資料，僅用於 PhysioNotes 服務，不會對外揭露。  
-            請勿填寫不屬於您本人的醫療資訊。
+            您所填寫之個人資料，僅限用於 PhysioNotes 服務。  
+            請勿填寫不屬於您本人的資訊。
           </div>
         </details>
       
