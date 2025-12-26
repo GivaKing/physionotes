@@ -1524,26 +1524,31 @@
   const saveLib = (d)=>localStorage.setItem(STORAGE.library,JSON.stringify(d||{}));
 
   async function renderUserChip(){
-    // 你應該已經有 userChip 這個 DOM 變數，沒有就用 querySelector 抓
-    const chip = document.getElementById("user-chip"); 
-    if (!chip) return;
+    const chip = document.getElementById("user-chip");
+    const text = document.getElementById("user-text");
+    if (!chip || !text || !sb) return;
   
-    // 預設先顯示 email（避免慢一拍）
-    const session = (await sb.auth.getSession()).data?.session;
-    const email = session?.user?.email || "";
-    chip.querySelector(".user-text") 
-      ? (chip.querySelector(".user-text").textContent = email)
-      : (chip.textContent = email);
-  
-    // 再用 profiles.name 覆蓋
-    const profile = await getMyProfile();
-    if (profile?.name) {
-      if (chip.querySelector(".user-text")) {
-        chip.querySelector(".user-text").textContent = profile.name;
-      } else {
-        chip.textContent = profile.name;
-      }
+    const { data: { user } } = await sb.auth.getUser();
+    if (!user){
+      chip.classList.add("hidden");
+      return;
     }
+  
+    // 顯示名稱優先：profiles.name > email
+    let label = user.email || "User";
+    if (label.includes("@")) label = label.split("@")[0];
+  
+    // 如果你有 profiles 表，想顯示 name，可打開這段：
+    // const { data: prof } = await sb
+    //   .from("profiles")
+    //   .select("name")
+    //   .eq("user_id", user.id)
+    //   .maybeSingle();
+    // if (prof?.name) label = prof.name;
+  
+    text.textContent = label;
+    chip.title = label; // 滑鼠移上去可看到完整內容
+    chip.classList.remove("hidden");
   }
 
   async function syncPatientsFromSupabase() {
