@@ -635,19 +635,34 @@
         <label class="auth-label" for="auth-name">姓名</label>
         <input id="auth-name" type="text" class="auth-input" placeholder="真實姓名" autocomplete="name">
       </div>
-      
+    
+      <!-- ✅ 只在註冊顯示：職業 -->
+      <div class="auth-field signup-only">
+        <label class="auth-label" for="auth-job">職業</label>
+        <input id="auth-job" type="text" class="auth-input" placeholder="例：物理治療師">
+      </div>
+
       <!-- ✅ 只在註冊顯示：出生年月日 -->
       <div class="auth-field signup-only">
         <label class="auth-label" for="auth-birthday">出生年月日</label>
         <input id="auth-birthday" type="date" class="auth-input">
       </div>
       
-      <!-- ✅ 只在註冊顯示：職業 -->
-      <div class="auth-field signup-only">
-        <label class="auth-label" for="auth-job">職業</label>
-        <input id="auth-job" type="text" class="auth-input" placeholder="例：物理治療師">
-      </div>
+      <div class="auth-field">
+        <label class="auth-label" for="auth-password">密碼</label>
       
+        <div class="auth-input-wrap">
+          <input id="auth-password" type="password" class="auth-input"
+                 placeholder="至少 6 碼" autocomplete="current-password">
+          <button type="button" class="auth-eye" id="btn-toggle-pw" aria-label="顯示/隱藏密碼">
+            <!-- eye icon -->
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 5c5 0 9 4.5 10 7-1 2.5-5 7-10 7S3 14.5 2 12c1-2.5 5-7 10-7zm0 2C8.6 7 5.6 9.9 4.4 12 5.6 14.1 8.6 17 12 17s6.4-2.9 7.6-5C18.4 9.9 15.4 7 12 7zm0 2.5A2.5 2.5 0 1 1 12 14a2.5 2.5 0 0 1 0-5z"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
       <!-- ✅ 只在註冊顯示：註冊須知 + 勾選 -->
       <div class="auth-field signup-only">
         <details style="margin:6px 0 8px;">
@@ -667,22 +682,6 @@
           <input id="agree-terms" type="checkbox">
           我已閱讀並同意以上內容
         </label>
-      </div>
-
-
-      <div class="auth-field">
-        <label class="auth-label" for="auth-password">密碼</label>
-      
-        <div class="auth-input-wrap">
-          <input id="auth-password" type="password" class="auth-input"
-                 placeholder="至少 6 碼" autocomplete="current-password">
-          <button type="button" class="auth-eye" id="btn-toggle-pw" aria-label="顯示/隱藏密碼">
-            <!-- eye icon -->
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M12 5c5 0 9 4.5 10 7-1 2.5-5 7-10 7S3 14.5 2 12c1-2.5 5-7 10-7zm0 2C8.6 7 5.6 9.9 4.4 12 5.6 14.1 8.6 17 12 17s6.4-2.9 7.6-5C18.4 9.9 15.4 7 12 7zm0 2.5A2.5 2.5 0 1 1 12 14a2.5 2.5 0 0 1 0-5z"/>
-            </svg>
-          </button>
-        </div>
       </div>
 
       <button type="button" class="auth-btn" id="btn-auth-submit">登入</button>
