@@ -569,9 +569,70 @@
         <input id="auth-email" type="email" class="auth-input" placeholder="you@example.com" autocomplete="email">
       </div>
 
+      <!-- 註冊專用欄位 -->
+      <div id="signup-extra" class="hidden">
+      
+        <div class="auth-field">
+          <label class="auth-label">姓名</label>
+          <input id="signup-name" type="text" class="auth-input" placeholder="真實姓名">
+        </div>
+      
+        <div class="auth-field">
+          <label class="auth-label">出生年月日</label>
+          <input id="signup-birthday" type="date" class="auth-input">
+        </div>
+      
+        <div class="auth-field">
+          <label class="auth-label">職業</label>
+          <input id="signup-job" type="text" class="auth-input" placeholder="例：物理治療師">
+        </div>
+      
+      </div>
+
       <div class="auth-field">
-        <label class="auth-label" for="auth-password">密碼</label>
-        <input id="auth-password" type="password" class="auth-input" placeholder="至少 6 碼" autocomplete="current-password">
+        <label class="auth-label">密碼</label>
+      
+        <div style="position:relative;">
+          <input
+            id="auth-password"
+            type="password"
+            class="auth-input"
+            placeholder="至少 6 碼"
+          />
+      
+          <button
+            type="button"
+            id="toggle-password"
+            style="
+              position:absolute;
+              right:12px;
+              top:50%;
+              transform:translateY(-50%);
+              background:none;
+              border:none;
+              cursor:pointer;
+              font-size:16px;
+            "
+          >👁</button>
+        </div>
+      </div>
+
+      <div id="signup-agreement" class="hidden" style="margin-top:12px;">
+        <details>
+          <summary style="cursor:pointer;font-size:0.85rem;">
+            📄 註冊須知與個資同意書（點開查看）
+          </summary>
+          <div style="font-size:0.78rem;color:#4b5563;margin-top:6px;line-height:1.5;">
+            本系統僅供醫療紀錄與臨床評估使用。  
+            您所填寫之個人資料，僅用於 PhysioNotes 服務，不會對外揭露。  
+            請勿填寫不屬於您本人的醫療資訊。
+          </div>
+        </details>
+      
+        <label style="display:flex;align-items:center;gap:6px;margin-top:8px;font-size:0.8rem;">
+          <input type="checkbox" id="agree-terms">
+          我已閱讀並同意以上內容
+        </label>
       </div>
 
       <button type="button" class="auth-btn" id="btn-auth-submit">登入</button>
@@ -1073,17 +1134,22 @@
 
   let authMode = "login"; // login | signup
 
+  const signupExtra = document.getElementById("signup-extra");
+  const signupAgreement = document.getElementById("signup-agreement");
+  
   function setAuthMode(mode){
     authMode = mode;
-    if (mode === "login"){
-      tabLogin.classList.add("active");
-      tabSignup.classList.remove("active");
-      btnAuth.textContent = "登入";
-    } else {
-      tabSignup.classList.add("active");
-      tabLogin.classList.remove("active");
-      btnAuth.textContent = "註冊";
-    }
+  
+    const isSignup = mode === "signup";
+  
+    tabLogin.classList.toggle("active", !isSignup);
+    tabSignup.classList.toggle("active", isSignup);
+  
+    btnAuth.textContent = isSignup ? "註冊" : "登入";
+  
+    signupExtra?.classList.toggle("hidden", !isSignup);
+    signupAgreement?.classList.toggle("hidden", !isSignup);
+  
     authError.textContent = "";
   }
 
@@ -1127,6 +1193,15 @@
         await syncPatientsFromSupabase();
         subscribePatientsRealtime();
       }else{
+
+        if (authMode === "signup") {
+          const agree = document.getElementById("agree-terms");
+          if (!agree?.checked) {
+            authError.textContent = "請先閱讀並同意註冊須知。";
+            return;
+          }
+        }
+
         const { data, error } = await sb.auth.signUp({ email, password });
         if (error) throw error;
       
@@ -1141,6 +1216,9 @@
           .insert({
             user_id: user.id,
             email: user.email,
+            name: document.getElementById("signup-name").value,
+            birthday: document.getElementById("signup-birthday").value,
+            job: document.getElementById("signup-job").value,
             role: "pending",
           });
       
@@ -1246,6 +1324,11 @@
       // 你之後其他欄位依序補上
     }
   }
+
+  const pwToggle = document.getElementById("toggle-password");
+  pwToggle?.addEventListener("click", () => {
+    pwInput.type = pwInput.type === "password" ? "text" : "password";
+  });
 
   const loadClient    = ()=>parse(localStorage.getItem(STORAGE.client),{});
   const saveClient = (d)=>{
