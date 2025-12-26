@@ -1592,80 +1592,6 @@
     chip.classList.remove("hidden");
   }
 
-  function openTermsWindow() {
-    const html = `
-    <!DOCTYPE html>
-    <html lang="zh-TW">
-    <head>
-      <meta charset="UTF-8">
-      <title>個人資料蒐集與使用同意書</title>
-      <style>
-        body {
-          font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-          padding: 24px;
-          line-height: 1.6;
-          color: #111827;
-        }
-        h1 {
-          font-size: 1.4rem;
-          margin-bottom: 16px;
-        }
-        h2 {
-          font-size: 1.1rem;
-          margin-top: 20px;
-        }
-        ol {
-          padding-left: 20px;
-        }
-      </style>
-    </head>
-    <body>
-      <h1>個人資料蒐集、處理及利用同意書</h1>
-  
-      <p>歡迎您使用 PhysioNotes（以下稱「本系統」）。為了提供個案管理與治療評估服務，我們將依據《個人資料保護法》蒐集、處理及利用您的個人資料，請您詳細閱讀以下內容：</p>
-  
-      <h2>一、蒐集之目的</h2>
-      <ol>
-        <li>提供個案紀錄、治療評估與醫療輔助管理服務。</li>
-        <li>使用者帳號識別、身分驗證與系統管理。</li>
-        <li>系統功能通知、使用狀態提醒。</li>
-      </ol>
-  
-      <h2>二、蒐集之個人資料類別</h2>
-      <ol>
-        <li>基本識別資料：姓名、電子郵件。</li>
-        <li>個人描述資料：出生年月日、職業。</li>
-        <li>帳號相關資料：登入紀錄、系統操作紀錄。</li>
-      </ol>
-  
-      <h2>三、資料利用期間、地區、對象及方式</h2>
-      <ol>
-        <li>期間：使用者帳號存續期間。</li>
-        <li>地區：中華民國境內及系統服務所在地。</li>
-        <li>對象：僅限本系統內部管理與合法委外服務。</li>
-        <li>方式：以自動化或非自動化方式於合理範圍內使用。</li>
-      </ol>
-  
-      <h2>四、您的權利</h2>
-      <ol>
-        <li>得查詢、閱覽或請求製給複製本。</li>
-        <li>得請求補充或更正。</li>
-        <li>得請求停止蒐集、處理或利用。</li>
-        <li>得請求刪除個人資料。</li>
-      </ol>
-  
-      <h2>五、同意聲明</h2>
-      <p>當您勾選同意並完成註冊，即表示您已充分閱讀、理解並同意上述內容。</p>
-    </body>
-    </html>
-    `;
-  
-    const win = window.open("", "_blank", "width=700,height=800,scrollbars=yes");
-    win.document.open();
-    win.document.write(html);
-    win.document.close();
-  }
-
   async function syncPatientsFromSupabase() {
     const { data: userResult } = await sb.auth.getUser();
     if (!userResult?.user) return;
@@ -2317,6 +2243,80 @@ function renderVasChart() {
     // 讓使用者看得懂為何不能按
     if (btnGoto) btnGoto.title = locked ? `試用版已達上限（最多 ${getTrialLimit()} 筆個案）` : "";
     if (btnDone) btnDone.title = locked ? `試用版已達上限（最多 ${getTrialLimit()} 筆個案）` : "";
+  }
+
+    function openTermsWindow() {
+    const html = `
+    <!DOCTYPE html>
+    <html lang="zh-TW">
+    <head>
+      <meta charset="UTF-8">
+      <title>個人資料蒐集與使用同意書</title>
+      <style>
+        body {
+          font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+          padding: 24px;
+          line-height: 1.6;
+          color: #111827;
+        }
+        h1 {
+          font-size: 1.4rem;
+          margin-bottom: 16px;
+        }
+        h2 {
+          font-size: 1.1rem;
+          margin-top: 20px;
+        }
+        ol {
+          padding-left: 20px;
+        }
+      </style>
+    </head>
+    <body>
+      <h1>個人資料蒐集、處理及利用同意書</h1>
+  
+      <p>歡迎您使用 PhysioNotes（以下稱「本系統」）。為了提供個案管理與治療評估服務，我們將依據《個人資料保護法》蒐集、處理及利用您的個人資料，請您詳細閱讀以下內容：</p>
+  
+      <h2>一、蒐集之目的</h2>
+      <ol>
+        <li>提供個案紀錄、治療評估與醫療輔助管理服務。</li>
+        <li>使用者帳號識別、身分驗證與系統管理。</li>
+        <li>系統功能通知、使用狀態提醒。</li>
+      </ol>
+  
+      <h2>二、蒐集之個人資料類別</h2>
+      <ol>
+        <li>基本識別資料：姓名、電子郵件。</li>
+        <li>個人描述資料：出生年月日、職業。</li>
+        <li>帳號相關資料：登入紀錄、系統操作紀錄。</li>
+      </ol>
+  
+      <h2>三、資料利用期間、地區、對象及方式</h2>
+      <ol>
+        <li>期間：使用者帳號存續期間。</li>
+        <li>地區：中華民國境內及系統服務所在地。</li>
+        <li>對象：僅限本系統內部管理與合法委外服務。</li>
+        <li>方式：以自動化或非自動化方式於合理範圍內使用。</li>
+      </ol>
+  
+      <h2>四、您的權利</h2>
+      <ol>
+        <li>得查詢、閱覽或請求製給複製本。</li>
+        <li>得請求補充或更正。</li>
+        <li>得請求停止蒐集、處理或利用。</li>
+        <li>得請求刪除個人資料。</li>
+      </ol>
+  
+      <h2>五、同意聲明</h2>
+      <p>當您勾選同意並完成註冊，即表示您已充分閱讀、理解並同意上述內容。</p>
+    </body>
+    </html>
+    `;
+  
+    const win = window.open("", "_blank", "width=700,height=800,scrollbars=yes");
+    win.document.open();
+    win.document.write(html);
+    win.document.close();
   }
 
   const renderCaseList = ()=>{
