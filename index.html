@@ -608,23 +608,35 @@
       </div>
 
       <!-- 註冊專用欄位 -->
-      <!-- ✅ 只在註冊顯示：姓名 -->
-      <div class="auth-field signup-only">
-        <label class="auth-label" for="auth-name">姓名</label>
-        <input id="auth-name" type="text" class="auth-input" placeholder="真實姓名" autocomplete="name">
+      <div class="row">
+        <label>姓名</label>
+        <div class="input-wrap">
+          <input
+            id="full-name"
+            type="text"
+            placeholder="真實姓名"
+          />
+        </div>
       </div>
-      
-      <!-- ✅ 只在註冊顯示：出生年月日 -->
-      <div class="auth-field signup-only">
-        <label class="auth-label" for="auth-birthday">出生年月日</label>
-        <input id="auth-birthday" type="date" class="auth-input">
+
+      <div class="row">
+        <label>職業</label>
+        <div class="input-wrap">
+          <input
+            id="occupation"
+            type="text"
+            placeholder="例：物理治療師"
+          />
+        </div>
       </div>
-      
-      <!-- ✅ 只在註冊顯示：職業 -->
-      <div class="auth-field signup-only">
-        <label class="auth-label" for="auth-job">職業</label>
-        <input id="auth-job" type="text" class="auth-input" placeholder="例：物理治療師">
+
+      <div class="row">
+        <label>出生年月日</label>
+        <div class="input-wrap">
+          <input id="birthdate" type="date" />
+        </div>
       </div>
+
       
       <!-- ✅ 只在註冊顯示：註冊須知 + 勾選 -->
       <div class="auth-field signup-only">
