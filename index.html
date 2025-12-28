@@ -286,10 +286,21 @@
       justify-content: space-between;
       align-items: center;
     }
-    .btn-pill {
+    .btn-save {
       width: 100%;
+      height: 48px;                 /* 跟輸入框一樣高 */
       border-radius: 999px;
-      margin-top: 16px;
+      font-size: 0.95rem;
+      font-weight: 500;
+      margin-top: 12px;
+    }
+    
+    /* hover / active 更像系統按鈕 */
+    .btn-save:hover {
+      filter: brightness(0.95);
+    }
+    .btn-save:active {
+      transform: translateY(1px);
     }
     
     .terms-modal {
@@ -1683,6 +1694,11 @@
   const loadLib = ()=>parse(localStorage.getItem(STORAGE.library),{});
   const saveLib = (d)=>localStorage.setItem(STORAGE.library,JSON.stringify(d||{}));
 
+  async function logout() {
+    await sb.auth.signOut();
+    location.reload();
+  }
+
   async function renderUserChip(){
     const chip = document.getElementById("user-chip");
     const text = document.getElementById("user-text");
@@ -1792,6 +1808,14 @@
       window.closeProfileDrawer();
     }
   };
+
+  function openUserMenu() {
+    document.getElementById("user-menu")?.classList.remove("hidden");
+  }
+  
+  function closeUserMenu() {
+    document.getElementById("user-menu")?.classList.add("hidden");
+  }
   
   async function syncPatientsFromSupabase() {
     const { data: userResult } = await sb.auth.getUser();
@@ -2960,7 +2984,7 @@ document.getElementById("import-file")?.addEventListener("change",(e)=>{
         <input id="profile-limit" class="auth-input" disabled>
       </div>
   
-      <button class="btn-primary btn-pill" onclick="saveProfile()">儲存</button>
+      <button class="btn-primary btn-save" onclick="saveProfile()">儲存</button>
     </div>
   </div>
 
