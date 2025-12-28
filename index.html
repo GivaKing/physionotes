@@ -823,17 +823,15 @@
         <span class="badge">網頁版</span>
         <div class="title-right">
           <div class="user-chip-wrap">
-            <div id="user-chip" onclick="toggleUserMenu()">
-              <span id="user-text"></span>
-              <span class="caret">▾</span>
-            </div>
+            <button id="user-chip" class="user-chip hidden" type="button" onclick="window.toggleUserMenu()">
+              <span class="user-dot"></span>
+              <span id="user-text" class="user-text">User</span>
+            </button>
           
             <!-- 下拉選單 -->
             <div id="user-menu" class="user-menu hidden">
               <button onclick="openProfileDrawer()">👤 個人資料</button>
               <button onclick="openChangePassword()">🔐 修改密碼</button>
-              <hr>
-              <button class="danger" onclick="logout()">🚪 登出</button>
             </div>
           </div>
           
@@ -1711,24 +1709,26 @@
     chip.classList.remove("hidden");
   }
 
-  function toggleUserMenu() {
+  window.toggleUserMenu = function () {
     document.getElementById("user-menu")?.classList.toggle("hidden");
-  }
-
+  };
+  
+  // 點外面就關掉選單（你本來就有，保留）
   document.addEventListener("click", (e) => {
     if (!e.target.closest(".user-chip-wrap")) {
       document.getElementById("user-menu")?.classList.add("hidden");
     }
   });
-
-  async function openProfileDrawer() {
-    toggleUserMenu();
-    document.getElementById("profile-drawer").classList.remove("hidden");
+  
+  window.openProfileDrawer = async function () {
+    // 關掉選單、打開抽屜
+    document.getElementById("user-menu")?.classList.add("hidden");
+    document.getElementById("profile-drawer")?.classList.remove("hidden");
   
     const { data: { user } } = await sb.auth.getUser();
     if (!user) return;
   
-    document.getElementById("profile-email").value = user.email;
+    document.getElementById("profile-email").value = user.email || "";
   
     const { data } = await sb
       .from("profiles")
@@ -1738,11 +1738,36 @@
   
     document.getElementById("profile-name").value = data?.name || "";
     document.getElementById("profile-job").value = data?.job || "";
-  }
+  };
   
-  function closeProfileDrawer() {
-    document.getElementById("profile-drawer").classList.add("hidden");
-  }
+  window.closeProfileDrawer = function () {
+    document.getElementById("profile-drawer")?.classList.add("hidden");
+  };
+
+  window.saveProfile = async function () {
+    const { data: { user } } = await sb.auth.getUser();
+    if (!user) return alert("尚未登入");
+  
+    const name = document.getElementById("profile-name").value.trim();
+    const job  = document.getElementById("profile-job").value.trim();
+  
+    const { error } = await sb
+      .from("profiles")
+      .upsert(
+        { user_id: user.id, email: user.email, name, job },
+        { onConflict: "user_id" }
+      );
+  
+    if (error) {
+      console.error(error);
+      alert("儲存失敗：" + error.message);
+      return;
+    }
+  
+    // ✅ 立刻更新右上角顯示
+    await renderUserChip();
+    window.closeProfileDrawer();
+  };
 
   async function syncPatientsFromSupabase() {
     const { data: userResult } = await sb.auth.getUser();
