@@ -1775,6 +1775,16 @@
     renderUserChip(); // 立即更新右上角姓名
   };
 
+  function closeProfileDrawer() {
+    document.getElementById("profile-drawer").classList.add("hidden");
+  }
+
+  function onDrawerMaskClick(e) {
+    if (e.target.id === "profile-drawer") {
+      closeProfileDrawer();
+    }
+  }
+
   async function syncPatientsFromSupabase() {
     const { data: userResult } = await sb.auth.getUser();
     if (!userResult?.user) return;
@@ -2909,7 +2919,11 @@ document.getElementById("import-file")?.addEventListener("change",(e)=>{
     </div>
   </div>
 
-  <div id="profile-drawer" class="drawer hidden" onclick="onDrawerMaskClick(event)">
+  <div
+    id="profile-drawer"
+    class="drawer hidden"
+    onclick="onDrawerMaskClick(event)"
+  >
     <div class="drawer-panel">
   
       <div class="drawer-header">
