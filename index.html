@@ -215,7 +215,10 @@
     .user-chip-wrap {
       position: relative;
     }
-    
+    .user-arrow {
+      font-size: 0.7rem;
+      opacity: 0.6;
+    }
     .user-menu {
       position: absolute;
       right: 0;
@@ -283,7 +286,11 @@
       justify-content: space-between;
       align-items: center;
     }
-
+    .btn-pill {
+      width: 100%;
+      border-radius: 999px;
+      margin-top: 16px;
+    }
     
     .terms-modal {
       position: fixed;
@@ -826,12 +833,14 @@
             <button id="user-chip" class="user-chip hidden" type="button" onclick="window.toggleUserMenu()">
               <span class="user-dot"></span>
               <span id="user-text" class="user-text">User</span>
+              <span class="user-arrow">▾</span>
             </button>
           
             <!-- 下拉選單 -->
             <div id="user-menu" class="user-menu hidden">
               <button onclick="openProfileDrawer()">👤 個人資料</button>
               <button onclick="openChangePassword()">🔐 修改密碼</button>
+              <button onclick="logout()">登出</button>
             </div>
           </div>
           
@@ -1721,52 +1730,49 @@
   });
   
   window.openProfileDrawer = async function () {
-    // 關掉選單、打開抽屜
-    document.getElementById("user-menu")?.classList.add("hidden");
-    document.getElementById("profile-drawer")?.classList.remove("hidden");
+    toggleUserMenu();
+    document.getElementById("profile-drawer").classList.remove("hidden");
   
     const { data: { user } } = await sb.auth.getUser();
     if (!user) return;
   
-    document.getElementById("profile-email").value = user.email || "";
+    document.getElementById("profile-email").value = user.email;
   
     const { data } = await sb
       .from("profiles")
-      .select("name, job")
+      .select("name, job, trial_patient_limit")
       .eq("user_id", user.id)
       .maybeSingle();
   
     document.getElementById("profile-name").value = data?.name || "";
     document.getElementById("profile-job").value = data?.job || "";
-  };
-  
-  window.closeProfileDrawer = function () {
-    document.getElementById("profile-drawer")?.classList.add("hidden");
+    document.getElementById("profile-limit").value =
+      data?.trial_patient_limit
+        ? `最多 ${data.trial_patient_limit} 筆個案`
+        : "未設定";
   };
 
   window.saveProfile = async function () {
-    const { data: { user } } = await sb.auth.getUser();
-    if (!user) return alert("尚未登入");
-  
     const name = document.getElementById("profile-name").value.trim();
-    const job  = document.getElementById("profile-job").value.trim();
+    const job = document.getElementById("profile-job").value.trim();
+  
+    const { data: { user } } = await sb.auth.getUser();
+    if (!user) return;
   
     const { error } = await sb
       .from("profiles")
-      .upsert(
-        { user_id: user.id, email: user.email, name, job },
-        { onConflict: "user_id" }
-      );
+      .update({ name, job })
+      .eq("user_id", user.id);
   
     if (error) {
+      alert("❌ 儲存失敗，請稍後再試");
       console.error(error);
-      alert("儲存失敗：" + error.message);
       return;
     }
   
-    // ✅ 立刻更新右上角顯示
-    await renderUserChip();
-    window.closeProfileDrawer();
+    alert("✅ 個人資料已更新");
+    closeProfileDrawer();
+    renderUserChip(); // 立即更新右上角姓名
   };
 
   async function syncPatientsFromSupabase() {
@@ -2903,31 +2909,39 @@ document.getElementById("import-file")?.addEventListener("change",(e)=>{
     </div>
   </div>
 
-  <div id="profile-drawer" class="drawer hidden">
+  <div id="profile-drawer" class="drawer hidden" onclick="onDrawerMaskClick(event)">
     <div class="drawer-panel">
+  
       <div class="drawer-header">
         <h2>個人資料</h2>
-        <button onclick="closeProfileDrawer()">✕</button>
+        <button class="drawer-close" onclick="closeProfileDrawer()">✕</button>
       </div>
   
       <div class="auth-field">
-        <label>Email</label>
-        <input id="profile-email" disabled>
+        <label>Email（不可修改）</label>
+        <input id="profile-email" class="auth-input" disabled>
       </div>
   
       <div class="auth-field">
         <label>姓名</label>
-        <input id="profile-name">
+        <input id="profile-name" class="auth-input">
       </div>
   
       <div class="auth-field">
         <label>職業</label>
-        <input id="profile-job">
+        <input id="profile-job" class="auth-input">
       </div>
   
-      <button class="btn-primary" onclick="saveProfile()">儲存</button>
+      <!-- 👇 新增：個案上限顯示 -->
+      <div class="auth-field readonly">
+        <label>可新增個案上限</label>
+        <input id="profile-limit" class="auth-input" disabled>
+      </div>
+  
+      <button class="btn-primary btn-pill" onclick="saveProfile()">儲存</button>
     </div>
   </div>
+
 
   
 </body>
