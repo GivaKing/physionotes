@@ -840,7 +840,9 @@
         PhysioNotes
         <span class="badge">網頁版</span>
         <div class="title-right">
-          <div class="user-chip-wrap">
+          <div class="user-chip-wrap"
+           onmouseenter="openUserMenu()"
+           onmouseleave="closeUserMenu()">
             <button id="user-chip" class="user-chip hidden" type="button" onclick="window.toggleUserMenu()">
               <span class="user-dot"></span>
               <span id="user-text" class="user-text">User</span>
