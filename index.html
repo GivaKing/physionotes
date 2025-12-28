@@ -1704,8 +1704,10 @@
   const saveLib = (d)=>localStorage.setItem(STORAGE.library,JSON.stringify(d||{}));
 
   async function logout() {
+    if (!window.sb) return;
+  
     await sb.auth.signOut();
-    location.reload();
+    location.reload(); // 和你右上角原本的一樣
   }
 
   async function renderUserChip(){
