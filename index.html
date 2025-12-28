@@ -1718,38 +1718,45 @@
     chip.classList.remove("hidden");
   }
 
-  window.toggleUserMenu = function () {
+  window.toggleUserMenu = function toggleUserMenu() {
     document.getElementById("user-menu")?.classList.toggle("hidden");
   };
   
-  // 點外面就關掉選單（你本來就有，保留）
+  // 點外面就關掉選單
   document.addEventListener("click", (e) => {
     if (!e.target.closest(".user-chip-wrap")) {
       document.getElementById("user-menu")?.classList.add("hidden");
     }
   });
   
-  window.openProfileDrawer = async function () {
-    toggleUserMenu();
-    document.getElementById("profile-drawer").classList.remove("hidden");
-  
+  window.openProfileDrawer = async function openProfileDrawer() {
+    // 先把下拉收起來
+    document.getElementById("user-menu")?.classList.add("hidden");
+
+    // 打開 drawer
+    document.getElementById("profile-drawer")?.classList.remove("hidden");
+
+    // 填資料
     const { data: { user } } = await sb.auth.getUser();
     if (!user) return;
-  
-    document.getElementById("profile-email").value = user.email;
-  
-    const { data } = await sb
+
+    document.getElementById("profile-email").value = user.email || "";
+
+    const { data, error } = await sb
       .from("profiles")
       .select("name, job, trial_patient_limit")
       .eq("user_id", user.id)
       .maybeSingle();
-  
+
+    // 你 profiles 若不是 user_id，這行要改成你實際的欄位
+    if (error) console.warn("讀取 profiles 失敗：", error);
+
     document.getElementById("profile-name").value = data?.name || "";
     document.getElementById("profile-job").value = data?.job || "";
-    document.getElementById("profile-limit").value =
-      data?.trial_patient_limit
-        ? `最多 ${data.trial_patient_limit} 筆個案`
-        : "未設定";
+
+    // 顯示個案新增上限（你要先在 drawer 裡放一個欄位顯示）
+    const limitEl = document.getElementById("profile-trial-limit");
+    if (limitEl) limitEl.textContent = (data?.trial_patient_limit ?? "-");
   };
 
   window.saveProfile = async function () {
@@ -1775,16 +1782,17 @@
     renderUserChip(); // 立即更新右上角姓名
   };
 
-  function closeProfileDrawer() {
-    document.getElementById("profile-drawer").classList.add("hidden");
-  }
+  window.closeProfileDrawer = function closeProfileDrawer() {
+    document.getElementById("profile-drawer")?.classList.add("hidden");
+  };
 
-  function onDrawerMaskClick(e) {
-    if (e.target.id === "profile-drawer") {
-      closeProfileDrawer();
+  // 點灰色遮罩關閉（注意：HTML 最外層要有 onclick="onDrawerMaskClick(event)"）
+  window.onDrawerMaskClick = function onDrawerMaskClick(e) {
+    if (e.target && e.target.id === "profile-drawer") {
+      window.closeProfileDrawer();
     }
-  }
-
+  };
+  
   async function syncPatientsFromSupabase() {
     const { data: userResult } = await sb.auth.getUser();
     if (!userResult?.user) return;
