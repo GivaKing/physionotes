@@ -860,7 +860,7 @@
             <div id="user-menu" class="user-menu hidden">
               <button onclick="openProfileDrawer()">👤 個人資料</button>
               <button onclick="openChangePassword()">🔐 修改密碼</button>
-              <button onclick="logout()">➜] 登出帳號</button>
+              <button onclick="logoutFromMenu()">➜] 登出帳號</button>
             </div>
           </div>
           
@@ -1703,12 +1703,10 @@
   const loadLib = ()=>parse(localStorage.getItem(STORAGE.library),{});
   const saveLib = (d)=>localStorage.setItem(STORAGE.library,JSON.stringify(d||{}));
 
-  async function logout() {
-    if (!window.sb) return;
-  
-    await sb.auth.signOut();
-    location.reload(); // 和你右上角原本的一樣
-  }
+  window.logoutFromMenu = function logoutFromMenu() {
+    document.getElementById("user-menu")?.classList.add("hidden"); // 順手收起來
+    document.getElementById("btn-logout")?.click();               // 觸發右上角登出
+  };
 
   async function renderUserChip(){
     const chip = document.getElementById("user-chip");
@@ -1749,13 +1747,13 @@
     document.getElementById("user-menu")?.classList.toggle("hidden");
   };
 
-  function openUserMenu() {
+  window.openUserMenu = function openUserMenu() {
     document.getElementById("user-menu")?.classList.remove("hidden");
-  }
+  };
   
-  function closeUserMenu() {
+  window.closeUserMenu = function closeUserMenu() {
     document.getElementById("user-menu")?.classList.add("hidden");
-  }
+  };
   
   // 點外面就關掉選單
   document.addEventListener("click", (e) => {
