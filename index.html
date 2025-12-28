@@ -758,6 +758,13 @@
     height: 18px;
     width: 18px;
   }
+  .drawer-close {
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    padding: 0;
+  }
 
 </style>
 </head>
@@ -1739,6 +1746,14 @@
   window.toggleUserMenu = function toggleUserMenu() {
     document.getElementById("user-menu")?.classList.toggle("hidden");
   };
+
+  function openUserMenu() {
+    document.getElementById("user-menu")?.classList.remove("hidden");
+  }
+  
+  function closeUserMenu() {
+    document.getElementById("user-menu")?.classList.add("hidden");
+  }
   
   // 點外面就關掉選單
   document.addEventListener("click", (e) => {
@@ -1811,13 +1826,6 @@
     }
   };
 
-  function openUserMenu() {
-    document.getElementById("user-menu")?.classList.remove("hidden");
-  }
-  
-  function closeUserMenu() {
-    document.getElementById("user-menu")?.classList.add("hidden");
-  }
   
   async function syncPatientsFromSupabase() {
     const { data: userResult } = await sb.auth.getUser();
