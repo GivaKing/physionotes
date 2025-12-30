@@ -758,6 +758,14 @@
     height: 18px;
     width: 18px;
   }
+  .vas-chart-section { display: none; } 
+  .vas-empty-hint {
+    display: none;
+    text-align: center;
+    color: #94a3b8;
+    font-size: 14px;
+    padding: 8px 0 2px;
+  }
   .drawer-close {
     background: none;
     border: none;
@@ -980,13 +988,18 @@
               <div class="summary-value" id="s-pain-scale">—</div>
             </div>
           </div>
+
+          <div id="vas-chart-section" class="vas-chart-section">
+            <div class="divider"></div>
+            <div class="section-title">
+              疼痛趨勢 <span>Pain Chart</span>
+            </div>
           
-          <div class="divider"></div>
-          <div class="section-title">
-            疼痛趨勢
-            <span>Pain Chart</span>
+            <!-- 可選：沒資料時的提示 -->
+            <div id="vas-empty-hint" class="vas-empty-hint">尚未填寫疼痛分數</div>
+          
+            <canvas id="vas-chart" height="180"></canvas>
           </div>
-          <canvas id="vas-chart" height="180"></canvas>
         </section>
 
         <section class="section client-subpage" data-sub="basic">
@@ -2198,6 +2211,16 @@
       : `${nowv ?? "—"} / ${maxv ?? "—"}`;
   };
 
+  function setVasSectionVisible(visible) {
+    const sec = document.getElementById("vas-chart-section");
+    if (sec) sec.style.display = visible ? "block" : "none";
+  }
+  
+  function setVasEmptyHintVisible(visible) {
+    const hint = document.getElementById("vas-empty-hint");
+    if (hint) hint.style.display = visible ? "block" : "none";
+  }
+
   const switchTab = (key)=>{
     $$(".tab-btn").forEach(b=>{
       b.classList.toggle("active", b.getAttribute("data-target")===`page-${key}`);
@@ -2413,6 +2436,10 @@
   };
   
 function clearVasChart(){
+
+  setVasSectionVisible(false);
+  setVasEmptyHintVisible(false);
+  
   const cvs=document.getElementById("vas-chart");
   if(!cvs) return;
   const ctx=cvs.getContext("2d");
@@ -2442,6 +2469,9 @@ function renderVasChart() {
     .filter(p => p.vasNow != null || p.vasMax != null);
 
   if (points.length < 1) { clearVasChart(); return; }
+
+  setVasSectionVisible(true);
+  setVasEmptyHintVisible(false);
 
   // ===== DPR 處理（不糊）=====
   const dpr = window.devicePixelRatio || 1;
