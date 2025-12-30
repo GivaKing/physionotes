@@ -2664,7 +2664,7 @@ function renderVasChart() {
 
     // normalize back to library
     const normalized = {};
-    Object.keys(lib).forEach(id=>{
+    Object.keys(obj).forEach(id=>{
       normalized[id] = ensureCaseShape(obj[id]) || obj[id];
     });
     saveLib(normalized);
