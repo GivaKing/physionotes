@@ -942,7 +942,6 @@
           <button type="button" class="subtab-btn" data-sub="basic">基本資料</button>
           <button type="button" class="subtab-btn" data-sub="subjective">主觀因素</button>
           <button type="button" class="subtab-btn" data-sub="assessment">評估與檢查</button>
-          <button type="button" class="subtab-btn" data-sub="history">過去病史</button>
           <button type="button" class="subtab-btn" data-sub="goals">目標與計畫</button>
         </div>
 
@@ -989,6 +988,29 @@
               <button type="button" class="chip" data-value="運動員/高活動量">運動員 / 高活動量</button>
             </div>
             <div class="hint">可協助治療師快速了解日常負荷。</div>
+          </div>
+
+          <div class="divider"></div>
+          
+          <div class="section-title">
+            過去病史與用藥
+            <span>Medical History</span>
+          </div>
+  
+          <div class="row">
+            <label for="diseases">重大疾病 / 慢性疾病</label>
+            <textarea id="diseases" name="diseases" placeholder="例：高血壓、糖尿病、甲狀腺、風濕、免疫相關疾病…" data-field></textarea>
+          </div>
+  
+          <div class="row">
+            <label for="surgery">手術或重大外傷史</label>
+            <textarea id="surgery" name="surgery" placeholder="例：椎間盤手術、韌帶重建、車禍受傷…" data-field></textarea>
+          </div>
+  
+          <div class="row">
+            <label for="meds">目前正在服用的藥物或補充品</label>
+            <textarea id="meds" name="meds" placeholder="例：止痛藥、肌肉鬆弛劑、避孕藥、類固醇、抗凝血藥…" data-field></textarea>
+            <div class="hint">此資訊僅供治療安全評估，不會外流。</div>
           </div>
         </section>
 
@@ -1082,7 +1104,7 @@
           </div>
         </section>
 
-                <section class="section client-subpage" data-sub="assessment">
+       <section class="section client-subpage" data-sub="assessment">
           <div class="section-title">
             客觀觀察
             <span>Observation</span>
@@ -1180,29 +1202,6 @@
           </div>
         </section>
 
-        <section class="section client-subpage" data-sub="history">
-          <div class="section-title">
-            過去病史與用藥
-            <span>Medical History</span>
-          </div>
-  
-          <div class="row">
-            <label for="diseases">重大疾病 / 慢性疾病</label>
-            <textarea id="diseases" name="diseases" placeholder="例：高血壓、糖尿病、甲狀腺、風濕、免疫相關疾病…" data-field></textarea>
-          </div>
-  
-          <div class="row">
-            <label for="surgery">手術或重大外傷史</label>
-            <textarea id="surgery" name="surgery" placeholder="例：椎間盤手術、韌帶重建、車禍受傷…" data-field></textarea>
-          </div>
-  
-          <div class="row">
-            <label for="meds">目前正在服用的藥物或補充品</label>
-            <textarea id="meds" name="meds" placeholder="例：止痛藥、肌肉鬆弛劑、避孕藥、類固醇、抗凝血藥…" data-field></textarea>
-            <div class="hint">此資訊僅供治療安全評估，不會外流。</div>
-          </div>
-        </section>
-
         <section class="section client-subpage" data-sub="goals">
           <div class="section-title">
             生活狀態與目標
@@ -1231,6 +1230,48 @@
           <div class="row">
             <label for="goals">本次物理治療最希望達成的目標</label>
             <textarea id="goals" name="goals" placeholder="例：可以久坐辦公 2 小時不痛、可以正常跑步、可以抱小孩…" data-field></textarea>
+          </div>
+
+        <div class="section-title">
+          治療計畫與建議
+          <span>Treatment Plan</span>
+        </div>
+
+        <div class="row">
+          <label>本期目標（可複選）</label>
+          <div class="chips" data-field-pt="planGoals" data-type="multi">
+            <button type="button" class="chip" data-value="降低疼痛">降低疼痛</button>
+            <button type="button" class="chip" data-value="提升肌力">提升肌力</button>
+            <button type="button" class="chip" data-value="提升肌耐力">提升肌耐力</button>
+            <button type="button" class="chip" data-value="提升爆發力">提升爆發力</button>
+            <button type="button" class="chip" data-value="增加活動度">增加活動度</button>
+            <button type="button" class="chip" data-value="提升穩定度">提升穩定度</button>
+            <button type="button" class="chip" data-value="提升平衡感">提升平衡感</button>
+            <button type="button" class="chip" data-value="提升本體感覺">提升本體感覺</button>
+            <button type="button" class="chip" data-value="提升控制能力">提升控制能力</button>
+            <button type="button" class="chip" data-value="提升自我覺察能力">提升自我覺察能力</button>
+            <button type="button" class="chip" data-value="增加肌肉長度">增加肌肉長度</button>
+            <button type="button" class="chip" data-value="減少關節位移">減少關節位移</button>
+            <button type="button" class="chip" data-value="優化動作軌道">優化動作軌道</button>
+            <button type="button" class="chip" data-value="優化動作程式">優化動作程式</button>
+            <button type="button" class="chip" data-value="改善生活功能">改善生活功能</button>
+          </div>
+        </div>
+
+        <div class="row">
+          <label for="treatment-plan">今日治療內容</label>
+          <textarea id="treatment-plan" placeholder="例：1. 骨盆與腰椎關節鬆動 2. 坐骨神經鬆動滑動 3. 腿後肌伸展教育…" data-field-pt="treatmentPlan"></textarea>
+        </div>
+
+        <div class="row">
+          <label for="home-ex">居家運動與注意事項</label>
+          <textarea id="home-ex" placeholder="例：每日 3 次神經鬆動、小幅度腿後伸展，避免久坐超過 30–40 分鐘…" data-field-pt="homeEx"></textarea>
+        </div>
+
+        <div class="row">
+          <label for="follow-up">下次追蹤重點</label>
+          <textarea id="follow-up" placeholder="例：觀察麻木頻率變化、久坐耐受度、Slump 測試變化…" data-field-pt="followUp"></textarea>
+        </div>
         
         </section>
         
@@ -1294,46 +1335,6 @@
 <div class="divider"></div>
 
 
-
-        <div class="section-title">
-          治療計畫與建議
-          <span>Treatment Plan</span>
-        </div>
-
-        <div class="row">
-          <label>本期目標（可複選）</label>
-          <div class="chips" data-field-pt="planGoals" data-type="multi">
-            <button type="button" class="chip" data-value="降低疼痛">降低疼痛</button>
-            <button type="button" class="chip" data-value="提升肌力">提升肌力</button>
-            <button type="button" class="chip" data-value="提升肌耐力">提升肌耐力</button>
-            <button type="button" class="chip" data-value="提升爆發力">提升爆發力</button>
-            <button type="button" class="chip" data-value="增加活動度">增加活動度</button>
-            <button type="button" class="chip" data-value="提升穩定度">提升穩定度</button>
-            <button type="button" class="chip" data-value="提升平衡感">提升平衡感</button>
-            <button type="button" class="chip" data-value="提升本體感覺">提升本體感覺</button>
-            <button type="button" class="chip" data-value="提升控制能力">提升控制能力</button>
-            <button type="button" class="chip" data-value="提升自我覺察能力">提升自我覺察能力</button>
-            <button type="button" class="chip" data-value="增加肌肉長度">增加肌肉長度</button>
-            <button type="button" class="chip" data-value="減少關節位移">減少關節位移</button>
-            <button type="button" class="chip" data-value="優化動作軌道">優化動作軌道</button>
-            <button type="button" class="chip" data-value="優化動作程式">優化動作程式</button>
-            <button type="button" class="chip" data-value="改善生活功能">改善生活功能</button>
-          </div>
-        </div>
-
-        <div class="row">
-          <label for="treatment-plan">今日治療內容</label>
-          <textarea id="treatment-plan" placeholder="例：1. 骨盆與腰椎關節鬆動 2. 坐骨神經鬆動滑動 3. 腿後肌伸展教育…" data-field-pt="treatmentPlan"></textarea>
-        </div>
-
-        <div class="row">
-          <label for="home-ex">居家運動與注意事項</label>
-          <textarea id="home-ex" placeholder="例：每日 3 次神經鬆動、小幅度腿後伸展，避免久坐超過 30–40 分鐘…" data-field-pt="homeEx"></textarea>
-        </div>
-
-        <div class="row">
-          <label for="follow-up">下次追蹤重點</label>
-          <textarea id="follow-up" placeholder="例：觀察麻木頻率變化、久坐耐受度、Slump 測試變化…" data-field-pt="followUp"></textarea>
         
         <div class="divider"></div>
         <div class="section-title">疼痛趨勢</div>
@@ -1348,7 +1349,7 @@
             <button type="button" id="btn-mark-done" class="btn btn-success">完成本次評估 ✓</button>
           </div>
         </div>
-      </div>
+      
     </main>
 <!-- 第三頁：個案管理 -->
 <main id="page-cases" class="page">
