@@ -940,54 +940,57 @@
         <div class="subtabs" id="client-subtabs">
           <button type="button" class="subtab-btn active" data-sub="overview">個案總覽</button>
           <button type="button" class="subtab-btn" data-sub="basic">基本資料</button>
-          <button type="button" class="subtab-btn" data-sub="subjective">主觀資料</button>
-          <button type="button" class="subtab-btn" data-sub="history">病史與外傷使</button>
-          <button type="button" class="subtab-btn" data-sub="goals">目標</button>
+          <button type="button" class="subtab-btn" data-sub="subjective">主觀因素</button>
+          <button type="button" class="subtab-btn" data-sub="subjective">評估與檢查</button>
+          <button type="button" class="subtab-btn" data-sub="history">過去病史</button>
+          <button type="button" class="subtab-btn" data-sub="goals">目標與計畫</button>
         </div>
 
-        <div class="section-title">
-          基本資料
-          <span>Basic Info</span>
-        </div>
-        <div class="grid-2">
-          <div class="row">
-            <label for="name">姓名</label>
-            <input id="name" name="name" type="text" placeholder="王小明" data-field />
+        <section class="section client-subpage" data-sub="basic">
+          <div class="section-title">
+            基本資料
+            <span>Basic Info</span>
           </div>
-          <div class="row">
-            <label for="age">年齡</label>
-            <input id="age" name="age" type="number" inputmode="numeric" min="0" max="120" placeholder="30" data-field />
-          </div>
-        </div>
-        <div class="grid-2">
-          <div class="row">
-            <label>性別</label>
-            <div class="pill-toggle-group" data-field="gender" data-type="single">
-              <button type="button" class="pill-toggle" data-value="男">男</button>
-              <button type="button" class="pill-toggle" data-value="女">女</button>
-              <button type="button" class="pill-toggle" data-value="其他">其他</button>
+          <div class="grid-2">
+            <div class="row">
+              <label for="name">姓名</label>
+              <input id="name" name="name" type="text" placeholder="王小明" data-field />
+            </div>
+            <div class="row">
+              <label for="age">年齡</label>
+              <input id="age" name="age" type="number" inputmode="numeric" min="0" max="120" placeholder="30" data-field />
             </div>
           </div>
+          <div class="grid-2">
+            <div class="row">
+              <label>性別</label>
+              <div class="pill-toggle-group" data-field="gender" data-type="single">
+                <button type="button" class="pill-toggle" data-value="男">男</button>
+                <button type="button" class="pill-toggle" data-value="女">女</button>
+                <button type="button" class="pill-toggle" data-value="其他">其他</button>
+              </div>
+            </div>
+            <div class="row">
+              <label for="job">職業</label>
+              <input id="job" name="job" type="text" placeholder="例：警察、工程師、學生…" data-field />
+            </div>
+          </div>
+  
           <div class="row">
-            <label for="job">職業</label>
-            <input id="job" name="job" type="text" placeholder="例：警察、工程師、學生…" data-field />
+            <label>主要生活型態（可複選）</label>
+            <div class="chips" data-field="lifestyle" data-type="multi">
+              <button type="button" class="chip" data-value="久坐">久坐</button>
+              <button type="button" class="chip" data-value="久站">久站</button>
+              <button type="button" class="chip" data-value="久走">久走</button>
+              <button type="button" class="chip" data-value="低頭">低頭</button>
+              <button type="button" class="chip" data-value="重物搬運">重物搬運</button>
+              <button type="button" class="chip" data-value="手臂高舉過頭">手臂高舉過頭</button>
+              <button type="button" class="chip" data-value="家務/帶小孩">家務 / 帶小孩</button>
+              <button type="button" class="chip" data-value="運動員/高活動量">運動員 / 高活動量</button>
+            </div>
+            <div class="hint">可協助治療師快速了解日常負荷。</div>
           </div>
-        </div>
-
-        <div class="row">
-          <label>主要生活型態（可複選）</label>
-          <div class="chips" data-field="lifestyle" data-type="multi">
-            <button type="button" class="chip" data-value="久坐">久坐</button>
-            <button type="button" class="chip" data-value="久站">久站</button>
-            <button type="button" class="chip" data-value="久走">久走</button>
-            <button type="button" class="chip" data-value="低頭">低頭</button>
-            <button type="button" class="chip" data-value="重物搬運">重物搬運</button>
-            <button type="button" class="chip" data-value="手臂高舉過頭">手臂高舉過頭</button>
-            <button type="button" class="chip" data-value="家務/帶小孩">家務 / 帶小孩</button>
-            <button type="button" class="chip" data-value="運動員/高活動量">運動員 / 高活動量</button>
-          </div>
-          <div class="hint">可協助治療師快速了解日常負荷。</div>
-        </div>
+        </section>
 
         <div class="divider"></div>
 
