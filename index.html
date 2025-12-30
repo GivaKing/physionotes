@@ -2436,6 +2436,9 @@
   
 function clearVasChart(){
   
+  setVasSectionVisible(false);
+  setVasEmptyHintVisible(false);
+  
   const cvs=document.getElementById("vas-chart");
   if(!cvs) return;
   const ctx=cvs.getContext("2d");
@@ -2445,6 +2448,9 @@ function clearVasChart(){
 function renderVasChart() {
   const cvs = document.getElementById("vas-chart");
   if (!cvs) return;
+
+  setVasSectionVisible(false);
+  setVasEmptyHintVisible(false);
 
   const caseId = getCurrentCaseId();
   if (!caseId) { clearVasChart(); return; }
@@ -2465,6 +2471,9 @@ function renderVasChart() {
     .filter(p => p.vasNow != null || p.vasMax != null);
 
   if (points.length < 1) { clearVasChart(); return; }
+
+  setVasSectionVisible(true);
+  setVasEmptyHintVisible(false);
 
   // ===== DPR 處理（不糊）=====
   const dpr = window.devicePixelRatio || 1;
