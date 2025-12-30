@@ -1513,7 +1513,6 @@
           throw profileError;
         }
       
-        // ⬇⬇⬇【重要：確保不殘留登入狀態】
         await sb.auth.signOut();
       
         alert("註冊成功！\n\n請聯絡 PhysioNotes 管理員開通權限後再登入。");
@@ -1526,33 +1525,39 @@
     }
   }
 
-  async function initAuthOnLoad(){
-    const session = await sb.auth.getSession();
-    if (!session?.data?.session) {
-      showLogin();
-      return;
-    }
-    if (!sb){
-      // 沒設定 Supabase 就直接顯示主畫面，避免整個系統無法使用
-      showApp();
-      return;
-    }
-    try{
+  async function initAuthOnLoad() {
+    try {
       const { data, error } = await sb.auth.getSession();
       if (error) throw error;
-      if (data && data.session){
-
-        const ok = await guardRoleOrBlock();
-        if (!ok) return;
-        showApp();
-        await renderUserChip();
-        await syncPatientsFromSupabase();
-        subscribePatientsRealtime();
-      }else{
+  
+      if (!data?.session) {
         showLogin();
+        return;
       }
-    }catch(err){
-      console.error(err);
+  
+      let ok = false;
+      for (let i = 0; i < 3; i++) {
+        ok = await guardRoleOrBlock();
+        if (ok) break;
+        await new Promise(r => setTimeout(r, 300));
+      }
+  
+      if (!ok) {
+        alert("權限資料載入失敗，請重新登入");
+        await sb.auth.signOut();
+        showLogin();
+        return;
+      }
+  
+      showApp();
+      await renderUserChip();
+      await syncPatientsFromSupabase();
+      subscribePatientsRealtime();
+  
+    } catch (err) {
+      console.error("initAuthOnLoad error:", err);
+      alert("系統初始化失敗，請重新登入");
+      await sb.auth.signOut();
       showLogin();
     }
   }
