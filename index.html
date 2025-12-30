@@ -1591,7 +1591,10 @@
 
   // 初始化狀態
   setAuthMode("login");
-  initAuthOnLoad();
+  document.addEventListener("DOMContentLoaded", () => {
+    initAuthOnLoad();
+  });
+
 
   const STORAGE = {
     client: "pt_eval_client_v1",
@@ -2226,7 +2229,7 @@
     renderTherapistUI(loadTherapist());
     renderTimeline(item);
     renderSummary();
-    renderVaschart();
+    renderVasChart();
     switchTab("client");
   };
 
@@ -3145,7 +3148,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <!-- 👇 新增：個案上限顯示 -->
       <div class="auth-field readonly">
         <label>可新增個案上限</label>
-        <input id="profile-limit" class="auth-input" disabled>
+        <input id="profile-trial-limit" class="auth-input" disabled>
       </div>
   
       <button class="btn-primary btn-save" onclick="saveProfile()">儲存</button>
