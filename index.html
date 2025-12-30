@@ -948,9 +948,6 @@
         <div class="subtabs" id="client-subtabs">
           <button type="button" class="subtab-btn active" data-sub="overview">個案總覽</button>
           <button type="button" class="subtab-btn" data-sub="basic">基本資料</button>
-          <button type="button" class="subtab-btn" data-sub="subjective">問題與主訴</button>
-          <button type="button" class="subtab-btn" data-sub="assessment">評估與檢查</button>
-          <button type="button" class="subtab-btn" data-sub="goals">目標與計畫</button>
         </div>
 
         <section class="section client-subpage active" data-sub="overview" id="client-overview">
@@ -1067,7 +1064,34 @@
             <div class="hint">此資訊僅供治療安全評估，不會外流。</div>
           </div>
         </section>
+    
+        <div class="bottom-space"></div>
+        <div class="sticky-footer">
+          <div class="btn-row">
+            <button type="button" class="btn btn-outline" id="btn-clear">
+              清除暫存
+            </button>
+            <button type="button" class="btn btn-primary" id="btn-goto-therapist">
+              交給治療師評估 🩺
+            </button>
+          </div>
+        </div>
+      </div>
+    </main>
 
+    <!-- 治療師評估頁 -->
+    <main id="page-therapist" class="page">
+      <div class="card">
+        
+        <div class="subtabs" id="client-subtabs">
+          <button type="button" class="subtab-btn" data-sub="subjective">問題與主訴</button>
+          <button type="button" class="subtab-btn" data-sub="assessment">評估與檢查</button>
+          <button type="button" class="subtab-btn" data-sub="goals">目標與計畫</button>
+        </div>
+
+        <div class="section-title">本次評估時間軸</div>
+        <div id="pt-timeline"></div>
+        <div class="divider"></div>
 
         <section class="section client-subpage" data-sub="subjective">
           <div class="section-title">
@@ -1330,32 +1354,6 @@
         </div>
         
         </section>
-        
-    
-        <div class="bottom-space"></div>
-        <div class="sticky-footer">
-          <div class="btn-row">
-            <button type="button" class="btn btn-outline" id="btn-clear">
-              清除暫存
-            </button>
-            <button type="button" class="btn btn-primary" id="btn-goto-therapist">
-              交給治療師評估 🩺
-            </button>
-          </div>
-        </div>
-      </div>
-    </main>
-
-    <!-- 治療師評估頁 -->
-    <main id="page-therapist" class="page">
-      <div class="card">
-        
-
-        <div class="divider"></div>
-
-        <div class="section-title">本次評估時間軸</div>
-        <div id="pt-timeline"></div>
-        <div class="divider"></div>
     
         <div class="bottom-space"></div>
         <div class="sticky-footer">
