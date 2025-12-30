@@ -2294,7 +2294,9 @@
     renderSummary();
     renderVasChart();
     switchTab("client");
-    switchClientSubTab("overview");
+    requestAnimationFrame(() => {
+      switchClientSubTab("overview");
+    });
   };
 
   const createNewCaseFromCurrent = ()=>{
