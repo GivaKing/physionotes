@@ -834,8 +834,10 @@
   <!-- Auth Screen -->
   <div id="auth-screen" class="auth-screen-wrap">
     <div class="auth-card">
-      <img src="/logo-icon.png" alt="PhysioNotes" class="app-logo">
-      <div class="auth-title">PhysioNotes 登入</div>
+      <div class="auth-title">
+        <img src="/logo-icon.png" alt="PhysioNotes" class="app-logo">
+        PhysioNotes 登入
+      </div>
       <div class="auth-sub">請先登入或註冊帳號，才能進入個案管理系統。</div>
 
       <div class="auth-tabs">
@@ -2459,19 +2461,11 @@ function renderVasChart() {
   setVasEmptyHintVisible(false);
 
   const caseId = getCurrentCaseId();
-  if (!caseId) {
-    clearVasChart(); 
-    setVasEmptyHintVisible(true);
-    return; 
-  }
+  if (!caseId) { clearVasChart(); return; }
 
   const lib = loadLib();
   const item = ensureCaseShape(lib[caseId]);
-  if (!item || !item.records) {
-    clearVasChart();
-    setVasEmptyHintVisible(true);
-    return; 
-  }
+  if (!item || !item.records) { clearVasChart(); return; }
 
   const N = item.records.length;
 
@@ -2484,12 +2478,9 @@ function renderVasChart() {
     }))
     .filter(p => p.vasNow != null || p.vasMax != null);
 
-  if (points.length < 1) {
-    clearVasChart(); 
-    setVasEmptyHintVisible(true);
-    return; 
-  }
+  if (points.length < 1) { clearVasChart(); return; }
 
+  setVasSectionVisible(true);
   setVasEmptyHintVisible(false);
 
   // ===== DPR 處理（不糊）=====
