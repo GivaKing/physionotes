@@ -2449,9 +2449,6 @@ function renderVasChart() {
   const cvs = document.getElementById("vas-chart");
   if (!cvs) return;
 
-  setVasSectionVisible(true);
-  setVasEmptyHintVisible(false);
-
   const caseId = getCurrentCaseId();
   if (!caseId) { clearVasChart({ showHint: false }); return; }
 
