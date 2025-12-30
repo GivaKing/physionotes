@@ -2434,10 +2434,10 @@
     alert("已建立新回診紀錄，請個案重新填寫 VAS。");
   };
   
-function clearVasChart(){
+function clearVasChart({ showHint = false } = {}){
 
-  setVasSectionVisible(false);
-  setVasEmptyHintVisible(false);
+  setVasSectionVisible(showHint);
+  setVasEmptyHintVisible(showHint);
   
   const cvs=document.getElementById("vas-chart");
   if(!cvs) return;
@@ -2449,11 +2449,11 @@ function renderVasChart() {
   const cvs = document.getElementById("vas-chart");
   if (!cvs) return;
 
-  setVasSectionVisible(false);
+  setVasSectionVisible(true);
   setVasEmptyHintVisible(false);
 
   const caseId = getCurrentCaseId();
-  if (!caseId) { clearVasChart(); return; }
+  if (!caseId) { clearVasChart({ showHint: false }); return; }
 
   const lib = loadLib();
   const item = ensureCaseShape(lib[caseId]);
@@ -2470,10 +2470,7 @@ function renderVasChart() {
     }))
     .filter(p => p.vasNow != null || p.vasMax != null);
 
-  if (points.length < 1) { clearVasChart(); return; }
-
-  setVasSectionVisible(true);
-  setVasEmptyHintVisible(false);
+  if (points.length < 1) { clearVasChart({ showHint: true }); return; }
 
   // ===== DPR 處理（不糊）=====
   const dpr = window.devicePixelRatio || 1;
