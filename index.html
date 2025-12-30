@@ -2209,6 +2209,42 @@
   };
   window.switchTab = switchTab;
 
+  function switchClientSubTab(subKey) {
+    // 1. 所有 subtab button 取消 active
+    document
+      .querySelectorAll("#client-subtabs .subtab-btn")
+      .forEach(btn => {
+        btn.classList.remove("active");
+      });
+  
+    // 2. 所有 subpage section 隱藏
+    document
+      .querySelectorAll(".client-subpage")
+      .forEach(sec => {
+        sec.classList.remove("active");
+      });
+  
+    // 3. 指定的 subtab 加上 active
+    const targetBtn = document.querySelector(
+      `#client-subtabs .subtab-btn[data-sub="${subKey}"]`
+    );
+    if (targetBtn) {
+      targetBtn.classList.add("active");
+    }
+  
+    // 4. 指定的 section 顯示
+    const targetSection = document.querySelector(
+      `.client-subpage[data-sub="${subKey}"]`
+    );
+    if (targetSection) {
+      targetSection.classList.add("active");
+    }
+  
+    // 5.（可選）切換後捲到上方
+    targetSection?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+  window.switchClientSubTab = switchClientSubTab;
+
   const openCase = (caseId)=>{
     const lib = loadLib();
     const item = ensureCaseShape(lib[caseId]);
@@ -2230,7 +2266,7 @@
     renderTimeline(item);
     renderSummary();
     renderVasChart();
-    switchTab("client-overview");
+    switchClientSubTab("client-overview");
   };
 
   const createNewCaseFromCurrent = ()=>{
