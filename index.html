@@ -765,6 +765,51 @@
     cursor: pointer;
     padding: 0;
   }
+  .subtabs{
+    display:flex;
+    gap:8px;
+    padding:8px;
+    background:#f3f4f6;
+    border-radius:999px;
+    margin: 10px 0 16px;
+  }
+  .subtab-btn{
+    flex:1;
+    border:none;
+    background:transparent;
+    padding:10px 12px;
+    border-radius:999px;
+    cursor:pointer;
+    font-weight:700;
+    font-size: .9rem;
+    color:#374151;
+    transition: .15s ease;
+  }
+  .subtab-btn:hover{ background: rgba(37,99,235,.08); }
+  .subtab-btn.active{
+    background: var(--primary);
+    color:#fff;
+    box-shadow: 0 10px 24px rgba(37,99,235,.25);
+  }
+  .client-subpage, .therapist-subpage{ display:none; }
+  .client-subpage.active, .therapist-subpage.active{ display:block; }
+  
+  .overview-grid{
+    display:grid;
+    grid-template-columns: repeat(2, minmax(0,1fr));
+    gap:12px;
+  }
+  @media (max-width: 720px){
+    .overview-grid{ grid-template-columns: 1fr; }
+  }
+  .overview-card{
+    border:1px solid var(--border);
+    border-radius: var(--radius);
+    background: rgba(255,255,255,.75);
+    padding:12px;
+  }
+  .overview-card .k{ color:#6b7280; font-size:.85rem; margin-bottom:6px; }
+  .overview-card .v{ font-weight:700; color:#111827; }
 
 </style>
 </head>
@@ -890,7 +935,39 @@
     <!-- 個案填寫頁 -->
     <main id="page-client" class="page active">
       <div class="card">
-        <div class="section-title">
+        
+        <div class="subtabs" id="client-subtabs">
+          <button type="button" class="subtab-btn active" data-sub="overview">個案總覽</button>
+          <button type="button" class="subtab-btn" data-sub="basic">基本資料</button>
+          <button type="button" class="subtab-btn" data-sub="subjective">主觀資料</button>
+          <button type="button" class="subtab-btn" data-sub="history">既往史</button>
+          <button type="button" class="subtab-btn" data-sub="goals">目標</button>
+        </div>
+        
+        <section class="section client-subpage active" data-sub="overview" id="client-overview">
+          <h2>個案總覽</h2>
+          <div class="overview-grid">
+            <div class="overview-card">
+              <div class="k">姓名</div>
+              <div class="v" id="ov-name">—</div>
+            </div>
+            <div class="overview-card">
+              <div class="k">主要問題（主訴）</div>
+              <div class="v" id="ov-complaint">—</div>
+            </div>
+            <div class="overview-card">
+              <div class="k">疼痛（目前 / 最嚴重）</div>
+              <div class="v"><span id="ov-pain-now">—</span> / <span id="ov-pain-max">—</span></div>
+            </div>
+            <div class="overview-card">
+              <div class="k">目標</div>
+              <div class="v" id="ov-goals">—</div>
+            </div>
+          </div>
+          <p class="muted" style="margin-top:10px;">提示：上方分頁只是「顯示方式」改更順手，你原本的欄位與資料結構都不需要先大改。</p>
+        </section>
+
+        <section class="section-title client-subpage" data-sub="basic">
           基本資料
           <span>Basic Info</span>
         </div>
@@ -936,7 +1013,7 @@
 
         <div class="divider"></div>
 
-        <div class="section-title">
+        <section class="section-title client-subpage" data-sub="subjective">
           主訴與症狀
           <span>Chief Complaint</span>
         </div>
@@ -1025,7 +1102,7 @@
 
         <div class="divider"></div>
 
-        <div class="section-title">
+        <section class="section-title client-subpage" data-sub="history">
           過去病史與用藥
           <span>Medical History</span>
         </div>
@@ -1048,7 +1125,7 @@
 
         <div class="divider"></div>
 
-        <div class="section-title">
+        <section class="section-title client-subpage" data-sub="goals">
           生活狀態與目標
           <span>Function & Goals</span>
         </div>
@@ -1096,7 +1173,13 @@
     <!-- 治療師評估頁 -->
     <main id="page-therapist" class="page">
       <div class="card">
-        <div class="section-title">
+
+        <div class="subtabs" id="therapist-subtabs">
+          <button type="button" class="subtab-btn active" data-sub="summary">摘要 / 評估</button>
+          <button type="button" class="subtab-btn" data-sub="plan">治療計劃</button>
+        </div>
+
+        <section class="section-title therapist-subpage" data-sub="summary">
           個案摘要
           <span>Client Summary</span>
         </div>
@@ -1137,7 +1220,7 @@
 <div id="pt-timeline"></div>
 <div class="divider"></div>
 
-        <div class="section-title">
+        <section class="section-title therapist-subpage" data-sub="summary">
           客觀觀察
           <span>Observation</span>
         </div>
@@ -1154,7 +1237,7 @@
 
         <div class="divider"></div>
 
-        <div class="section-title">
+        <section class="section-title therapist-subpage" data-sub="summary">
           評估與測試
           <span>Assessment & Tests</span>
         </div>
@@ -1196,7 +1279,7 @@
 
         <div class="divider"></div>
 
-        <div class="section-title">
+        <section class="section-title therapist-subpage" data-sub="summary">
           臨床推論
           <span>Clinical Reasoning</span>
         </div>
@@ -1235,7 +1318,7 @@
 
         <div class="divider"></div>
 
-        <div class="section-title">
+        <section class="section-title therapist-subpage" data-sub="summary">
           治療計畫與建議
           <span>Treatment Plan</span>
         </div>
@@ -2998,6 +3081,51 @@ document.getElementById("import-file")?.addEventListener("change",(e)=>{
     </div>
   </div>
 
+  /* ===== Sub-tabs logic ===== */
+  function initSubTabs(scope, defaultKey){
+    const tabs = document.getElementById(scope + "-subtabs");
+    if (!tabs) return;
+  
+    const btns = Array.from(tabs.querySelectorAll(".subtab-btn"));
+    const pages = Array.from(document.querySelectorAll("." + scope + "-subpage"));
+  
+    function activate(key){
+      btns.forEach(b => b.classList.toggle("active", b.dataset.sub === key));
+      pages.forEach(p => p.classList.toggle("active", p.dataset.sub === key));
+    }
+  
+    btns.forEach(b => b.addEventListener("click", () => activate(b.dataset.sub)));
+  
+    activate(defaultKey);
+    return { activate };
+  }
+  
+  /* ===== Client overview render ===== */
+  function renderClientOverviewFromForm(){
+    const name = document.getElementById("client-name")?.value?.trim() || "—";
+    const complaint = document.getElementById("client-complaint")?.value?.trim() || "—";
+    const goal = document.getElementById("client-goals")?.value?.trim() || "—";
+    const painNow = document.getElementById("pain-now")?.value ?? "—";
+    const painMax = document.getElementById("pain-max")?.value ?? "—";
+  
+    const set = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
+    set("ov-name", name);
+    set("ov-complaint", complaint.slice(0, 50) + (complaint.length > 50 ? "…" : ""));
+    set("ov-goals", goal.slice(0, 50) + (goal.length > 50 ? "…" : ""));
+    set("ov-pain-now", painNow);
+    set("ov-pain-max", painMax);
+  }
+  
+  document.addEventListener("DOMContentLoaded", () => {
+    initSubTabs("client", "overview");
+    initSubTabs("therapist", "summary");
+  
+    ["client-name","client-complaint","client-goals","pain-now","pain-max"].forEach(id=>{
+      document.getElementById(id)?.addEventListener("input", renderClientOverviewFromForm);
+      document.getElementById(id)?.addEventListener("change", renderClientOverviewFromForm);
+    });
+    renderClientOverviewFromForm();
+  });
 
   
 </body>
