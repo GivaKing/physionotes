@@ -947,22 +947,38 @@
 
         <section class="section client-subpage active" data-sub="overview" id="client-overview">
           <h2>個案總覽</h2>
-          <div class="overview-grid">
-            <div class="overview-card">
-              <div class="k">姓名</div>
-              <div class="v" id="ov-name">—</div>
+          <div class="section-title">
+            個案摘要
+            <span>Client Summary</span>
+          </div>
+          <div id="summary-block">
+            <div class="summary-row">
+              <div class="summary-label">姓名</div>
+              <div class="summary-value" id="s-name">—</div>
             </div>
-            <div class="overview-card">
-              <div class="k">主要問題（主訴）</div>
-              <div class="v" id="ov-complaint">—</div>
+            <div class="summary-row">
+              <div class="summary-label">年齡 / 性別</div>
+              <div class="summary-value" id="s-age-gender">—</div>
             </div>
-            <div class="overview-card">
-              <div class="k">疼痛（目前 / 最嚴重）</div>
-              <div class="v"><span id="ov-pain-now">—</span> / <span id="ov-pain-max">—</span></div>
+            <div class="summary-row">
+              <div class="summary-label">職業 / 生活型態</div>
+              <div class="summary-value" id="s-job-life">
+                <div class="pill-group" id="s-lifestyle"></div>
+              </div>
             </div>
-            <div class="overview-card">
-              <div class="k">目標</div>
-              <div class="v" id="ov-goals">—</div>
+            <div class="summary-row">
+              <div class="summary-label">主訴</div>
+              <div class="summary-value" id="s-main">—</div>
+            </div>
+            <div class="summary-row">
+              <div class="summary-label">症狀</div>
+              <div class="summary-value" id="s-pain">
+                <div class="pill-group" id="s-pain-tags"></div>
+              </div>
+            </div>
+            <div class="summary-row">
+              <div class="summary-label">疼痛程度</div>
+              <div class="summary-value" id="s-pain-scale">—</div>
             </div>
           </div>
           
@@ -1321,40 +1337,7 @@
     <!-- 治療師評估頁 -->
     <main id="page-therapist" class="page">
       <div class="card">
-        <div class="section-title">
-          個案摘要
-          <span>Client Summary</span>
-        </div>
-        <div id="summary-block">
-          <div class="summary-row">
-            <div class="summary-label">姓名</div>
-            <div class="summary-value" id="s-name">—</div>
-          </div>
-          <div class="summary-row">
-            <div class="summary-label">年齡 / 性別</div>
-            <div class="summary-value" id="s-age-gender">—</div>
-          </div>
-          <div class="summary-row">
-            <div class="summary-label">職業 / 生活型態</div>
-            <div class="summary-value" id="s-job-life">
-              <div class="pill-group" id="s-lifestyle"></div>
-            </div>
-          </div>
-          <div class="summary-row">
-            <div class="summary-label">主訴</div>
-            <div class="summary-value" id="s-main">—</div>
-          </div>
-          <div class="summary-row">
-            <div class="summary-label">症狀</div>
-            <div class="summary-value" id="s-pain">
-              <div class="pill-group" id="s-pain-tags"></div>
-            </div>
-          </div>
-          <div class="summary-row">
-            <div class="summary-label">疼痛程度</div>
-            <div class="summary-value" id="s-pain-scale">—</div>
-          </div>
-        </div>
+        
 
         <div class="divider"></div>
 
