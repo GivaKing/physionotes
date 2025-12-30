@@ -992,149 +992,149 @@
           </div>
         </section>
 
-        <div class="divider"></div>
 
-        <div class="section-title">
-          主訴與症狀
-          <span>Chief Complaint</span>
-        </div>
-
-        <div class="row">
-          <label for="main-complaint">主要不適部位 / 感受</label>
-          <textarea id="main-complaint" name="mainComplaint" placeholder="例：右側臀部延伸到腿後側疼痛，目前變成右腳前腳掌麻…" data-field></textarea>
-        </div>
-
-        <div class="row">
-          <label>不適類型（可複選）</label>
-          <div class="chips" data-field="painTypes" data-type="multi">
-            <button type="button" class="chip" data-value="痠痛">痠痛</button>
-            <button type="button" class="chip" data-value="緊繃">緊繃</button>
-            <button type="button" class="chip" data-value="刺痛">刺痛</button>
-            <button type="button" class="chip" data-value="鈍痛">鈍痛</button>
-            <button type="button" class="chip" data-value="深層痛">深層痛</button>
-            <button type="button" class="chip" data-value="淺層痛">淺層痛</button>
-            <button type="button" class="chip" data-value="放射痛">放射痛</button>
-            <button type="button" class="chip" data-value="壓痛">壓痛</button>
-            <button type="button" class="chip" data-value="麻木/電流感">麻木 / 電流感</button>
-            <button type="button" class="chip" data-value="灼熱感">灼熱感</button>
-            <button type="button" class="chip" data-value="冰冷感">冰冷感</button>
+        <section class="section client-subpage" data-sub="subjective">
+          <div class="section-title">
+            主訴與症狀
+            <span>Chief Complaint</span>
           </div>
-        </div>
-
-        <div class="row">
-          <label>症狀持續時間</label>
-          <div class="pill-toggle-group" data-field="duration" data-type="single">
-            <button type="button" class="pill-toggle" data-value="一週內">一週內</button>
-            <button type="button" class="pill-toggle" data-value="1–4 週">1–4 週</button>
-            <button type="button" class="pill-toggle" data-value="1–3 個月">1–3 個月</button>
-            <button type="button" class="pill-toggle" data-value="超過 3 個月">超過 3 個月</button>
+  
+          <div class="row">
+            <label for="main-complaint">主要不適部位 / 感受</label>
+            <textarea id="main-complaint" name="mainComplaint" placeholder="例：右側臀部延伸到腿後側疼痛，目前變成右腳前腳掌麻…" data-field></textarea>
           </div>
-        </div>
-
-        <div class="row">
-          <label>目前疼痛程度（0–10）</label>
-          <div class="slider-row">
-            <input type="range" min="0" max="10" step="1" value="0" id="pain-now" data-field="painNow" />
-            <span class="slider-value" id="pain-now-value">0</span>
+  
+          <div class="row">
+            <label>不適類型（可複選）</label>
+            <div class="chips" data-field="painTypes" data-type="multi">
+              <button type="button" class="chip" data-value="痠痛">痠痛</button>
+              <button type="button" class="chip" data-value="緊繃">緊繃</button>
+              <button type="button" class="chip" data-value="刺痛">刺痛</button>
+              <button type="button" class="chip" data-value="鈍痛">鈍痛</button>
+              <button type="button" class="chip" data-value="深層痛">深層痛</button>
+              <button type="button" class="chip" data-value="淺層痛">淺層痛</button>
+              <button type="button" class="chip" data-value="放射痛">放射痛</button>
+              <button type="button" class="chip" data-value="壓痛">壓痛</button>
+              <button type="button" class="chip" data-value="麻木/電流感">麻木 / 電流感</button>
+              <button type="button" class="chip" data-value="灼熱感">灼熱感</button>
+              <button type="button" class="chip" data-value="冰冷感">冰冷感</button>
+            </div>
           </div>
-          <div class="hint">0 = 完全不痛，10 = 生產痛</div>
-        </div>
-
-        <div class="row">
-          <label>最痛時疼痛程度（0–10）</label>
-          <div class="slider-row">
-            <input type="range" min="0" max="10" step="1" value="0" id="pain-max" data-field="painMax" />
-            <span class="slider-value" id="pain-max-value">0</span>
+  
+          <div class="row">
+            <label>症狀持續時間</label>
+            <div class="pill-toggle-group" data-field="duration" data-type="single">
+              <button type="button" class="pill-toggle" data-value="一週內">一週內</button>
+              <button type="button" class="pill-toggle" data-value="1–4 週">1–4 週</button>
+              <button type="button" class="pill-toggle" data-value="1–3 個月">1–3 個月</button>
+              <button type="button" class="pill-toggle" data-value="超過 3 個月">超過 3 個月</button>
+            </div>
           </div>
-        </div>
-
-        <div class="row">
-          <label>哪些動作或情境會「變嚴重」？（可複選）</label>
-          <div class="chips" data-field="aggravating" data-type="multi">
-            <button type="button" class="chip" data-value="久坐">久坐</button>
-            <button type="button" class="chip" data-value="久站">久站</button>
-            <button type="button" class="chip" data-value="久走">久走</button>
-            <button type="button" class="chip" data-value="屈腰">屈腰</button>
-            <button type="button" class="chip" data-value="伸腰">伸腰</button>
-            <button type="button" class="chip" data-value="屈頸">屈頸</button>
-            <button type="button" class="chip" data-value="伸頸">伸頸</button>
-            <button type="button" class="chip" data-value="抬手">抬手</button>
-            <button type="button" class="chip" data-value="提重物">提重物</button>
-            <button type="button" class="chip" data-value="運動時或運動後">運動時 / 運動後</button>
-            <button type="button" class="chip" data-value="睡前">睡前</button>
-            <button type="button" class="chip" data-value="睡醒">睡醒</button>
-            <button type="button" class="chip" data-value="仰睡">仰睡</button>
-            <button type="button" class="chip" data-value="側睡">側睡</button>
+  
+          <div class="row">
+            <label>目前疼痛程度（0–10）</label>
+            <div class="slider-row">
+              <input type="range" min="0" max="10" step="1" value="0" id="pain-now" data-field="painNow" />
+              <span class="slider-value" id="pain-now-value">0</span>
+            </div>
+            <div class="hint">0 = 完全不痛，10 = 生產痛</div>
           </div>
-        </div>
-
-        <div class="row">
-          <label>哪些事情會「比較舒服」？（可複選）</label>
-          <div class="chips" data-field="easing" data-type="multi">
-            <button type="button" class="chip" data-value="休息/躺著">休息 / 躺著</button>
-            <button type="button" class="chip" data-value="走一走/活動一下">走一走 / 活動一下</button>
-            <button type="button" class="chip" data-value="坐著">坐著</button>
-            <button type="button" class="chip" data-value="站著">站著</button>
-            <button type="button" class="chip" data-value="熱敷">熱敷</button>
-            <button type="button" class="chip" data-value="冰敷">冰敷</button>
-            <button type="button" class="chip" data-value="吃止痛藥">吃止痛藥</button>
+  
+          <div class="row">
+            <label>最痛時疼痛程度（0–10）</label>
+            <div class="slider-row">
+              <input type="range" min="0" max="10" step="1" value="0" id="pain-max" data-field="painMax" />
+              <span class="slider-value" id="pain-max-value">0</span>
+            </div>
           </div>
-        </div>
-
-        <div class="divider"></div>
-
-        <div class="section-title">
-          過去病史與用藥
-          <span>Medical History</span>
-        </div>
-
-        <div class="row">
-          <label for="diseases">重大疾病 / 慢性疾病</label>
-          <textarea id="diseases" name="diseases" placeholder="例：高血壓、糖尿病、甲狀腺、風濕、免疫相關疾病…" data-field></textarea>
-        </div>
-
-        <div class="row">
-          <label for="surgery">手術或重大外傷史</label>
-          <textarea id="surgery" name="surgery" placeholder="例：椎間盤手術、韌帶重建、車禍受傷…" data-field></textarea>
-        </div>
-
-        <div class="row">
-          <label for="meds">目前正在服用的藥物或補充品</label>
-          <textarea id="meds" name="meds" placeholder="例：止痛藥、肌肉鬆弛劑、避孕藥、類固醇、抗凝血藥…" data-field></textarea>
-          <div class="hint">此資訊僅供治療安全評估，不會外流。</div>
-        </div>
-
-        <div class="divider"></div>
-
-        <div class="section-title">
-          生活狀態與目標
-          <span>Function & Goals</span>
-        </div>
-
-        <div class="row">
-          <label>睡眠品質</label>
-          <div class="pill-toggle-group" data-field="sleep" data-type="single">
-            <button type="button" class="pill-toggle" data-value="很好">很好</button>
-            <button type="button" class="pill-toggle" data-value="普通">普通</button>
-            <button type="button" class="pill-toggle" data-value="偏差">偏差</button>
-            <button type="button" class="pill-toggle" data-value="經常失眠/多夢">經常失眠 / 多夢</button>
+  
+          <div class="row">
+            <label>哪些動作或情境會「變嚴重」？（可複選）</label>
+            <div class="chips" data-field="aggravating" data-type="multi">
+              <button type="button" class="chip" data-value="久坐">久坐</button>
+              <button type="button" class="chip" data-value="久站">久站</button>
+              <button type="button" class="chip" data-value="久走">久走</button>
+              <button type="button" class="chip" data-value="屈腰">屈腰</button>
+              <button type="button" class="chip" data-value="伸腰">伸腰</button>
+              <button type="button" class="chip" data-value="屈頸">屈頸</button>
+              <button type="button" class="chip" data-value="伸頸">伸頸</button>
+              <button type="button" class="chip" data-value="抬手">抬手</button>
+              <button type="button" class="chip" data-value="提重物">提重物</button>
+              <button type="button" class="chip" data-value="運動時或運動後">運動時 / 運動後</button>
+              <button type="button" class="chip" data-value="睡前">睡前</button>
+              <button type="button" class="chip" data-value="睡醒">睡醒</button>
+              <button type="button" class="chip" data-value="仰睡">仰睡</button>
+              <button type="button" class="chip" data-value="側睡">側睡</button>
+            </div>
           </div>
-        </div>
-
-        <div class="row">
-          <label>運動習慣</label>
-          <div class="pill-toggle-group" data-field="exercise" data-type="single">
-            <button type="button" class="pill-toggle" data-value="幾乎不運動">幾乎不運動</button>
-            <button type="button" class="pill-toggle" data-value="每週 1–2 次">每週 1–2 次</button>
-            <button type="button" class="pill-toggle" data-value="每週 3 次以上">每週 3 次以上</button>
+  
+          <div class="row">
+            <label>哪些事情會「比較舒服」？（可複選）</label>
+            <div class="chips" data-field="easing" data-type="multi">
+              <button type="button" class="chip" data-value="休息/躺著">休息 / 躺著</button>
+              <button type="button" class="chip" data-value="走一走/活動一下">走一走 / 活動一下</button>
+              <button type="button" class="chip" data-value="坐著">坐著</button>
+              <button type="button" class="chip" data-value="站著">站著</button>
+              <button type="button" class="chip" data-value="熱敷">熱敷</button>
+              <button type="button" class="chip" data-value="冰敷">冰敷</button>
+              <button type="button" class="chip" data-value="吃止痛藥">吃止痛藥</button>
+            </div>
           </div>
-        </div>
+        </section>
 
-        <div class="row">
-          <label for="goals">本次物理治療最希望達成的目標</label>
-          <textarea id="goals" name="goals" placeholder="例：可以久坐辦公 2 小時不痛、可以正常跑步、可以抱小孩…" data-field></textarea>
+        <section class="section client-subpage" data-sub="history">
+          <div class="section-title">
+            過去病史與用藥
+            <span>Medical History</span>
+          </div>
+  
+          <div class="row">
+            <label for="diseases">重大疾病 / 慢性疾病</label>
+            <textarea id="diseases" name="diseases" placeholder="例：高血壓、糖尿病、甲狀腺、風濕、免疫相關疾病…" data-field></textarea>
+          </div>
+  
+          <div class="row">
+            <label for="surgery">手術或重大外傷史</label>
+            <textarea id="surgery" name="surgery" placeholder="例：椎間盤手術、韌帶重建、車禍受傷…" data-field></textarea>
+          </div>
+  
+          <div class="row">
+            <label for="meds">目前正在服用的藥物或補充品</label>
+            <textarea id="meds" name="meds" placeholder="例：止痛藥、肌肉鬆弛劑、避孕藥、類固醇、抗凝血藥…" data-field></textarea>
+            <div class="hint">此資訊僅供治療安全評估，不會外流。</div>
+          </div>
+        </section>
+
+        <section class="section client-subpage" data-sub="goals">
+          <div class="section-title">
+            生活狀態與目標
+            <span>Function & Goals</span>
+          </div>
+  
+          <div class="row">
+            <label>睡眠品質</label>
+            <div class="pill-toggle-group" data-field="sleep" data-type="single">
+              <button type="button" class="pill-toggle" data-value="很好">很好</button>
+              <button type="button" class="pill-toggle" data-value="普通">普通</button>
+              <button type="button" class="pill-toggle" data-value="偏差">偏差</button>
+              <button type="button" class="pill-toggle" data-value="經常失眠/多夢">經常失眠 / 多夢</button>
+            </div>
+          </div>
+  
+          <div class="row">
+            <label>運動習慣</label>
+            <div class="pill-toggle-group" data-field="exercise" data-type="single">
+              <button type="button" class="pill-toggle" data-value="幾乎不運動">幾乎不運動</button>
+              <button type="button" class="pill-toggle" data-value="每週 1–2 次">每週 1–2 次</button>
+              <button type="button" class="pill-toggle" data-value="每週 3 次以上">每週 3 次以上</button>
+            </div>
+          </div>
+  
+          <div class="row">
+            <label for="goals">本次物理治療最希望達成的目標</label>
+            <textarea id="goals" name="goals" placeholder="例：可以久坐辦公 2 小時不痛、可以正常跑步、可以抱小孩…" data-field></textarea>
         
-        <div class="divider"></div>
+        </section>
         
     
         <div class="bottom-space"></div>
