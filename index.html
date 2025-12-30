@@ -2240,9 +2240,36 @@
       targetSection.classList.add("active");
     }
   
-    // 5.（可選）切換後捲到上方
-    targetSection?.scrollIntoView({ behavior: "smooth", block: "start" });
+    // 5.（可選）切換後捲到上方（⚠️ targetSection 可能是 null）
+    if (targetSection) {
+      targetSection.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  
+    // 6. ✅ 切換後「刷新資料」：依 subKey 呼叫對應 render
+    //    （你現在缺這段，所以 overview 不會更新）
+    try {
+      if (subKey === "overview") {
+        // 你專案裡若是不同命名，下面這兩個改成你實際存在的函數名即可
+        if (typeof renderClientOverview === "function") renderClientOverview();
+        if (typeof renderVasChart === "function") renderVasChart();
+        // 如果你還有其它 overview 的渲染也可加在這
+      }
+  
+      if (subKey === "client") {
+        // 例如：個案填寫主頁（若你有）
+        if (typeof renderClientPage === "function") renderClientPage();
+      }
+  
+      if (subKey === "therapist") {
+        // 例如：治療師評估頁（若你有）
+        if (typeof renderTherapistPage === "function") renderTherapistPage();
+      }
+  
+    } catch (err) {
+      console.error("[switchClientSubTab] render error:", err);
+    }
   }
+  
   window.switchClientSubTab = switchClientSubTab;
 
   const openCase = (caseId)=>{
