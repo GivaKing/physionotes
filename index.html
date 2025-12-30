@@ -995,7 +995,6 @@
               疼痛趨勢 <span>Pain Chart</span>
             </div>
           
-            <!-- 可選：沒資料時的提示 -->
             <div id="vas-empty-hint" class="vas-empty-hint">尚未填寫疼痛分數</div>
           
             <canvas id="vas-chart" height="180"></canvas>
@@ -2449,6 +2448,9 @@ function clearVasChart(){
 function renderVasChart() {
   const cvs = document.getElementById("vas-chart");
   if (!cvs) return;
+
+  setVasSectionVisible(false);
+  setVasEmptyHintVisible(false);
 
   const caseId = getCurrentCaseId();
   if (!caseId) { clearVasChart(); return; }
