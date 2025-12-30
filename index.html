@@ -1170,7 +1170,7 @@
   
           <div class="row">
             <label for="ROM">關節活動度</label>
-            <textarea id="ROM" placeholder="例：右髖關節被動屈曲受限、右肩主動外轉受限…" data-field-pt="softTissue"></textarea>
+            <textarea id="ROM" placeholder="例：右髖關節被動屈曲受限、右肩主動外轉受限…" data-field-pt="ROM"></textarea>
           </div>
   
           <div class="row">
@@ -1194,8 +1194,8 @@
           </div>
   
           <div class="row">
-            <label for="n-tension">特殊測試</label>
-            <textarea id="n-tension" placeholder="例：Ober's test（R）+ …" data-field-pt="n-tension"></textarea>
+            <label for="special-test">特殊測試</label>
+            <textarea id="n-tension" placeholder="例：Ober's test（R）+ …" data-field-pt="special-test"></textarea>
           </div>
   
           <div class="row">
@@ -2070,12 +2070,13 @@
   };
 
   const collectTherapist = ()=>{
-    const r = pages.therapist(), d = {};
-    $$("[data-field-pt]", r).forEach(el=>{
+    const d = {};
+    // ✅ 不再限定 page-therapist，因為 data-field-pt 實際在 page-client
+    $$("[data-field-pt]").forEach(el=>{
       const k = el.getAttribute("data-field-pt"); if(!k) return;
       d[k] = (el.type==="number" ? (el.value===""?null:Number(el.value)) : (el.value??"").toString());
     });
-    $$(".chips[data-field-pt]", r).forEach(w=>{
+    $$(".chips[data-field-pt]").forEach(w=>{
       const k = w.getAttribute("data-field-pt");
       d[k] = $$(".chip.selected", w).map(c=>c.getAttribute("data-value"));
     });
@@ -2133,13 +2134,12 @@
 
   const renderTherapistUI = (d)=>{
     d=d||{};
-    resetTherapistUI();
-    const r = pages.therapist();
-    $$("[data-field-pt]", r).forEach(el=>{
+    // ✅ 不清空整頁 therapist，改成只清空 data-field-pt
+    $$("[data-field-pt]").forEach(el=>{
       const k = el.getAttribute("data-field-pt"); if(!k) return;
       el.value = (d[k]==null ? "" : String(d[k]));
     });
-    $$(".chips[data-field-pt]", r).forEach(w=>{
+    $$(".chips[data-field-pt]").forEach(w=>{
       const k = w.getAttribute("data-field-pt");
       const set = new Set(d[k]||[]);
       $$(".chip", w).forEach(c=>c.classList.toggle("selected", set.has(c.getAttribute("data-value"))));
@@ -2327,135 +2327,136 @@ function clearVasChart(){
 }
 
 function renderVasChart() {
-
   const cvs = document.getElementById("vas-chart");
   if (!cvs) return;
 
-  const ctx = cvs.getContext("2d");
-
-  // ===== width & height real size =====
-  const W = cvs.width = (cvs.clientWidth || (cvs.parentElement ? cvs.parentElement.clientWidth : 0) || 320);
-
-  const H = cvs.height || 180;  // canvas 真正繪製高度
-  ctx.clearRect(0, 0, W, H);
-
   const caseId = getCurrentCaseId();
-  if (!caseId) return;
+  if (!caseId) { clearVasChart(); return; }
 
   const lib = loadLib();
   const item = ensureCaseShape(lib[caseId]);
-  if (!item || !item.records) return;
+  if (!item || !item.records) { clearVasChart(); return; }
 
   const N = item.records.length;
 
-  // === extract: visit index + vas now + vas max ===
+  // 只取有值的點
   const points = item.records
     .map((r, i) => ({
       idx: i + 1,
-      vasNow: (r.visit && r.visit.vasNow != null) ? Number(r.visit.vasNow) : null,
-      vasMax: (r.visit && r.visit.vasMax != null) ? Number(r.visit.vasMax) : null,
+      vasNow: (r.visit?.vasNow ?? null),
+      vasMax: (r.visit?.vasMax ?? null),
     }))
     .filter(p => p.vasNow != null || p.vasMax != null);
 
-  if (points.length < 1) return;
+  if (points.length < 1) { clearVasChart(); return; }
 
-  // --- 下面這段開始才進入你的繪製 ---
+  // ===== DPR 處理（不糊）=====
+  const dpr = window.devicePixelRatio || 1;
+  const cssW = (cvs.clientWidth || (cvs.parentElement ? cvs.parentElement.clientWidth : 320) || 320);
+  const cssH = 180; // 你原本設計高度
 
-  const padL=36, padR=14, padT=14, padB=60;
+  cvs.style.width = cssW + "px";
+  cvs.style.height = cssH + "px";
+  cvs.width = Math.floor(cssW * dpr);
+  cvs.height = Math.floor(cssH * dpr);
+
+  const ctx = cvs.getContext("2d");
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0); // 讓後面用 CSS 尺寸作圖
+  ctx.clearRect(0, 0, cssW, cssH);
+
+  const W = cssW, H = cssH;
+
+  const padL = 36, padR = 14, padT = 14, padB = 60;
   const plotW = W - padL - padR;
   const plotH = H - padT - padB;
-  if(plotW<=0 || plotH<=0) return;
+  if (plotW <= 0 || plotH <= 0) return;
 
-  // Axes: Y (VAS) left, X (visit #) bottom
-  ctx.strokeStyle="#94a3b8";
-  ctx.lineWidth=1;
+  // 座標軸
+  ctx.strokeStyle = "#94a3b8";
+  ctx.lineWidth = 1;
   ctx.beginPath();
-  ctx.moveTo(padL,padT);
-  ctx.lineTo(padL,H-padB);
-  ctx.lineTo(W-padR,H-padB);
+  ctx.moveTo(padL, padT);
+  ctx.lineTo(padL, H - padB);
+  ctx.lineTo(W - padR, H - padB);
   ctx.stroke();
 
-  ctx.fillStyle="#475569";
-  ctx.font="12px sans-serif";
-
-  // Y ticks: VAS 0/5/10 (bottom->top)
-  [0,5,10].forEach(v=>{
-    const y = (H-padB) - plotH*(v/10);
-    ctx.beginPath(); ctx.moveTo(padL-4,y); ctx.lineTo(padL,y); ctx.stroke();
-    ctx.fillText(String(v), 8, y+4);
+  // Y ticks
+  ctx.fillStyle = "#475569";
+  ctx.font = "12px sans-serif";
+  [0, 5, 10].forEach(v => {
+    const y = (H - padB) - plotH * (v / 10);
+    ctx.beginPath(); ctx.moveTo(padL - 4, y); ctx.lineTo(padL, y); ctx.stroke();
+    ctx.fillText(String(v), 8, y + 4);
   });
 
-  // X ticks: visit index 1..N (left->right)
-  let step=1;
-  if(N>20) step=5;
-  else if(N>10) step=2;
+  // X ticks
+  let step = 1;
+  if (N > 20) step = 5;
+  else if (N > 10) step = 2;
 
-  for(let i=1;i<=N;i+=step){
-    const x = padL + plotW*((i-1)/(Math.max(1,N-1)));
-    ctx.beginPath(); ctx.moveTo(x,H-padB); ctx.lineTo(x,H-padB+4); ctx.stroke();
-    ctx.fillText(String(i), x-3, H-padB+16);
+  for (let i = 1; i <= N; i += step) {
+    const x = padL + plotW * ((i - 1) / Math.max(1, N - 1));
+    ctx.beginPath(); ctx.moveTo(x, H - padB); ctx.lineTo(x, H - padB + 4); ctx.stroke();
+    ctx.fillText(String(i), x - 3, H - padB + 16);
   }
-  if(N>1 && ((N-1) % step) !== 0){
+  if (N > 1 && ((N - 1) % step) !== 0) {
     const x = padL + plotW;
-    ctx.beginPath(); ctx.moveTo(x,H-padB); ctx.lineTo(x,H-padB+4); ctx.stroke();
-    ctx.fillText(String(N), x-3, H-padB+16);
+    ctx.beginPath(); ctx.moveTo(x, H - padB); ctx.lineTo(x, H - padB + 4); ctx.stroke();
+    ctx.fillText(String(N), x - 3, H - padB + 16);
   }
-  
-  // ---- 圖例 ----
-  const legendY = H - padB + 33; // 在 X軸下方一點高度
-  
-  ctx.font="13px sans-serif";
-  
-  // 第一列：藍
-  ctx.fillStyle="#2563eb";
+
+  // 圖例
+  const legendY = H - padB + 33;
+  ctx.font = "13px sans-serif";
+  ctx.fillStyle = "#2563eb";
   ctx.fillText("目前疼痛（藍）", padL, legendY);
-  
-  // 第二列：紅
-  ctx.fillStyle="#dc2626";
+  ctx.fillStyle = "#dc2626";
   ctx.fillText("最大疼痛（紅）", padL, legendY + 20);
 
-  // ---- 畫目前疼痛線 (藍) ----
-  ctx.strokeStyle="#2563eb";
-  ctx.lineWidth=2;
+  // helper
+  const xOf = (visitIdx) => padL + plotW * ((visitIdx - 1) / Math.max(1, N - 1));
+  const yOf = (vas) => (H - padB) - plotH * (Number(vas) / 10);
+
+  // 藍線：started 防呆
+  ctx.strokeStyle = "#2563eb";
+  ctx.lineWidth = 2;
   ctx.beginPath();
-  points.forEach((p,i)=>{
-    if(p.vasNow==null) return;
-    const x = padL + plotW*((p.idx-1)/(Math.max(1,N-1)));
-    const y = (H-padB) - plotH*(p.vasNow/10);
-    i ? ctx.lineTo(x,y) : ctx.moveTo(x,y);
-  });
-  ctx.stroke();
-  
-  // ---- 畫最大疼痛 (紅) ----
-  ctx.strokeStyle="#dc2626";
-  ctx.lineWidth=2;
-  ctx.beginPath();
-  points.forEach((p,i)=>{
-    if(p.vasMax==null) return;
-    const x = padL + plotW*((p.idx-1)/(Math.max(1,N-1)));
-    const y = (H-padB) - plotH*(p.vasMax/10);
-    i ? ctx.lineTo(x,y) : ctx.moveTo(x,y);
+  let startedNow = false;
+  points.forEach(p => {
+    if (p.vasNow == null) return;
+    const x = xOf(p.idx), y = yOf(p.vasNow);
+    if (!startedNow) { ctx.moveTo(x, y); startedNow = true; }
+    else ctx.lineTo(x, y);
   });
   ctx.stroke();
 
-  // ---- dots: VAS 目前疼痛 (藍點) ----
-  ctx.fillStyle="#2563eb";
-  points.forEach(p=>{
-    if(p.vasNow==null) return;
-    const x = padL + plotW*((p.idx-1)/(Math.max(1,N-1)));
-    const y = (H-padB) - plotH*(p.vasNow/10);
-    ctx.beginPath(); ctx.arc(x,y,4,0,Math.PI*2); ctx.fill();
+  // 紅線：started 防呆
+  ctx.strokeStyle = "#dc2626";
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  let startedMax = false;
+  points.forEach(p => {
+    if (p.vasMax == null) return;
+    const x = xOf(p.idx), y = yOf(p.vasMax);
+    if (!startedMax) { ctx.moveTo(x, y); startedMax = true; }
+    else ctx.lineTo(x, y);
   });
-  
-  // ---- dots: VAS 最大疼痛 (紅點) ----
-  ctx.fillStyle="#dc2626";
-  points.forEach(p=>{
-    if(p.vasMax==null) return;
-    const x = padL + plotW*((p.idx-1)/(Math.max(1,N-1)));
-    const y = (H-padB) - plotH*(p.vasMax/10);
-    ctx.beginPath(); ctx.arc(x,y,4,0,Math.PI*2); ctx.fill();
+  ctx.stroke();
+
+  // 點
+  ctx.fillStyle = "#2563eb";
+  points.forEach(p => {
+    if (p.vasNow == null) return;
+    const x = xOf(p.idx), y = yOf(p.vasNow);
+    ctx.beginPath(); ctx.arc(x, y, 4, 0, Math.PI * 2); ctx.fill();
   });
 
+  ctx.fillStyle = "#dc2626";
+  points.forEach(p => {
+    if (p.vasMax == null) return;
+    const x = xOf(p.idx), y = yOf(p.vasMax);
+    ctx.beginPath(); ctx.arc(x, y, 4, 0, Math.PI * 2); ctx.fill();
+  });
 }
     
   const renderTimeline = (item)=>{
@@ -2641,7 +2642,7 @@ function renderVasChart() {
     // normalize back to library
     const normalized = {};
     Object.keys(lib).forEach(id=>{
-      normalized[id] = ensureCaseShape(lib[id]) || lib[id];
+      normalized[id] = ensureCaseShape(obj[id]) || obj[id];
     });
     saveLib(normalized);
   };
@@ -2729,12 +2730,29 @@ function renderVasChart() {
       }
 
     });
+
     pm && pm.addEventListener("input", ()=>{
       $("#pain-max-value") && ($("#pain-max-value").textContent = pm.value);
       const v = loadVisit();
       v.vasMax = Number(pm.value);
       saveVisit(v);
       renderSummary();
+    
+      // ✅ 補：同步回 records（避免圖表/列表不準）
+      const caseId = getCurrentCaseId();
+      if (caseId) {
+        const lib = loadLib();
+        const item = ensureCaseShape(lib[caseId]);
+        const idx = getCurrentRecordIndex();
+        if (item && item.records[idx]) {
+          item.records[idx].visit = loadVisit();
+          item.records[idx].updatedAt = Date.now();
+          lib[caseId] = item;
+          saveLib(lib);
+        }
+      }
+    
+      renderVasChart();
     });
 
     // clear cache
@@ -2920,7 +2938,7 @@ document.getElementById("import-file")?.addEventListener("change",(e)=>{
       console.error(err);
       alert("匯入失敗：非合法JSON");
     }
-    document.getElementById("importFile").value = null;
+    document.getElementById("importFile").value = "";
   };
   reader.readAsText(f);
 });
