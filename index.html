@@ -2943,6 +2943,52 @@ document.getElementById("import-file")?.addEventListener("change",(e)=>{
   reader.readAsText(f);
 });
 
+/* ===== Sub-tabs logic ===== */
+function initSubTabs(scope, defaultKey){
+  const tabs = document.getElementById(scope + "-subtabs");
+  if (!tabs) return;
+
+  const btns = Array.from(tabs.querySelectorAll(".subtab-btn"));
+  const pages = Array.from(document.querySelectorAll("." + scope + "-subpage"));
+
+  function activate(key){
+    btns.forEach(b => b.classList.toggle("active", b.dataset.sub === key));
+    pages.forEach(p => p.classList.toggle("active", p.dataset.sub === key));
+  }
+
+  btns.forEach(b => b.addEventListener("click", () => activate(b.dataset.sub)));
+
+  activate(defaultKey);
+  return { activate };
+}
+
+/* ===== Client overview render ===== */
+function renderClientOverviewFromForm(){
+  const name = document.getElementById("client-name")?.value?.trim() || "—";
+  const complaint = document.getElementById("client-complaint")?.value?.trim() || "—";
+  const goal = document.getElementById("client-goals")?.value?.trim() || "—";
+  const painNow = document.getElementById("pain-now")?.value ?? "—";
+  const painMax = document.getElementById("pain-max")?.value ?? "—";
+
+  const set = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
+  set("ov-name", name);
+  set("ov-complaint", complaint.slice(0, 50) + (complaint.length > 50 ? "…" : ""));
+  set("ov-goals", goal.slice(0, 50) + (goal.length > 50 ? "…" : ""));
+  set("ov-pain-now", painNow);
+  set("ov-pain-max", painMax);
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  initSubTabs("client", "overview");
+  initSubTabs("therapist", "summary");
+
+  ["client-name","client-complaint","client-goals","pain-now","pain-max"].forEach(id=>{
+    document.getElementById(id)?.addEventListener("input", renderClientOverviewFromForm);
+    document.getElementById(id)?.addEventListener("change", renderClientOverviewFromForm);
+  });
+  renderClientOverviewFromForm();
+});
+
 })();
 
 </script>
@@ -3081,51 +3127,7 @@ document.getElementById("import-file")?.addEventListener("change",(e)=>{
     </div>
   </div>
 
-  /* ===== Sub-tabs logic ===== */
-  function initSubTabs(scope, defaultKey){
-    const tabs = document.getElementById(scope + "-subtabs");
-    if (!tabs) return;
-  
-    const btns = Array.from(tabs.querySelectorAll(".subtab-btn"));
-    const pages = Array.from(document.querySelectorAll("." + scope + "-subpage"));
-  
-    function activate(key){
-      btns.forEach(b => b.classList.toggle("active", b.dataset.sub === key));
-      pages.forEach(p => p.classList.toggle("active", p.dataset.sub === key));
-    }
-  
-    btns.forEach(b => b.addEventListener("click", () => activate(b.dataset.sub)));
-  
-    activate(defaultKey);
-    return { activate };
-  }
-  
-  /* ===== Client overview render ===== */
-  function renderClientOverviewFromForm(){
-    const name = document.getElementById("client-name")?.value?.trim() || "—";
-    const complaint = document.getElementById("client-complaint")?.value?.trim() || "—";
-    const goal = document.getElementById("client-goals")?.value?.trim() || "—";
-    const painNow = document.getElementById("pain-now")?.value ?? "—";
-    const painMax = document.getElementById("pain-max")?.value ?? "—";
-  
-    const set = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
-    set("ov-name", name);
-    set("ov-complaint", complaint.slice(0, 50) + (complaint.length > 50 ? "…" : ""));
-    set("ov-goals", goal.slice(0, 50) + (goal.length > 50 ? "…" : ""));
-    set("ov-pain-now", painNow);
-    set("ov-pain-max", painMax);
-  }
-  
-  document.addEventListener("DOMContentLoaded", () => {
-    initSubTabs("client", "overview");
-    initSubTabs("therapist", "summary");
-  
-    ["client-name","client-complaint","client-goals","pain-now","pain-max"].forEach(id=>{
-      document.getElementById(id)?.addEventListener("input", renderClientOverviewFromForm);
-      document.getElementById(id)?.addEventListener("change", renderClientOverviewFromForm);
-    });
-    renderClientOverviewFromForm();
-  });
+
 
   
 </body>
