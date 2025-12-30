@@ -1825,7 +1825,7 @@
   window.closeUserMenu = function () {
     userMenuTimer = setTimeout(()=>{
       document.getElementById("user-menu")?.classList.add("hidden");
-    }, 400); // 👈 400ms 很剛好
+    }, 300);
   };
   
   // 點外面就關掉選單
@@ -1987,10 +1987,17 @@
     return data || null;
   }
   
-  async function guardRoleOrBlock(){
+  async function guardRoleOrBlock() {
     const profile = await getMyProfile();
   
-    if (!profile || !profile.role) {
+    // 🔧 修正 1：profile 為 null → 不直接登出
+    if (!profile) {
+      console.warn("Profile 尚未載入完成，暫不判定權限");
+      return false; // 讓外層稍後再 retry
+    }
+  
+    // 🔧 修正 2：真的沒有 role，才視為未建立權限
+    if (!profile.role) {
       alert("此帳號尚未建立權限資料。");
       await sb.auth.signOut();
       showLogin();
@@ -1999,6 +2006,7 @@
   
     const role = profile.role;
   
+    // 🔧 pending 帳號：維持你原本行為
     if (role === "pending") {
       alert("您的帳號正在等待開通。\n請聯絡 PhysioNotes 管理員開通權限。");
       await sb.auth.signOut();
@@ -2009,16 +2017,16 @@
     // ✅ trial / therapist / admin 放行
     if (role === "trial" || role === "pt" || role === "admin") {
       window.__role = role;
-      window.__profile = profile; // ✅這行很重要：給 UI / 限制用
+      window.__profile = profile; // ⭐ 非常重要：給 UI / 限制用
       return true;
     }
   
+    // ❌ 其他未知 role
     alert("此帳號權限設定不正確。");
     await sb.auth.signOut();
     showLogin();
     return false;
   }
-
 
   const getCurrentCaseId = ()=>localStorage.getItem(STORAGE.currentCaseId);
   const setCurrentCaseId = (id)=> id ? localStorage.setItem(STORAGE.currentCaseId,id) : localStorage.removeItem(STORAGE.currentCaseId);
