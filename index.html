@@ -1815,12 +1815,17 @@
     document.getElementById("user-menu")?.classList.toggle("hidden");
   };
 
-  window.openUserMenu = function openUserMenu() {
+  let userMenuTimer = null;
+  
+  window.openUserMenu = function () {
+    clearTimeout(userMenuTimer);
     document.getElementById("user-menu")?.classList.remove("hidden");
   };
   
-  window.closeUserMenu = function closeUserMenu() {
-    document.getElementById("user-menu")?.classList.add("hidden");
+  window.closeUserMenu = function () {
+    userMenuTimer = setTimeout(()=>{
+      document.getElementById("user-menu")?.classList.add("hidden");
+    }, 400); // 👈 400ms 很剛好
   };
   
   // 點外面就關掉選單
@@ -2207,6 +2212,8 @@
     renderClientUI(loadClient());
     renderTherapistUI(loadTherapist());
     renderTimeline(item);
+    renderSummary();
+    renderVaschart();
     switchTab("client");
   };
 
@@ -2770,6 +2777,7 @@ function renderVasChart() {
       renderClientUI({});
       renderTherapistUI({});
       renderSummary();
+      clearVasChart();
     });
 
    // client -> therapist
