@@ -941,7 +941,7 @@
           <button type="button" class="subtab-btn active" data-sub="overview">個案總覽</button>
           <button type="button" class="subtab-btn" data-sub="basic">基本資料</button>
           <button type="button" class="subtab-btn" data-sub="subjective">主觀因素</button>
-          <button type="button" class="subtab-btn" data-sub="subjective">評估與檢查</button>
+          <button type="button" class="subtab-btn" data-sub="assessment">評估與檢查</button>
           <button type="button" class="subtab-btn" data-sub="history">過去病史</button>
           <button type="button" class="subtab-btn" data-sub="goals">目標與計畫</button>
         </div>
@@ -1195,103 +1195,103 @@
 <div id="pt-timeline"></div>
 <div class="divider"></div>
 
-        <div class="section-title">
-          客觀觀察
-          <span>Observation</span>
-        </div>
-
-        <div class="row">
-          <label for="obs-posture">姿勢觀察</label>
-          <textarea id="obs-posture" placeholder="例：頭部前引、骨盆左傾、胸椎後凸…" data-field-pt="obs-posture"></textarea>
-        </div>
-
-        <div class="row">
-          <label for="obs-gait">步態 / 動作表現</label>
-          <textarea id="obs-gait" placeholder="例：右側單腳站不穩、右步幅較小、深蹲右偏…" data-field-pt="obs-gait"></textarea>
-        </div>
-
-        <div class="divider"></div>
-
-        <div class="section-title">
-          評估與測試
-          <span>Assessment & Tests</span>
-        </div>
-
-        <div class="row">
-          <label for="ROM">關節活動度</label>
-          <textarea id="ROM" placeholder="例：右髖關節被動屈曲受限、右肩主動外轉受限…" data-field-pt="softTissue"></textarea>
-        </div>
-
-        <div class="row">
-          <label for="End-feel">End-feel</label>
-          <textarea id="End-feel" placeholder="例：右髖關節屈曲end-feel: Hard且滑向外側(外轉)、雙側肘伸:Hard、左肩外轉Capsular end-feel…" data-field-pt="End-feel"></textarea>
-        </div>
-
-        <div class="row">
-          <label for="Joint-play">Joint Mobility</label>
-          <textarea id="Joint-play" placeholder="例：左距下關節前拉過鬆、右肩PA glide受限…" data-field-pt="Joint-play"></textarea>
-        </div>
-
-        <div class="row">
-          <label for="length">肌肉長度測試</label>
-          <textarea id="length" placeholder="例：左胸大肌胸骨段肌肉長度縮短、右髂肌縮短…" data-field-pt="length"></textarea>
-        </div>
-
-        <div class="row">
-          <label for="n-tension">神經張力測試</label>
-          <textarea id="n-tension" placeholder="例：左手ULTT3+、Slump（R）+，SLR(R) 60° 放射至小腿…" data-field-pt="n-tension"></textarea>
-        </div>
-
-        <div class="row">
-          <label for="n-tension">特殊測試</label>
-          <textarea id="n-tension" placeholder="例：Ober's test（R）+ …" data-field-pt="n-tension"></textarea>
-        </div>
-
-        <div class="row">
-          <label for="soft-tissue">觸診</label>
-          <textarea id="soft-tissue" placeholder="例：右肘異常骨突、腿後肌群緊繃、上斜方肌不對稱高張…" data-field-pt="softTissue"></textarea>
-        </div>
-
-        <div class="divider"></div>
-
-        <div class="section-title">
-          臨床推論
-          <span>Clinical Reasoning</span>
-        </div>
-
-        <div class="row">
-          <label>可能的主要問題（可點選＋自行補充）</label>
-          <div class="chips" data-field-pt="reasonTags" data-type="multi">
-            <button type="button" class="chip" data-value="關節活動受限">關節活動受限</button>
-            <button type="button" class="chip" data-value="關節穩定度不足">關節穩定度不足</button>
-            <button type="button" class="chip" data-value="關節軌道異常">關節軌道異常</button>
-            <button type="button" class="chip" data-value="肌肉縮短">肌肉縮短</button>
-            <button type="button" class="chip" data-value="肌肉過長">肌肉過長</button>
-            <button type="button" class="chip" data-value="肌肉高張">肌肉高張</button>
-            <button type="button" class="chip" data-value="肌肉低張">肌肉低張</button>
-            <button type="button" class="chip" data-value="神經高張">神經高張</button>
-            <button type="button" class="chip" data-value="姿勢與動作負荷過高">姿勢與動作負荷過高</button>
+        <section class="section client-subpage" data-sub="assessment">
+          <div class="section-title">
+            客觀觀察
+            <span>Observation</span>
           </div>
-        </div>
-
-        <div class="row">
-          <label for="reasoning">臨床推論摘要</label>
-          
-          <div class="inline-tools">
-            <button type="button" class="chip insert-btn" data-target="reasoning" data-insert="→">→</button>
-            <button type="button" class="chip insert-btn" data-target="reasoning" data-insert="←">←</button>
-            <button type="button" class="chip insert-btn" data-target="reasoning" data-insert="⮂">⮂</button>
-            <button type="button" class="chip insert-btn" data-target="reasoning" data-insert="↘">↘</button>
-            <button type="button" class="chip insert-btn" data-target="reasoning" data-insert="↗">↗</button>
-            <button type="button" class="chip insert-btn" data-target="reasoning" data-insert="↑">↑</button>
-            <button type="button" class="chip insert-btn" data-target="reasoning" data-insert="↓">↓</button>
-            <button type="button" class="chip insert-btn" data-target="reasoning" data-insert="⮃">⮃</button>
+  
+          <div class="row">
+            <label for="obs-posture">姿勢觀察</label>
+            <textarea id="obs-posture" placeholder="例：頭部前引、骨盆左傾、胸椎後凸…" data-field-pt="obs-posture"></textarea>
           </div>
-
-          <textarea id="reasoning" placeholder="例：推測以神經張力與負荷敏感為主，早期由薦髂痛轉為腿後拉扯與足部麻木…" data-field-pt="reasoning"></textarea>
-        </div>
-
-        <div class="divider"></div>
+  
+          <div class="row">
+            <label for="obs-gait">步態 / 動作表現</label>
+            <textarea id="obs-gait" placeholder="例：右側單腳站不穩、右步幅較小、深蹲右偏…" data-field-pt="obs-gait"></textarea>
+          </div>
+  
+          <div class="divider"></div>
+  
+          <div class="section-title">
+            評估與測試
+            <span>Assessment & Tests</span>
+          </div>
+  
+          <div class="row">
+            <label for="ROM">關節活動度</label>
+            <textarea id="ROM" placeholder="例：右髖關節被動屈曲受限、右肩主動外轉受限…" data-field-pt="softTissue"></textarea>
+          </div>
+  
+          <div class="row">
+            <label for="End-feel">End-feel</label>
+            <textarea id="End-feel" placeholder="例：右髖關節屈曲end-feel: Hard且滑向外側(外轉)、雙側肘伸:Hard、左肩外轉Capsular end-feel…" data-field-pt="End-feel"></textarea>
+          </div>
+  
+          <div class="row">
+            <label for="Joint-play">Joint Mobility</label>
+            <textarea id="Joint-play" placeholder="例：左距下關節前拉過鬆、右肩PA glide受限…" data-field-pt="Joint-play"></textarea>
+          </div>
+  
+          <div class="row">
+            <label for="length">肌肉長度測試</label>
+            <textarea id="length" placeholder="例：左胸大肌胸骨段肌肉長度縮短、右髂肌縮短…" data-field-pt="length"></textarea>
+          </div>
+  
+          <div class="row">
+            <label for="n-tension">神經張力測試</label>
+            <textarea id="n-tension" placeholder="例：左手ULTT3+、Slump（R）+，SLR(R) 60° 放射至小腿…" data-field-pt="n-tension"></textarea>
+          </div>
+  
+          <div class="row">
+            <label for="n-tension">特殊測試</label>
+            <textarea id="n-tension" placeholder="例：Ober's test（R）+ …" data-field-pt="n-tension"></textarea>
+          </div>
+  
+          <div class="row">
+            <label for="soft-tissue">觸診</label>
+            <textarea id="soft-tissue" placeholder="例：右肘異常骨突、腿後肌群緊繃、上斜方肌不對稱高張…" data-field-pt="softTissue"></textarea>
+          </div>
+  
+          <div class="divider"></div>
+  
+          <div class="section-title">
+            臨床推論
+            <span>Clinical Reasoning</span>
+          </div>
+  
+          <div class="row">
+            <label>可能的主要問題（可點選＋自行補充）</label>
+            <div class="chips" data-field-pt="reasonTags" data-type="multi">
+              <button type="button" class="chip" data-value="關節活動受限">關節活動受限</button>
+              <button type="button" class="chip" data-value="關節穩定度不足">關節穩定度不足</button>
+              <button type="button" class="chip" data-value="關節軌道異常">關節軌道異常</button>
+              <button type="button" class="chip" data-value="肌肉縮短">肌肉縮短</button>
+              <button type="button" class="chip" data-value="肌肉過長">肌肉過長</button>
+              <button type="button" class="chip" data-value="肌肉高張">肌肉高張</button>
+              <button type="button" class="chip" data-value="肌肉低張">肌肉低張</button>
+              <button type="button" class="chip" data-value="神經高張">神經高張</button>
+              <button type="button" class="chip" data-value="姿勢與動作負荷過高">姿勢與動作負荷過高</button>
+            </div>
+          </div>
+  
+          <div class="row">
+            <label for="reasoning">臨床推論摘要</label>
+            
+            <div class="inline-tools">
+              <button type="button" class="chip insert-btn" data-target="reasoning" data-insert="→">→</button>
+              <button type="button" class="chip insert-btn" data-target="reasoning" data-insert="←">←</button>
+              <button type="button" class="chip insert-btn" data-target="reasoning" data-insert="⮂">⮂</button>
+              <button type="button" class="chip insert-btn" data-target="reasoning" data-insert="↘">↘</button>
+              <button type="button" class="chip insert-btn" data-target="reasoning" data-insert="↗">↗</button>
+              <button type="button" class="chip insert-btn" data-target="reasoning" data-insert="↑">↑</button>
+              <button type="button" class="chip insert-btn" data-target="reasoning" data-insert="↓">↓</button>
+              <button type="button" class="chip insert-btn" data-target="reasoning" data-insert="⮃">⮃</button>
+            </div>
+  
+            <textarea id="reasoning" placeholder="例：推測以神經張力與負荷敏感為主，早期由薦髂痛轉為腿後拉扯與足部麻木…" data-field-pt="reasoning"></textarea>
+          </div>
+        </section>
 
         <div class="section-title">
           治療計畫與建議
