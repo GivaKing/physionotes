@@ -945,6 +945,33 @@
           <button type="button" class="subtab-btn" data-sub="goals">目標與計畫</button>
         </div>
 
+        <section class="section client-subpage active" data-sub="overview" id="client-overview">
+          <h2>個案總覽</h2>
+          <div class="overview-grid">
+            <div class="overview-card">
+              <div class="k">姓名</div>
+              <div class="v" id="ov-name">—</div>
+            </div>
+            <div class="overview-card">
+              <div class="k">主要問題（主訴）</div>
+              <div class="v" id="ov-complaint">—</div>
+            </div>
+            <div class="overview-card">
+              <div class="k">疼痛（目前 / 最嚴重）</div>
+              <div class="v"><span id="ov-pain-now">—</span> / <span id="ov-pain-max">—</span></div>
+            </div>
+            <div class="overview-card">
+              <div class="k">目標</div>
+              <div class="v" id="ov-goals">—</div>
+            </div>
+            
+            <div class="divider"></div>
+            
+            <div class="section-title">疼痛趨勢</div>
+            <canvas id="vas-chart" height="180"></canvas>
+          </div>
+        </section>
+
         <section class="section client-subpage" data-sub="basic">
           <div class="section-title">
             基本資料
@@ -1333,14 +1360,8 @@
         <div class="divider"></div>
 
         <div class="section-title">本次評估時間軸</div>
-<div id="pt-timeline"></div>
-<div class="divider"></div>
-
-
-        
+        <div id="pt-timeline"></div>
         <div class="divider"></div>
-        <div class="section-title">疼痛趨勢</div>
-        <canvas id="vas-chart" height="180"></canvas>
     
         <div class="bottom-space"></div>
         <div class="sticky-footer">
