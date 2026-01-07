@@ -1878,7 +1878,7 @@
 
     const { data, error } = await sb
       .from("profiles")
-      .select("name, job, trial_patient_limit")
+      .select("name, job, patient_trial_limit")
       .eq("user_id", user.id)
       .maybeSingle();
 
@@ -1890,7 +1890,7 @@
 
     // 顯示個案新增上限（你要先在 drawer 裡放一個欄位顯示）
     const limitEl = document.getElementById("profile-trial-limit");
-    if (limitEl) limitEl.textContent = (data?.trial_patient_limit ?? "-");
+    if (limitEl) limitEl.textContent = (data?.patient_trial_limit ?? "-");
   };
 
   window.saveProfile = async function () {
@@ -2004,7 +2004,7 @@
   
     const { data, error } = await sb
       .from("profiles")
-      .select("role, trial_patient_limit")
+      .select("role, patient_trial_limit")
       .eq("user_id", user.id)
       .maybeSingle();
   
@@ -2654,7 +2654,7 @@ function renderVasChart() {
   };
 
   function getTrialLimit(){
-    const n = Number(window.__profile?.trial_patient_limit);
+    const n = Number(window.__profile?.patient_trial_limit);
     return Number.isFinite(n) && n > 0 ? n : 3;
   }
   
@@ -3254,7 +3254,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       <div class="auth-field readonly">
         <label>可新增個案上限</label>
-        <input id="profile-trial_patient_limit" class="auth-input" disabled>
+        <input id="profile-patient_trial_limit" class="auth-input" disabled>
       </div>
   
       <button class="btn-primary btn-save" onclick="saveProfile()">儲存</button>
